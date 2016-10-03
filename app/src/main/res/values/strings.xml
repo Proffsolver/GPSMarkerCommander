@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">GPSMarkerCommander</string>
+    <string name="app_name">GPS Marker Commander</string>
+
+    <!-- Error message -->
+    <string name="error.message.network">Network error</string>
+    <string name="error.message.call">Call fialed</string>
+    <string name="error.message.map">Map loading failed</string>
+
+    <string name="status_in_route">В пути</string>
+    <string name="status_stopped">Стоит</string>
+    <string name="status_in_repair">В ремонте</string>
+
 </resources>
