@@ -4,10 +4,12 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!-- font sizes -->
-    <dimen name="font_larger_22">22sp</dimen>
-    <dimen name="font_large_18">18sp</dimen>
+    <dimen name="font_larger_32">32sp</dimen>
+    <dimen name="font_large_24">24sp</dimen>
     <dimen name="font_normal_15">15sp</dimen>
     <dimen name="font_small_12">12sp</dimen>
+    <dimen name="font_small_14">14sp</dimen>
+    <dimen name="font_medium_20">20sp</dimen>
 
     <!-- Sizes -->
     <dimen name="size_small_24">24dp</dimen>
@@ -29,5 +31,6 @@
     <dimen name="button_height_short_32">32dp</dimen>
 
     <dimen name="line_size">2dp</dimen>
+    <dimen name="fab_right_space">8dp</dimen>
 
 </resources>

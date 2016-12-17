@@ -20,11 +20,6 @@
             android:layout_height="match_parent"
             android:layout_margin="@dimen/spacing_extrasmall_4"
             android:orientation="vertical">
-            <include layout="@layout/device_main_content"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/line_size"
-                android:background="@color/grey_light"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -57,6 +52,12 @@
                     android:text="Трэк"
                     android:textAllCaps="true"/>
             </LinearLayout>
+            <include layout="@layout/device_main_content"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_size"
+                android:background="@color/grey_light"/>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/line_size"
@@ -200,9 +201,7 @@
                     android:layout_height="wrap_content">
                     <ImageView
                         style="@style/icon.left"
-                        android:src="@drawable/ic_phones_25dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:src="@drawable/ic_phones_25dp"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_medium_56"

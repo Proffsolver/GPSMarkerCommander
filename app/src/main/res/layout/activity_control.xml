@@ -13,18 +13,12 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:layout_weight="1">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="4dp"
+            android:layout_margin="@dimen/spacing_extrasmall_4"
             android:orientation="vertical">
-            <include layout="@layout/device_main_content"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/line_size"
-                android:background="@color/grey_light"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,6 +49,8 @@
                     android:text="Трэк"
                     android:textAllCaps="true"/>
             </LinearLayout>
+            <include layout="@layout/device_main_content"/>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/line_size"
@@ -63,8 +59,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small_8"
-                android:layout_marginBottom="@dimen/spacing_small_8"
+                android:layout_marginTop="@dimen/spacing_extrasmall_4"
+                android:layout_marginBottom="@dimen/spacing_extrasmall_4"
                 android:orientation="vertical"
                 android:background="@color/white">
                 <LinearLayout
