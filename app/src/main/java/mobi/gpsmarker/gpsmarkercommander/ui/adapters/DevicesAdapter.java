@@ -1,32 +1,44 @@
 package mobi.gpsmarker.gpsmarkercommander.ui.adapters;
 
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import mobi.gpsmarker.gpsmarkercommander.data.network.res.GetDevicesRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import mobi.gpsmarker.gpsmarkercommander.R;
 
 public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.DeviceViewHolder> {
 
-    Context mContext;
-    List<GetDevicesRes.Device> mDevices;
+    private Context mContext;
+    private List<GetDevicesRes.Device> mDevices;
+    private CustomClickListener mCustomClickListener;
 
-    public DevicesAdapter(List<GetDevicesRes.Device> devices) {
+
+
+    public DevicesAdapter(List<GetDevicesRes.Device> devices, CustomClickListener customClickListener) {
         mDevices = devices;
+        mCustomClickListener = customClickListener;
+    }
+
+    public void setDevices(List<GetDevicesRes.Device> devices) {
+        mDevices = devices;
+        notifyDataSetChanged();
     }
 
     @Override
     public DevicesAdapter.DeviceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         mContext = parent.getContext();
         View convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_device_list, parent, false);
-        return new DeviceViewHolder(convertView);
+        return new DeviceViewHolder(convertView, mCustomClickListener);
     }
 
     @Override
@@ -34,29 +46,62 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.DeviceVi
         GetDevicesRes.Device device = mDevices.get(position);
 
         holder.mNameDevice.setText(device.getNameDevice());
-        holder.mTypeDevice.setText(device.getIdDeviceType());
-        holder.mIMEIDevice.setText(device.getImeiDevice());
+        if (Integer.valueOf(device.getIdDeviceType())==1){
+            holder.mTypeDevice.setText("m130");}
+/*        holder.mIMEIDevice.setText(device.getImeiDevice());
         holder.mUniqDevice.setText(device.getIdDevice());
-        holder.mDateRegDevice.setText(device.getDateRegDevice());
+        holder.mDateRegDevice.setText(device.getDateRegDevice());*/
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mDevices.size();
     }
+    
 
-    public static class DeviceViewHolder extends RecyclerView.ViewHolder {
+    public static class DeviceViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         protected TextView mNameDevice, mTypeDevice, mIMEIDevice, mUniqDevice, mDateRegDevice;
+        ImageView mSettings, mCommands, mTrack;
 
-        public DeviceViewHolder(View itemView) {
+        public CustomClickListener mListener;
+
+        public DeviceViewHolder(View itemView, CustomClickListener customClickListener) {
             super(itemView);
-
+            this.mListener = customClickListener;
+            mSettings = (ImageView) itemView.findViewById(R.id.settings_img);
+            mCommands = (ImageView) itemView.findViewById(R.id.commands_img);
+            mTrack = (ImageView) itemView.findViewById(R.id.track_img);
             mNameDevice = (TextView) itemView.findViewById(R.id.name_device_txt);
             mTypeDevice = (TextView) itemView.findViewById(R.id.type_device_txt);
-            mIMEIDevice = (TextView) itemView.findViewById(R.id.imei_device_txt);
+/*            mIMEIDevice = (TextView) itemView.findViewById(R.id.imei_device_txt);
             mUniqDevice = (TextView) itemView.findViewById(R.id.uniq_device_txt);
-            mDateRegDevice = (TextView) itemView.findViewById(R.id.date_reg_device_txt);
+            mDateRegDevice = (TextView) itemView.findViewById(R.id.date_reg_device_txt);*/
+
+            mSettings.setOnClickListener(this);
+            mCommands.setOnClickListener(this);
+            mTrack.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (mListener!=null){
+                mListener.onUserItemClickListener(getAdapterPosition());
+/*                switch (v.getId()){
+                    case R.id.commands_img:
+
+                        break;
+                    case R.id.settings_img:
+                        break;
+                    case R.id.track_img:
+                        break;
+
+                }*/
+            }
         }
     }
+
+    public interface CustomClickListener{
+        void onUserItemClickListener(int position);    }
+
 }
