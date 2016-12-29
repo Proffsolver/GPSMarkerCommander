@@ -29,7 +29,7 @@ android:orientation="horizontal">
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_size"
         android:background="@color/grey"/>
-    <TextView
+<!--    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/text_allmargin_small"
@@ -46,7 +46,7 @@ android:orientation="horizontal">
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_size"
-            android:background="@color/grey"/>
+            android:background="@color/grey"/>-->
     </LinearLayout>
     <LinearLayout
     android:layout_width="match_parent"
@@ -73,7 +73,7 @@ android:orientation="horizontal">
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_size"
             android:background="@color/grey"/>
-        <TextView
+<!--        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/text_allmargin_small"
@@ -90,6 +90,6 @@ android:orientation="horizontal">
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_size"
-            android:background="@color/grey"/>
+            android:background="@color/grey"/>-->
     </LinearLayout>
 </LinearLayout>

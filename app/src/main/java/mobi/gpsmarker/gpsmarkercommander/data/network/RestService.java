@@ -19,7 +19,7 @@ public interface RestService {
     @POST("api/")     //api/authorization
     Call<UserLoginRes> loginUser(@Body UserLoginReq UserLogin);
 
-    @GET("api/")     //api/authorization
+    @POST("api/")     //api/authorization
     Call<GetDevicesRes> getDevices(@Body GetDevicesReq GetDevices);
     //   @Multipart
     //   @POST("user/{userId}/publicValues/profilePhoto")

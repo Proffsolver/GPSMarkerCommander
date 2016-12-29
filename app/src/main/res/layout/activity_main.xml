@@ -215,14 +215,20 @@
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>-->
         <include layout="@layout/device_list_content"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_size"
+            android:id="@+id/outside"
+            android:background="@color/grey"/>
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/main_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_add_black_24dp"
-            app:layout_anchor="@id/main_ccordinator_container"
+            app:layout_anchor="@id/outside"
             app:layout_anchorGravity="bottom|right"
-            android:layout_marginRight="@dimen/fab_right_space"/>
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="540dp"/>
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView

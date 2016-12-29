@@ -3,20 +3,20 @@
 
     <group android:checkableBehavior="single">
 
-        <item android:id="@+id/commands_menu"
+<!--        <item android:id="@+id/commands_menu"
               android:checkable="true"
               android:icon="@drawable/ic_play_circle_filled_black_24dp"
-              android:title="Команды"></item>
+              android:title="Команды"></item>-->
 
         <item android:id="@+id/events_menu"
               android:checkable="true"
               android:icon="@drawable/ic_new_releases_black_24dp"
               android:title="Уведомления"></item>
-
+<!--
         <item android:id="@+id/maps_menu"
               android:checkable="true"
               android:icon="@drawable/ic_add_location_black_24dp"
-              android:title="Карты"></item>
+              android:title="Карты"></item>-->
 
         <item android:id="@+id/settings_menu"
               android:checkable="true"

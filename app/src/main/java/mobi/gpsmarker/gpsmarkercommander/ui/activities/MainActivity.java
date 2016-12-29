@@ -12,6 +12,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ButtonBarLayout;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -39,23 +42,26 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener  {
+import static android.R.attr.id;
+
+public class MainActivity extends BaseActivity /*implements View.OnClickListener*/  {
 
     private static final String TAG = ConstantManager.TAG_PREFIX+"Main Activity";
-    private ImageView mImageView;
+   // private ImageView mImageView;
     private CoordinatorLayout mCoordinatorLayout;
     private Toolbar mToolbar;
     private DrawerLayout mNavigationDrawer;
     private int mDrawerStart=0;
     private FloatingActionButton mFab;
     private DataManager mDataManager;
-    private Button mLoadButton;
+  //  private Button mLoadButton;
     private NavigationView mNavigationView;
     private TextView mHeaderEmail, mHeaderMobile;
 
     private List<GetDevicesRes.Device> mDevices;
     private DevicesAdapter mDevicesAdapter;
     private RecyclerView mRecyclerView;
+    private DevicesAdapter.CustomClickListener mCustomClickListener;
 
 
     @Override
@@ -72,18 +78,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener  
         mDataManager = DataManager.getInstance();
    //     mImageView = (ImageView)findViewById(R.id.settings_img);
         mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.main_ccordinator_container);
-        mImageView.setOnClickListener(this);
+       // mImageView.setOnClickListener(this);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mNavigationDrawer = (DrawerLayout) findViewById(R.id.navigation_drawer);
-        mFab = (FloatingActionButton) findViewById(R.id.main_fab);
+        //mFab = (FloatingActionButton) findViewById(R.id.main_fab);
     //    mLoadButton = (Button) findViewById(R.id.load_data);
         mRecyclerView = (RecyclerView) findViewById(R.id.device_list);
+        List<GetDevicesRes.Device> mDevices  = new ArrayList();
+        loadDeviceDataNetwork();
+        mRecyclerView.setAdapter(new DevicesAdapter(mDevices, mCustomClickListener));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
 
         setupToolbar();
         setupDrawer();
         loadUserInfo();
         //loadUserInfoValue();
-        mLoadButton.setOnClickListener(this);
+       // mLoadButton.setOnClickListener(this);
 
         if (savedInstanceState == null) {
 
@@ -102,7 +113,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener  
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
+/*    @Override
     protected void onStart() {
         super.onStart();
         Log.d(TAG, "OnCreate");
@@ -136,21 +147,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener  
     protected void onResume() {
         super.onResume();
         Log.d(TAG, "onResume");
-    }
+    }*/
 
-    @Override
+/*    @Override
     public void onClick(View v){
         switch (v.getId()){
-       /*     case R.id.settings_img:
-*//*                showProgress();
-                runWithDelay();*//*
+       *//*     case R.id.settings_img:
+*//**//*                showProgress();
+                runWithDelay();*//**//*
                 break;
             case R.id.load_data:
                 loadDeviceDataNetwork();
-                break;*/
+                break;*//*
 
         }
-    }
+    }*/
 
     private void showSnackbar(String message){
         Snackbar.make(mCoordinatorLayout, message,Snackbar.LENGTH_LONG).show();
@@ -183,14 +194,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener  
             @Override
             public boolean onNavigationItemSelected(MenuItem item){
                 item.setChecked(true);
-                if (item.getItemId() == R.id.commands_menu){
-                    mNavigationDrawer.closeDrawer(GravityCompat.START);}
+/*                if (item.getItemId() == R.id.commands_menu){
+                    mNavigationDrawer.closeDrawer(GravityCompat.START);}*/
                 if (item.getItemId() == R.id.events_menu){
                    // Intent teamIntent = new Intent(MainActivity.this, UserListActivity.class);
                   //  startActivity(teamIntent);
                     mNavigationDrawer.closeDrawer(GravityCompat.START);}
-                if (item.getItemId() == R.id.maps_menu){
-                        mNavigationDrawer.closeDrawer(GravityCompat.START);}
+/*                if (item.getItemId() == R.id.maps_menu){
+                        mNavigationDrawer.closeDrawer(GravityCompat.START);}*/
                 if (item.getItemId() == R.id.settings_menu){
                         mNavigationDrawer.closeDrawer(GravityCompat.START);}
                 return false;
@@ -207,9 +218,38 @@ public class MainActivity extends BaseActivity implements View.OnClickListener  
                 public void onResponse(Call<GetDevicesRes> call, Response<GetDevicesRes> response) {
                     if (response.code() == 200){
                         mDevices = response.body().getDevices();
-                        mDevicesAdapter = new DevicesAdapter(mDevices);
+                        mDevicesAdapter = new DevicesAdapter(mDevices, new DevicesAdapter.CustomClickListener() {
+                            @Override
+                            public void onDeviceItemClickListener(int position, View v) {
+                              //  showSnackbar("Устройство с индексом "+ position);
+                                switch (v.getId()) {
+                                    case R.id.settings_img:
+                                        showSnackbar("Настройки");
+                                       //  mDevices.get(position).
+                                        saveActiveDeviceId(mDevices.get(position).getIdDevice());
+                                        Intent settingsIntent = new Intent(MainActivity.this, settings_activity.class);
+                                       // profileIntent.putExtra(ConstantManager.PARCELABLE_KEY, userDTO);
+                                        startActivity(settingsIntent);
+                                        break;
+                                    case R.id.commands_img:
+                                        showSnackbar("Команды");
+                                        saveActiveDeviceId(mDevices.get(position).getIdDevice());
+                                        Intent commandsIntent = new Intent(MainActivity.this, control_activity.class);
+                                        // profileIntent.putExtra(ConstantManager.PARCELABLE_KEY, userDTO);
+                                        startActivity(commandsIntent);
+                                        break;
+                                    case R.id.track_img:
+                                        showSnackbar("Трэки");
+                                        saveActiveDeviceId(mDevices.get(position).getIdDevice());
+                                        Intent trackIntent = new Intent(MainActivity.this, viewtrack_activity.class);
+                                        // profileIntent.putExtra(ConstantManager.PARCELABLE_KEY, userDTO);
+                                        startActivity(trackIntent);
+                                        break;
+                                }
+                            }
+                        });
                         mRecyclerView.setAdapter(mDevicesAdapter);
-
+                        mDevicesAdapter.notifyDataSetChanged();
                     } else if (response.code() == 404){
                         showSnackbar("Неверный логин или пароль!");
                     } else {
@@ -230,6 +270,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener  
     private void loadUserInfo(){
         mHeaderMobile.setText(mDataManager.getPreferenceManager().getUserMobile());
         mHeaderEmail.setText(mDataManager.getPreferenceManager().getUserEmail());
+    }
+
+    private void saveActiveDeviceId(String deviceId){
+        mDataManager.getPreferenceManager().saveActiveDeviceId(deviceId);
     }
 
 }

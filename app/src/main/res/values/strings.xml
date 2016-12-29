@@ -17,4 +17,8 @@
     <string name="auth.password">Введите пароль</string>
     <string name="auth.login">Войти</string>
     <string name="auth.remember">Забыли пароль?</string>
+
+
+    <string name="access_token">pk.eyJ1IjoicHJvZmZzb2x2ZXIiLCJhIjoiY2l4NHY3dWdkMDAwZjJvbnhrMGE2bHE3ZCJ9.yy9h4Qko5_l3OJyurWxQVQ</string>
+
 </resources>

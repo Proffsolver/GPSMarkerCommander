@@ -53,6 +53,7 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
         switch (v.getId()){
             case R.id.login_btn:
                 //loginSuccess();
+                showSnackbar("Авторизация...");
                 signIn();
                 break;
             case R.id.remember_txt:
@@ -79,6 +80,7 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
     {
    //     response.body().getToken();
    //     showSnackbar(response.body().getToken());
+
         mDataManager.getPreferenceManager().saveAuthToken(response.body().getToken());
         mDataManager.getPreferenceManager().saveUserId(response.body().getIdUser());
         mDataManager.getPreferenceManager().saveUserMobile(response.body().getPhoneUser());
