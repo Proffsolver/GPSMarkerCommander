@@ -1,4 +1,6 @@
 <resources>
+    <string name="ff_regular">sans-serif</string>
+    <string name="ff_medium">sans-serif-medium</string>
     <string name="app_name">GPS Marker Commander</string>
 
     <!-- Error message -->
@@ -10,4 +12,15 @@
     <string name="status_stopped">Стоит</string>
     <string name="status_in_repair">В ремонте</string>
 
+    <string name="auth.authorization_enter">Войти</string>
+    <string name="auth.email">Введите e-mail</string>
+    <string name="auth.password">Введите пароль</string>
+    <string name="auth.login">Войти</string>
+    <string name="auth.remember">Забыли пароль?</string>
+
+
+    <string name="access_token">pk.eyJ1IjoicHJvZmZzb2x2ZXIiLCJhIjoiY2l4NHY3dWdkMDAwZjJvbnhrMGE2bHE3ZCJ9.yy9h4Qko5_l3OJyurWxQVQ</string>
+    <string name="title_activity_awake_call">AwakeCallActivity</string>
+    <string name="switchon">Вкл</string>
+    <string name="switchoff">Выкл</string>
 </resources>

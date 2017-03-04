@@ -12,10 +12,29 @@ android:orientation="horizontal">
     android:background="@color/white">
     <TextView
         android:layout_width="match_parent"
+        android:id="@+id/device_tv"
         android:layout_height="wrap_content"
         style="@style/text_allmargin_small"
-        android:text="Устройство"
-        android:textColor="@color/grey"/>
+        android:text="Устройство"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_size"
+        android:background="@color/grey"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/emei_tv"
+        style="@style/text_allmargin_small"
+        android:text="Emei"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_size"
+        android:background="@color/grey"/>
+<!--    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/text_allmargin_small"
+        android:text="Статус"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_size"
@@ -24,73 +43,54 @@ android:orientation="horizontal">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/text_allmargin_small"
-        android:textAlignment="textStart"
-        android:text="Emei"
-        android:textColor="@color/grey"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_size"
-        android:background="@color/grey"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/text_allmargin_small"
-        android:text="Статус"
-        android:textColor="@color/grey"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_size"
-        android:background="@color/grey"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/text_allmargin_small"
-        android:text="Связь"
-        android:textColor="@color/grey"/>
-</LinearLayout>
+        android:text="Связь"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_size"
+            android:background="@color/grey"/>-->
+    </LinearLayout>
     <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_weight="0.3"
     android:orientation="vertical"
     android:background="@color/white">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/text_allmargin_small"
-        android:text="Газель о 192 оо 55"
-        android:textColor="@color/grey"
-        android:id="@+id/textView"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_size"
-        android:background="@color/grey"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/text_allmargin_small"
-        android:text="869309015156925"
-        android:textColor="@color/grey"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_size"
-        android:background="@color/grey"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/text_allmargin_small"
-        android:text="В пути"
-        android:textColor="@color/grey"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_size"
-        android:background="@color/grey"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/text_allmargin_small"
-        android:text="Не появлялось в сети"
-        android:textColor="@color/grey"/>
-</LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/text_allmargin_small"
+            android:text="Газель о 192 оо 55"
+            android:id="@+id/textView"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_size"
+            android:background="@color/grey"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/text_allmargin_small"
+            android:text="869309015156925"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_size"
+            android:background="@color/grey"/>
+<!--        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/text_allmargin_small"
+            android:text="В пути"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_size"
+            android:background="@color/grey"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/text_allmargin_small"
+            android:text="Не появлялось в сети"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_size"
+            android:background="@color/grey"/>-->
+    </LinearLayout>
 </LinearLayout>
