@@ -57,7 +57,7 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.DeviceVi
     public int getItemCount() {
         return mDevices.size();
     }
-    
+
 
     public static class DeviceViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -70,7 +70,7 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.DeviceVi
             super(itemView);
             this.mListener = customClickListener;
             mSettings = (ImageView) itemView.findViewById(R.id.settings_img);
-            mCommands = (ImageView) itemView.findViewById(R.id.commands_img);
+           // mCommands = (ImageView) itemView.findViewById(R.id.commands_img);
             mTrack = (ImageView) itemView.findViewById(R.id.track_img);
             mNameDevice = (TextView) itemView.findViewById(R.id.name_device_txt);
             mTypeDevice = (TextView) itemView.findViewById(R.id.type_device_txt);
@@ -79,29 +79,19 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.DeviceVi
             mDateRegDevice = (TextView) itemView.findViewById(R.id.date_reg_device_txt);*/
 
             mSettings.setOnClickListener(this);
-            mCommands.setOnClickListener(this);
+           // mCommands.setOnClickListener(this);
             mTrack.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             if (mListener!=null){
-                mListener.onUserItemClickListener(getAdapterPosition());
-/*                switch (v.getId()){
-                    case R.id.commands_img:
-
-                        break;
-                    case R.id.settings_img:
-                        break;
-                    case R.id.track_img:
-                        break;
-
-                }*/
+                mListener.onDeviceItemClickListener(getAdapterPosition(),v);
             }
         }
     }
 
     public interface CustomClickListener{
-        void onUserItemClickListener(int position);    }
+        void onDeviceItemClickListener(int position, View view);    }
 
 }

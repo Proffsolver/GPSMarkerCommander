@@ -12,6 +12,7 @@ android:orientation="horizontal">
     android:background="@color/white">
     <TextView
         android:layout_width="match_parent"
+        android:id="@+id/device_tv"
         android:layout_height="wrap_content"
         style="@style/text_allmargin_small"
         android:text="Устройство"/>
@@ -22,8 +23,8 @@ android:orientation="horizontal">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/emei_tv"
         style="@style/text_allmargin_small"
-        android:textAlignment="textStart"
         android:text="Emei"/>
     <View
         android:layout_width="match_parent"

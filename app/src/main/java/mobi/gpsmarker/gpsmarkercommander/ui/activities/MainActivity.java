@@ -1,7 +1,6 @@
 package mobi.gpsmarker.gpsmarkercommander.ui.activities;
 
 import android.content.Intent;
-import android.media.Image;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -9,19 +8,14 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.ButtonBarLayout;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -31,10 +25,9 @@ import mobi.gpsmarker.gpsmarkercommander.R;
 import mobi.gpsmarker.gpsmarkercommander.data.managers.DataManager;
 import mobi.gpsmarker.gpsmarkercommander.data.network.req.GetDevicesOption;
 import mobi.gpsmarker.gpsmarkercommander.data.network.req.GetDevicesReq;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.UserLoginOption;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.UserLoginReq;
 import mobi.gpsmarker.gpsmarkercommander.data.network.res.GetDevicesRes;
-import mobi.gpsmarker.gpsmarkercommander.data.network.res.UserLoginRes;
+import mobi.gpsmarker.gpsmarkercommander.data.network.res.SettingsDeviceResM180;
+import mobi.gpsmarker.gpsmarkercommander.data.storage.DeviceM180DTO;
 import mobi.gpsmarker.gpsmarkercommander.ui.adapters.DevicesAdapter;
 import mobi.gpsmarker.gpsmarkercommander.utils.ConstantManager;
 import mobi.gpsmarker.gpsmarkercommander.utils.NetworkStatusChecker;
@@ -42,23 +35,20 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.R.attr.id;
-
 public class MainActivity extends BaseActivity /*implements View.OnClickListener*/  {
 
     private static final String TAG = ConstantManager.TAG_PREFIX+"Main Activity";
-   // private ImageView mImageView;
     private CoordinatorLayout mCoordinatorLayout;
     private Toolbar mToolbar;
     private DrawerLayout mNavigationDrawer;
     private int mDrawerStart=0;
     private FloatingActionButton mFab;
     private DataManager mDataManager;
-  //  private Button mLoadButton;
     private NavigationView mNavigationView;
     private TextView mHeaderEmail, mHeaderMobile;
-
+    private Spinner mSpinner;
     private List<GetDevicesRes.Device> mDevices;
+    private SettingsDeviceResM180.Datum mDevice;
     private DevicesAdapter mDevicesAdapter;
     private RecyclerView mRecyclerView;
     private DevicesAdapter.CustomClickListener mCustomClickListener;
@@ -74,7 +64,12 @@ public class MainActivity extends BaseActivity /*implements View.OnClickListener
         //mHeaderImage = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.image_header);
         mHeaderMobile = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.user_mobile_txt);
         mHeaderEmail = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.user_email_txt);
-
+/*        mSpinner = (Spinner) findViewById(R.id.mode_sp);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.Mode_m180, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        mSpinner.setAdapter(adapter)*/;
         mDataManager = DataManager.getInstance();
    //     mImageView = (ImageView)findViewById(R.id.settings_img);
         mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.main_ccordinator_container);
@@ -149,20 +144,6 @@ public class MainActivity extends BaseActivity /*implements View.OnClickListener
         Log.d(TAG, "onResume");
     }*/
 
-/*    @Override
-    public void onClick(View v){
-        switch (v.getId()){
-       *//*     case R.id.settings_img:
-*//**//*                showProgress();
-                runWithDelay();*//**//*
-                break;
-            case R.id.load_data:
-                loadDeviceDataNetwork();
-                break;*//*
-
-        }
-    }*/
-
     private void showSnackbar(String message){
         Snackbar.make(mCoordinatorLayout, message,Snackbar.LENGTH_LONG).show();
     }
@@ -222,36 +203,29 @@ public class MainActivity extends BaseActivity /*implements View.OnClickListener
                             @Override
                             public void onDeviceItemClickListener(int position, View v) {
                               //  showSnackbar("Устройство с индексом "+ position);
-                                switch (v.getId()) {
-                                    case R.id.settings_img:
-                                        showSnackbar("Настройки");
-                                       //  mDevices.get(position).
-                                        saveActiveDeviceId(mDevices.get(position).getIdDevice());
-                                        Intent settingsIntent = new Intent(MainActivity.this, settings_activity.class);
-                                       // profileIntent.putExtra(ConstantManager.PARCELABLE_KEY, userDTO);
-                                        startActivity(settingsIntent);
-                                        break;
-                                    case R.id.commands_img:
-                                        showSnackbar("Команды");
-                                        saveActiveDeviceId(mDevices.get(position).getIdDevice());
-                                        Intent commandsIntent = new Intent(MainActivity.this, control_activity.class);
-                                        // profileIntent.putExtra(ConstantManager.PARCELABLE_KEY, userDTO);
-                                        startActivity(commandsIntent);
-                                        break;
-                                    case R.id.track_img:
-                                        showSnackbar("Трэки");
-                                        saveActiveDeviceId(mDevices.get(position).getIdDevice());
-                                        Intent trackIntent = new Intent(MainActivity.this, viewtrack_activity.class);
-                                        // profileIntent.putExtra(ConstantManager.PARCELABLE_KEY, userDTO);
-                                        startActivity(trackIntent);
-                                        break;
+                                if (Integer.valueOf(mDevices.get(position).getIdDeviceType())==1){
+                                    switch (v.getId()) {
+                                        case R.id.settings_img:
+                                            showSnackbar("Настройки");
+                                            DeviceM180DTO deviceM180DTO = new DeviceM180DTO(mDevices.get(position).getIdDevice(), mDevices.get(position).getIdDeviceType(), mDevices.get(position).getImeiDevice());
+                                            Intent settingsIntent = new Intent(MainActivity.this, settings_m180_activity.class);
+                                            settingsIntent.putExtra(ConstantManager.PARCELABLE_KEY, deviceM180DTO);
+                                            startActivity(settingsIntent);
+                                            break;
+                                        case R.id.track_img:
+                                            showSnackbar("Трэки");
+                                            Intent trackIntent = new Intent(MainActivity.this, viewtrack_activity.class);
+                                            // profileIntent.putExtra(ConstantManager.PARCELABLE_KEY, trackDTO);
+                                            startActivity(trackIntent);
+                                            break;
+                                    }
                                 }
                             }
                         });
                         mRecyclerView.setAdapter(mDevicesAdapter);
                         mDevicesAdapter.notifyDataSetChanged();
                     } else if (response.code() == 404){
-                        showSnackbar("Неверный логин или пароль!");
+                        showSnackbar("Что-то пошло не так!");
                     } else {
                         showSnackbar("Что-то пошло не так!");
                     }
@@ -271,9 +245,4 @@ public class MainActivity extends BaseActivity /*implements View.OnClickListener
         mHeaderMobile.setText(mDataManager.getPreferenceManager().getUserMobile());
         mHeaderEmail.setText(mDataManager.getPreferenceManager().getUserEmail());
     }
-
-    private void saveActiveDeviceId(String deviceId){
-        mDataManager.getPreferenceManager().saveActiveDeviceId(deviceId);
-    }
-
 }

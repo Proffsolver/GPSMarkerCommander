@@ -1,6 +1,6 @@
 package mobi.gpsmarker.gpsmarkercommander.data.network.req;
 
-public class SettingsDeviceData {
+public class SettingsDeviceM180Data {
 
     private String mode_device;
     private String language_device;
@@ -87,8 +87,56 @@ public class SettingsDeviceData {
     private String count_device_lbs;
     private String balance_device;
     private String temp_device;
+    private String longitube_device;
+    private String latitube_device;
+    private String radius_device;
 
-    public SettingsDeviceData (String mode_device,	String language_device,	String name_device,	String name_device_on,	String gps_url_device,	String gps_device_on,	String unsleep_sms_device,	String worry_call_device,	String time_park_device,	String utc_device,	String lbs_device_on,	String phone_1_device,	String phone_1_device_on,	String phone_2_device,	String phone_2_device_on,	String phone_3_device,	String phone_3_device_on,	String phone_4_device,	String phone_4_device_on,	String phone_5_device,	String phone_5_device_on,	String phone_6_device,	String phone_6_device_on,	String phone_7_device,	String phone_7_device_on,	String phone_8_device,	String phone_8_device_on,	String phone_9_device,	String phone_9_device_on,	String unsleep_alarm_device,	String alarm_1_device,	String alarm_1_device_on,	String alarm_2_device,	String alarm_2_device_on,	String alarm_3_device,	String alarm_3_device_on,	String alarm_4_device,	String alarm_4_device_on,	String alarm_5_device,	String alarm_5_device_on,	String alarm_6_device,	String alarm_6_device_on,	String alarm_7_device,	String alarm_7_device_on,	String alarm_8_device,	String alarm_8_device_on,	String alarm_9_device,	String alarm_9_device_on,	String balance_device_on,	String min_balance_device,	String ussd_balance_device,	String button_device_on,	String move_device,	String move_device_on,	String unmove_device,	String unmove_device_on,	String speed_device,	String speed_device_on,	String jack_device_on,	String temp_device_on,	String temp_device_1,	String temp_device_2,	String temp_relay_device,	String temp_relay_sms_device,	String temp_imp_device,	String internet_device_on,	String url_server_device,	String port_sever_device,	String url_apn_device,	String login_apn_device,	String password_apn_device,	String time_send_message_device,	String adtrack_device_on,	String date_device_data,	String battery_device,	String longitube_device_gps,	String latitube_device_gps,	String date_device_gps,	String count_device_gps,	String longitube_device_lbs,	String latitube_device_lbs,	String date_device_lbs,	String count_device_lbs,	String balance_device,	String temp_device) {
+
+    public SettingsDeviceM180Data(String mode_device, String language_device,
+                                  String name_device, String name_device_on,
+                                  String gps_url_device, String gps_device_on,
+                                  String unsleep_sms_device, String worry_call_device,
+                                  String time_park_device, String utc_device,
+                                  String lbs_device_on, String phone_1_device,
+                                  String phone_1_device_on, String phone_2_device,
+                                  String phone_2_device_on, String phone_3_device,
+                                  String phone_3_device_on, String phone_4_device,
+                                  String phone_4_device_on, String phone_5_device,
+                                  String phone_5_device_on, String phone_6_device,
+                                  String phone_6_device_on, String phone_7_device,
+                                  String phone_7_device_on, String phone_8_device,
+                                  String phone_8_device_on, String phone_9_device,
+                                  String phone_9_device_on, String unsleep_alarm_device,
+                                  String alarm_1_device, String alarm_1_device_on,
+                                  String alarm_2_device, String alarm_2_device_on,
+                                  String alarm_3_device, String alarm_3_device_on,
+                                  String alarm_4_device, String alarm_4_device_on,
+                                  String alarm_5_device, String alarm_5_device_on,
+                                  String alarm_6_device, String alarm_6_device_on,
+                                  String alarm_7_device, String alarm_7_device_on,
+                                  String alarm_8_device, String alarm_8_device_on,
+                                  String alarm_9_device, String alarm_9_device_on,
+                                  String balance_device_on, String min_balance_device,
+                                  String ussd_balance_device, String button_device_on,
+                                  String move_device, String move_device_on,
+                                  String unmove_device, String unmove_device_on,
+                                  String speed_device, String speed_device_on,
+                                  String jack_device_on, String temp_device_on,
+                                  String temp_device_1, String temp_device_2,
+                                  String temp_relay_device, String temp_relay_sms_device,
+                                  String temp_imp_device, String internet_device_on,
+                                  String url_server_device, String port_sever_device,
+                                  String url_apn_device, String login_apn_device,
+                                  String password_apn_device, String time_send_message_device,
+                                  String adtrack_device_on, String date_device_data,
+                                  String battery_device, String longitube_device_gps,
+                                  String latitube_device_gps, String date_device_gps,
+                                  String count_device_gps, String longitube_device_lbs,
+                                  String latitube_device_lbs, String date_device_lbs,
+                                  String count_device_lbs, String balance_device,
+                                  String temp_device, String longitube_device,
+                                  String latitube_device, String radius_device
+    ) {
         this.mode_device = mode_device;
         this.language_device = language_device;
         this.name_device = name_device;
@@ -174,5 +222,9 @@ public class SettingsDeviceData {
         this.count_device_lbs = count_device_lbs;
         this.balance_device = balance_device;
         this.temp_device = temp_device;
+        this.longitube_device = longitube_device;
+        this.latitube_device = latitube_device;
+        this.radius_device = radius_device;
+
     }
 }

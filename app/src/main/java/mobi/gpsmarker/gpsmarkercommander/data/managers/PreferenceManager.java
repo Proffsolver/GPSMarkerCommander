@@ -68,14 +68,4 @@ public class PreferenceManager {
     public String getUserMobile() {
         return mSharedPreferences.getString(ConstantManager.USER_ID_PHONE, "null");
     }
-
-    public void saveActiveDeviceId(String deviceId) {
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putString(ConstantManager.DEVICE_ID, deviceId);
-        editor.apply();
-    }
-
-    public String getActiveDeviceId() {
-        return mSharedPreferences.getString(ConstantManager.DEVICE_ID, "null");
-    }
 }

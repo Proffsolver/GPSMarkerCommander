@@ -38,13 +38,13 @@
                             android:text="Наименование устройства"
                             android:textColor="@color/black"
                             android:layout_marginBottom="@dimen/spacing_extrasmall_4"
-                            android:textSize="@dimen/font_small_14"/>
+                            android:textSize="@dimen/font_normal_15"/>
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/type_device_txt"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/font_small_14"
+                            android:textSize="@dimen/font_small_12"
                             android:text="Тип устройства"
                             android:layout_marginBottom="@dimen/spacing_extrasmall_4"/>
 <!--                        <TextView
@@ -76,7 +76,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
-                        android:layout_weight="1.5"
+                        android:layout_weight="3"
                         android:layout_gravity="center_vertical"
                         android:background="@color/white">
                         <ImageView
@@ -85,13 +85,13 @@
                             android:layout_width="35dp"
                             android:layout_height="35dp"
                             android:layout_marginTop="@dimen/spacing_extrasmall_4"/>
-                        <ImageView
+<!--                        <ImageView
                             android:id="@+id/commands_img"
                             android:src="@drawable/ic_play_circle_filled_black_24dp"
                             android:layout_width="35dp"
                             android:layout_height="35dp"
                             android:layout_marginLeft="@dimen/spacing_small_8"
-                            android:layout_marginTop="@dimen/spacing_extrasmall_4"/>
+                            android:layout_marginTop="@dimen/spacing_extrasmall_4"/>-->
                         <ImageView
                             android:id="@+id/track_img"
                             android:src="@drawable/ic_layers_black_24dp"
@@ -101,11 +101,11 @@
                             android:layout_marginTop="@dimen/spacing_extrasmall_4"/>
                     </LinearLayout>
                 </LinearLayout>
-                <View
+<!--                <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/line_size"
                     android:id="@+id/outside"
-                    android:background="@color/grey"/>
+                    android:background="@color/grey"/>-->
             </LinearLayout>
         </FrameLayout>
     </LinearLayout>

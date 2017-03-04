@@ -2,12 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="mobi.gpsmarker.gpsmarkercommander">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:name=".utils.GPSMarkerCommanderApp"
@@ -17,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.activities.MainActivity">
-<!--            <intent-filter>
+<!--                <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -25,7 +23,7 @@
         </activity>
         <activity android:name=".ui.activities.control_activity">
         </activity>
-        <activity android:name=".ui.activities.settings_activity">
+        <activity android:name=".ui.activities.settings_m180_activity">
 <!--            <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -35,13 +33,31 @@
         <activity android:name=".ui.activities.viewtrack_activity">
         </activity>
         <activity android:name=".ui.activities.AuthActivity">
-            <intent-filter>
+                <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <service android:name="com.mapbox.mapboxsdk.telemetry.TelemetryService" />
+
+        <service android:name="com.mapbox.mapboxsdk.telemetry.TelemetryService"/>
+
+        <activity android:name=".ui.activities.m180.M180ChangeNameActivity">
+        </activity>
+            <activity android:name=".ui.activities.m180.M180ListPhonesActivity">
+        </activity>
+        <activity android:name=".ui.activities.m180.M180ListAlarmActivity">
+        </activity>
+        <activity android:name=".ui.activities.m180.M180SettingTempIntervalActivity">
+        </activity>
+        <activity android:name=".ui.activities.m180.M180ChangeModeTempSignalActivity">
+        </activity>
+        <activity android:name=".ui.activities.m180.M180SettingOperationCellularActivity">
+        </activity>
+        <activity android:name=".ui.activities.m180.M180SettingMonitoringServerActivity">
+        </activity>
+        <activity android:name=".ui.activities.m180.M180GeoPointActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -20,5 +20,7 @@
 
 
     <string name="access_token">pk.eyJ1IjoicHJvZmZzb2x2ZXIiLCJhIjoiY2l4NHY3dWdkMDAwZjJvbnhrMGE2bHE3ZCJ9.yy9h4Qko5_l3OJyurWxQVQ</string>
-
+    <string name="title_activity_awake_call">AwakeCallActivity</string>
+    <string name="switchon">Вкл</string>
+    <string name="switchoff">Выкл</string>
 </resources>

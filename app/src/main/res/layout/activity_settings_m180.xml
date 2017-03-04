@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="mobi.gpsmarker.gpsmarkercommander.ui.activities.control_activity"
-    android:id="@+id/set_navigation_drawer">
-    <android.support.design.widget.CoordinatorLayout
+<android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/settings_ccordinator_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        tools:context="mobi.gpsmarker.gpsmarkercommander.ui.activities.control_activity">
         <android.support.design.widget.AppBarLayout
             android:id="@+id/set_appbar_layout"
             android:theme="@style/AppTheme.AppBarOverlay"
@@ -27,9 +22,8 @@
                 android:titleTextColor="@color/white"
                 app:layout_collapseMode="pin"/>
         </android.support.design.widget.AppBarLayout>
+
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/activity_gpsmarker_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -48,44 +42,57 @@
             android:layout_height="match_parent"
             android:layout_margin="@dimen/spacing_extrasmall_4"
             android:orientation="vertical">
-            <LinearLayout
+           <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="@color/white">
-
-                <Button
-                    android:id="@+id/set_control_btn"
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/go_set_control_tv"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/activity_vertical_margin"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:textAlignment="center"
+                    android:layout_weight="1"
                     android:layout_gravity="center_horizontal"
-                    android:minWidth="126dp"
+                    android:clickable="true"
+                    android:onClick="onClick"
+                    android:textColor="@color/black"
                     android:text="Команды"
-                    android:textAllCaps="true"/>
-
-                <Button
-                    android:id="@+id/set_events_btn"
-                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/font_large_24"/>
+                <View
+                    android:layout_width="@dimen/line_size"
+                    android:layout_height="match_parent"
+                    android:background="@color/grey_light"/>
+                <TextView
+                    android:id="@+id/go_track_tv"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/activity_vertical_margin"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:layout_weight="1"
                     android:layout_gravity="center_horizontal"
-                    android:minWidth="126dp"
-                    android:text="Уведомления"
-                    android:textAllCaps="true"/>
-                <Button
-                    android:id="@+id/set_track_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:minWidth="126dp"
-                    android:text="Трэк"
-                    android:textAllCaps="true"/>
+                    android:textAlignment="center"
+                    android:textSize="@dimen/font_large_24"
+                    android:textColor="@color/black"
+                    android:clickable="true"
+                    android:onClick="onClick"
+                    android:text="Трэк"/>
             </LinearLayout>
-            <include layout="@layout/device_main_content"/>
-            <View
+          <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/line_size"
                 android:background="@color/grey_light"/>
-
+<!--            <include layout="@layout/device_main_content"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_size"
+                android:background="@color/grey_light"/>-->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/line_size"
@@ -98,6 +105,16 @@
                 android:layout_marginBottom="@dimen/spacing_extrasmall_4"
                 android:orientation="vertical"
                 android:background="@color/white">
+<!--                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_size"
+                    android:background="@color/grey_light"/>-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    style="@style/text_allmargin_small"
+                    android:text="Основные"
+                    android:textColor="@color/grey" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -111,29 +128,22 @@
                         android:orientation="vertical"
                         android:gravity="center"
                         android:layout_marginLeft="@dimen/spacing_normal_16">
-                        <TextView
-                            android:id="@+id/mode_tv"
+                        <Spinner
+                            android:id="@+id/mode_sp"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/font_normal_15"
-                            android:text="Режим работы"
-                            android:textAlignment="viewStart"
-                            android:enabled="false"
                             android:textColor="@color/black"
                             android:gravity="center"
-                            android:background="@color/white"/>
+                            android:background="@color/white">
+                        </Spinner>
                     </LinearLayout>
                 </LinearLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/line_size"
-                    android:background="@color/grey_light"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    style="@style/text_allmargin_small"
-                    android:text="Основные"
-                    android:textColor="@color/grey" />
+                    android:background="@color/grey_light"
+                    android:layout_marginLeft="@dimen/spacing_large_54"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -147,16 +157,15 @@
                         android:orientation="vertical"
                         android:gravity="center"
                         android:layout_marginLeft="@dimen/spacing_normal_16">
-                        <TextView
-                            android:id="@+id/lang_tv"
+                        <Spinner
+                            android:id="@+id/lang_sp"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/font_normal_15"
-                            android:text="Язык"
-                            android:textAlignment="viewStart"
                             android:textColor="@color/black"
                             android:gravity="center"
-                            android:background="@color/white"/>
+                            android:background="@color/white">
+                        </Spinner>
                     </LinearLayout>
                 </LinearLayout>
                 <View
@@ -182,7 +191,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/font_normal_15"
-                            android:text="Имя: Газель о 192 оо 55"
+                            android:text="Имя"
                             android:textAlignment="viewStart"
                             android:textColor="@color/black"
                             android:gravity="center"
@@ -204,19 +213,55 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_medium_56"
                         android:layout_weight="1"
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
                         android:gravity="center"
                         android:layout_marginLeft="@dimen/spacing_normal_16">
-                        <TextView
-                            android:id="@+id/linkview_tv"
+                        <Spinner
+                            android:id="@+id/linkview_sp"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/font_normal_15"
-                            android:text="Вид ссылки: Гео"
-                            android:textAlignment="viewStart"
-                            android:gravity="center"
                             android:textColor="@color/black"
-                            android:background="@color/white"/>
+                            android:gravity="center"
+                            android:background="@color/white">
+                        </Spinner>
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/linkview_sw"
+                            android:layout_weight="2.5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Выкл"
+                            android:textOff="Выкл"
+                            android:textOn="Вкл"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_size"
+                    android:background="@color/grey_light"
+                    android:layout_marginLeft="@dimen/spacing_large_54"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        style="@style/icon.left"
+                        android:src="@drawable/ic_sms_25dp"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_medium_56"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/spacing_normal_16">
+                        <Spinner
+                            android:id="@+id/sms_sp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/font_normal_15"
+                            android:textColor="@color/black"
+                            android:gravity="center"
+                            android:background="@color/white">
+                        </Spinner>
                     </LinearLayout>
                 </LinearLayout>
                 <View
@@ -237,17 +282,15 @@
                         android:orientation="vertical"
                         android:gravity="center"
                         android:layout_marginLeft="@dimen/spacing_normal_16">
-                        <TextView
-                            android:id="@+id/phones_tv"
+                        <Spinner
+                            android:id="@+id/call_sp"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/font_normal_15"
-                            android:text="Звонок: При каждом пробуждении"
-                            android:textAlignment="viewStart"
-                            android:enabled="false"
-                            android:gravity="center"
                             android:textColor="@color/black"
-                            android:background="@color/white"/>
+                            android:gravity="center"
+                            android:background="@color/white">
+                        </Spinner>
                     </LinearLayout>
                 </LinearLayout>
                 <View
@@ -265,17 +308,58 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_medium_56"
                         android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:gravity="left"
                         android:layout_marginLeft="@dimen/spacing_normal_16">
                         <TextView
-                            android:id="@+id/park_tv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:textSize="@dimen/font_normal_15"
-                            android:text="Парковка: 10:00"
+                            android:text="Интервал парковки:"
                             android:textAlignment="viewStart"
-                            android:enabled="false"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:background="@color/white"/>
+                        <EditText
+                            android:id="@+id/park_hour_ed"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1.7"
+                            android:textSize="@dimen/font_normal_15"
+                            android:text="10"
+                            android:textAlignment="viewStart"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:background="@color/white"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1.7"
+                            android:textSize="@dimen/font_normal_15"
+                            android:text="ч."
+                            android:textAlignment="viewStart"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:background="@color/white"/>
+                        <EditText
+                            android:id="@+id/park_minute_ed"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1.7"
+                            android:textSize="@dimen/font_normal_15"
+                            android:text="00"
+                            android:textAlignment="viewStart"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:background="@color/white"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1.7"
+                            android:textSize="@dimen/font_normal_15"
+                            android:text="мин."
+                            android:textAlignment="viewStart"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:background="@color/white"/>
@@ -296,17 +380,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_medium_56"
                         android:layout_weight="1"
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
                         android:gravity="center"
                         android:layout_marginLeft="@dimen/spacing_normal_16">
                         <TextView
-                            android:id="@+id/utc_tv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/font_normal_15"
-                            android:text="Часовой пояс: UTC +14"
+                            android:layout_weight="1"
+                            android:text="Часовой пояс: UTC "
                             android:textAlignment="viewStart"
-                            android:enabled="false"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:background="@color/white"/>
+                        <EditText
+                            android:id="@+id/utc_ed"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2.5"
+                            android:textSize="@dimen/font_normal_15"
+                            android:text="14"
+                            android:textAlignment="viewStart"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:background="@color/white"/>
@@ -327,20 +421,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_medium_56"
                         android:layout_weight="1"
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
                         android:gravity="center"
                         android:layout_marginLeft="@dimen/spacing_normal_16">
                         <TextView
-                            android:id="@+id/lbs_tv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:textSize="@dimen/font_normal_15"
                             android:text="LBS определение"
                             android:textAlignment="viewStart"
-                            android:enabled="false"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:background="@color/white"/>
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/lbs_defination_sw"
+                            android:layout_weight="2.5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Выкл"
+                            android:textOff="Выкл"
+                            android:textOn="Вкл"/>
                     </LinearLayout>
                 </LinearLayout>
                 <View
@@ -368,7 +469,6 @@
                             android:textSize="@dimen/font_normal_15"
                             android:text="Телефоны"
                             android:textAlignment="viewStart"
-                            android:enabled="false"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:background="@color/white"/>
@@ -393,13 +493,12 @@
                         android:gravity="center"
                         android:layout_marginLeft="@dimen/spacing_normal_16">
                         <TextView
-                            android:id="@+id/alarms_tv"
+                            android:id="@+id/alarms_sms_tv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/font_normal_15"
                             android:text="Будильники"
                             android:textAlignment="viewStart"
-                            android:enabled="false"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:background="@color/white"/>
@@ -425,20 +524,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_medium_56"
                         android:layout_weight="1"
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
                         android:gravity="center"
                         android:layout_marginLeft="@dimen/spacing_normal_16">
                         <TextView
-                            android:id="@+id/balance_tv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:textSize="@dimen/font_normal_15"
                             android:text="Тревожное сообщение"
                             android:textAlignment="viewStart"
-                            android:enabled="false"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:background="@color/white"/>
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/balance_sw"
+                            android:layout_weight="2.5"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Выкл"
+                            android:textOff="Выкл"
+                            android:textOn="Вкл"/>
                     </LinearLayout>
                 </LinearLayout>
                 <View
@@ -456,17 +562,37 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_medium_56"
                         android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:gravity="left"
                         android:layout_marginLeft="@dimen/spacing_normal_16">
                         <TextView
-                            android:id="@+id/minbalance_tv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:textSize="@dimen/font_normal_15"
-                            android:text="Минимальный баланс: 10 р."
+                            android:text="Минимальный баланс: "
                             android:textAlignment="viewStart"
-                            android:enabled="false"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:background="@color/white"/>
+                        <EditText
+                            android:id="@+id/minbalance_ed"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="3"
+                            android:textSize="@dimen/font_normal_15"
+                            android:text="10"
+                            android:textAlignment="viewStart"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:background="@color/white"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="3"
+                            android:textSize="@dimen/font_normal_15"
+                            android:text="р."
+                            android:textAlignment="viewStart"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:background="@color/white"/>
@@ -487,17 +613,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_medium_56"
                         android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:gravity="left"
                         android:layout_marginLeft="@dimen/spacing_normal_16">
                         <TextView
-                            android:id="@+id/ussdcommand_tv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:textSize="@dimen/font_normal_15"
-                            android:text="USSD-запрос баланса: *100#"
+                            android:text="USSD-запрос баланса: "
                             android:textAlignment="viewStart"
-                            android:enabled="false"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:background="@color/white"/>
+                        <EditText
+                            android:id="@+id/ussdcommand_ed"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2.5"
+                            android:textSize="@dimen/font_normal_15"
+                            android:text="*100#"
+                            android:textAlignment="viewStart"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:background="@color/white"/>
@@ -523,20 +659,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_medium_56"
                         android:layout_weight="1"
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
                         android:gravity="center"
                         android:layout_marginLeft="@dimen/spacing_normal_16">
                         <TextView
-                            android:id="@+id/button_tv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:textSize="@dimen/font_normal_15"
-                            android:text="Кнопка"
+                            android:text="Кнопка "
                             android:textAlignment="viewStart"
-                            android:enabled="false"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:background="@color/white"/>
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/button_sw"
+                            android:layout_weight="2.5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Выкл"
+                            android:textOff="Выкл"
+                            android:textOn="Вкл"/>
                     </LinearLayout>
                 </LinearLayout>
                 <View
@@ -554,20 +697,50 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_medium_56"
                         android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:gravity="left"
                         android:layout_marginLeft="@dimen/spacing_normal_16">
                         <TextView
-                            android:id="@+id/move_tv"
+                            android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/font_normal_15"
-                            android:text="Движение: 6 ч."
+                            android:text="Движение: "
                             android:textAlignment="viewStart"
                             android:enabled="false"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:background="@color/white"/>
+                        <EditText
+                            android:id="@+id/move_ed"
+                            android:layout_weight="1.2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/font_normal_15"
+                            android:text="6"
+                            android:textAlignment="viewStart"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:background="@color/white"/>
+                        <TextView
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/font_normal_15"
+                            android:text="ч."
+                            android:textAlignment="viewStart"
+                            android:enabled="false"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:background="@color/white"/>
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/move_sw"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Выкл"
+                            android:textOff="Выкл"
+                            android:textOn="Вкл"/>
                     </LinearLayout>
                 </LinearLayout>
                 <View
@@ -585,32 +758,57 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_medium_56"
                         android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:gravity="left"
                         android:layout_marginLeft="@dimen/spacing_normal_16">
                         <TextView
-                            android:id="@+id/unmove_tv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/font_normal_15"
-                            android:text="Простой: 6 ч."
+                            android:text="Простой: "
                             android:textAlignment="viewStart"
+                            android:layout_weight="1"
                             android:enabled="false"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:background="@color/white"/>
+                        <EditText
+                            android:id="@+id/unmove_ed"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/font_normal_15"
+                            android:text="6"
+                            android:textAlignment="viewStart"
+                            android:layout_weight="1.2"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:background="@color/white"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/font_normal_15"
+                            android:text="ч."
+                            android:textAlignment="viewStart"
+                            android:layout_weight="1"
+                            android:enabled="false"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:background="@color/white"/>
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/unmove_sw"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Выкл"
+                            android:textOff="Выкл"
+                            android:textOn="Вкл"/>
                     </LinearLayout>
                 </LinearLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/line_size"
-                    android:background="@color/grey_light"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    style="@style/text_allmargin_small"
-                    android:text="Геозона"
-                    android:textColor="@color/grey" />
+                    android:background="@color/grey_light"
+                    android:layout_marginLeft="@dimen/spacing_large_54"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -621,20 +819,50 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_medium_56"
                         android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:gravity="left"
                         android:layout_marginLeft="@dimen/spacing_normal_16">
                         <TextView
-                            android:id="@+id/speed_tv"
+                            android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/font_normal_15"
-                            android:text="Скорость: 190 км/ч"
+                            android:text="Скорость: "
                             android:textAlignment="viewStart"
                             android:enabled="false"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:background="@color/white"/>
+                        <EditText
+                            android:id="@+id/speed_ed"
+                            android:layout_weight="1.2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/font_normal_15"
+                            android:text="190"
+                            android:textAlignment="viewStart"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:background="@color/white"/>
+                        <TextView
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/font_normal_15"
+                            android:text="км/ч."
+                            android:textAlignment="viewStart"
+                            android:enabled="false"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:background="@color/white"/>
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/speed_sw"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Выкл"
+                            android:textOff="Выкл"
+                            android:textOn="Вкл"/>
                     </LinearLayout>
                 </LinearLayout>
                 <View
@@ -652,20 +880,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_medium_56"
                         android:layout_weight="1"
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
                         android:gravity="center"
                         android:layout_marginLeft="@dimen/spacing_normal_16">
                         <TextView
-                            android:id="@+id/jack_tv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:textSize="@dimen/font_normal_15"
                             android:text="Датчик крена"
                             android:textAlignment="viewStart"
-                            android:enabled="false"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:background="@color/white"/>
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/jack_sw"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2.5"
+                            android:text="Выкл"
+                            android:textOff="Выкл"
+                            android:textOn="Вкл"/>
                     </LinearLayout>
                 </LinearLayout>
                 <View
@@ -688,20 +923,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_medium_56"
                         android:layout_weight="1"
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
                         android:gravity="center"
                         android:layout_marginLeft="@dimen/spacing_normal_16">
                         <TextView
-                            android:id="@+id/temp_tv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:textSize="@dimen/font_normal_15"
                             android:text="Сигнализатор"
                             android:textAlignment="viewStart"
-                            android:enabled="false"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:background="@color/white"/>
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/temp_sw"
+                            android:layout_weight="2.5"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Выкл"
+                            android:textOff="Выкл"
+                            android:textOn="Вкл"/>
                     </LinearLayout>
                 </LinearLayout>
                 <View
@@ -729,7 +971,6 @@
                             android:textSize="@dimen/font_normal_15"
                             android:text="Диапазон"
                             android:textAlignment="viewStart"
-                            android:enabled="false"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:background="@color/white"/>
@@ -760,7 +1001,6 @@
                             android:textSize="@dimen/font_normal_15"
                             android:text="Режим сигнализатора"
                             android:textAlignment="viewStart"
-                            android:enabled="false"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:background="@color/white"/>
@@ -769,13 +1009,8 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/line_size"
-                    android:background="@color/grey_light"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    style="@style/text_allmargin_small"
-                    android:text="Геозона"
-                    android:textColor="@color/grey" />
+                    android:background="@color/grey_light"
+                    android:layout_marginLeft="@dimen/spacing_large_54"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -786,20 +1021,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_medium_56"
                         android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:gravity="left"
                         android:layout_marginLeft="@dimen/spacing_normal_16">
                         <TextView
-                            android:id="@+id/temprelay_tv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:textSize="@dimen/font_normal_15"
-                            android:text="Управление реле"
+                            android:text="Управление реле c СМС"
                             android:textAlignment="viewStart"
-                            android:enabled="false"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:background="@color/white"/>
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/temprelaysms_sw"
+                            android:layout_weight="2.5"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Выкл"
+                            android:textOff="Выкл"
+                            android:textOn="Вкл"/>
                     </LinearLayout>
                 </LinearLayout>
                 <View
@@ -817,17 +1059,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_medium_56"
                         android:layout_weight="1"
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
                         android:gravity="center"
                         android:layout_marginLeft="@dimen/spacing_normal_16">
                         <TextView
-                            android:id="@+id/temprelayimp_tv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:textSize="@dimen/font_normal_15"
                             android:text="Импульс"
                             android:textAlignment="viewStart"
-                            android:enabled="false"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:background="@color/white"/>
+                        <EditText
+                            android:id="@+id/temprelayimp_ed"
+                            android:layout_weight="2.5"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/font_normal_15"
+                            android:text="0"
+                            android:textAlignment="viewStart"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:background="@color/white"/>
@@ -853,20 +1105,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_medium_56"
                         android:layout_weight="1"
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
                         android:gravity="center"
                         android:layout_marginLeft="@dimen/spacing_normal_16">
                         <TextView
-                            android:id="@+id/internet_tv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:textSize="@dimen/font_normal_15"
-                            android:text="Интернет"
+                            android:text="Активировать интернет"
                             android:textAlignment="viewStart"
-                            android:enabled="false"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:background="@color/white"/>
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/activate_internet_sw"
+                            android:layout_weight="2.5"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Выкл"
+                            android:textOff="Выкл"
+                            android:textOn="Вкл"/>
                     </LinearLayout>
                 </LinearLayout>
                 <View
@@ -874,37 +1133,6 @@
                 android:layout_height="@dimen/line_size"
                 android:background="@color/grey_light"
                 android:layout_marginLeft="@dimen/spacing_large_54"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        style="@style/icon.left"
-                        android:src="@drawable/ic_ip_25dp"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/size_medium_56"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center"
-                        android:layout_marginLeft="@dimen/spacing_normal_16">
-                        <TextView
-                            android:id="@+id/ip_tv"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:textSize="@dimen/font_normal_15"
-                            android:text="Адрес мониторингового сервера"
-                            android:textAlignment="viewStart"
-                            android:enabled="false"
-                            android:gravity="center"
-                            android:textColor="@color/black"
-                            android:background="@color/white"/>
-                    </LinearLayout>
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/line_size"
-                    android:background="@color/grey_light"
-                    android:layout_marginLeft="@dimen/spacing_large_54"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -919,13 +1147,12 @@
                         android:gravity="center"
                         android:layout_marginLeft="@dimen/spacing_normal_16">
                         <TextView
-                            android:id="@+id/apn_tv"
+                            android:id="@+id/setting_internet_tv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/font_normal_15"
-                            android:text="Точка доступа"
+                            android:text="Настройки интернета"
                             android:textAlignment="viewStart"
-                            android:enabled="false"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:background="@color/white"/>
@@ -934,14 +1161,19 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/line_size"
-                    android:background="@color/grey_light"
-                    android:layout_marginLeft="@dimen/spacing_large_54"/>
+                    android:background="@color/grey_light"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    style="@style/text_allmargin_small"
+                    android:text="Мониторинговый сервер"
+                    android:textColor="@color/grey" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <ImageView
                         style="@style/icon.left"
-                        android:src="@drawable/ic_apnlogin_25dp"/>
+                        android:src="@drawable/ic_ip_25dp"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_medium_56"
@@ -950,13 +1182,12 @@
                         android:gravity="center"
                         android:layout_marginLeft="@dimen/spacing_normal_16">
                         <TextView
-                            android:id="@+id/applogin_tv"
+                            android:id="@+id/address_mon_server_tv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/font_normal_15"
-                            android:text="Логин/пароль"
+                            android:text="Адрес мониторингового сервера"
                             android:textAlignment="viewStart"
-                            android:enabled="false"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:background="@color/white"/>
@@ -977,17 +1208,37 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_medium_56"
                         android:layout_weight="1"
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
                         android:gravity="center"
                         android:layout_marginLeft="@dimen/spacing_normal_16">
                         <TextView
-                            android:id="@+id/timesend_tv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:textSize="@dimen/font_normal_15"
                             android:text="Период отправки"
                             android:textAlignment="viewStart"
-                            android:enabled="false"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:background="@color/white"/>
+                        <EditText
+                            android:id="@+id/intarvel_send_ed"
+                            android:layout_weight="3"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/font_normal_15"
+                            android:text="120"
+                            android:textAlignment="viewStart"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:background="@color/white"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="3"
+                            android:textSize="@dimen/font_normal_15"
+                            android:text="сек."
+                            android:textAlignment="viewStart"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:background="@color/white"/>
@@ -1008,20 +1259,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_medium_56"
                         android:layout_weight="1"
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
                         android:gravity="center"
                         android:layout_marginLeft="@dimen/spacing_normal_16">
                         <TextView
-                            android:id="@+id/distance_tv5"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:textSize="@dimen/font_normal_15"
                             android:text="Адаптивный трэк"
                             android:textAlignment="viewStart"
-                            android:enabled="false"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:background="@color/white"/>
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/adaptivetrack_sw"
+                            android:layout_weight="2.5"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Выкл"
+                            android:textOff="Выкл"
+                            android:textOn="Вкл"/>
                     </LinearLayout>
                 </LinearLayout>
                 <View
@@ -1044,7 +1302,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_medium_56"
                         android:layout_weight="1"
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
                         android:gravity="center"
                         android:layout_marginLeft="@dimen/spacing_normal_16">
                         <TextView
@@ -1054,10 +1312,10 @@
                             android:textSize="@dimen/font_normal_15"
                             android:text="Место: 0::0"
                             android:textAlignment="viewStart"
-                            android:enabled="false"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:background="@color/white"/>
+
                     </LinearLayout>
                 </LinearLayout>
                 <View
@@ -1075,17 +1333,38 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_medium_56"
                         android:layout_weight="1"
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
                         android:gravity="center"
                         android:layout_marginLeft="@dimen/spacing_normal_16">
                         <TextView
                             android:id="@+id/distance_tv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:textSize="@dimen/font_normal_15"
-                            android:text="Дистанция: 5 м."
+                            android:text="Дистанция:"
                             android:textAlignment="viewStart"
-                            android:enabled="false"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:background="@color/white"/>
+                        <EditText
+                            android:id="@+id/distance_ed"
+                            android:layout_weight="3"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/font_normal_15"
+                            android:text="0"
+                            android:textAlignment="viewStart"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:background="@color/white"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="3"
+                            android:textSize="@dimen/font_normal_15"
+                            android:text="м."
+                            android:textAlignment="viewStart"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:background="@color/white"/>
@@ -1097,13 +1376,4 @@
     </android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>
-    </android.support.design.widget.CoordinatorLayout>
-
-    <android.support.design.widget.NavigationView
-        android:id="@+id/set_navigation_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="left"
-        app:headerLayout="@layout/drawer_header"
-        app:menu="@menu/drawer_menu"/>
-</android.support.v4.widget.DrawerLayout>
+</android.support.design.widget.CoordinatorLayout>

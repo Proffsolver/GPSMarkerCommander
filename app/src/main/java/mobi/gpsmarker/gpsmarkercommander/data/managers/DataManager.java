@@ -5,8 +5,10 @@ import android.content.Context;
 import mobi.gpsmarker.gpsmarkercommander.data.network.RestService;
 import mobi.gpsmarker.gpsmarkercommander.data.network.ServiceGenerator;
 import mobi.gpsmarker.gpsmarkercommander.data.network.req.GetDevicesReq;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.SettingsDeviceReq;
 import mobi.gpsmarker.gpsmarkercommander.data.network.req.UserLoginReq;
 import mobi.gpsmarker.gpsmarkercommander.data.network.res.GetDevicesRes;
+import mobi.gpsmarker.gpsmarkercommander.data.network.res.SettingsDeviceResM180;
 import mobi.gpsmarker.gpsmarkercommander.data.network.res.UserLoginRes;
 import mobi.gpsmarker.gpsmarkercommander.utils.GPSMarkerCommanderApp;
 import retrofit2.Call;
@@ -44,5 +46,9 @@ public class DataManager {
 
     public Call<GetDevicesRes> getDevices(GetDevicesReq getDevicesReq){
         return mRestService.getDevices(getDevicesReq);
+    }
+
+    public Call<SettingsDeviceResM180> getSettingsDevice(SettingsDeviceReq getSettingsDevice){
+        return mRestService.getSettingsDevice(getSettingsDevice);
     }
 }
