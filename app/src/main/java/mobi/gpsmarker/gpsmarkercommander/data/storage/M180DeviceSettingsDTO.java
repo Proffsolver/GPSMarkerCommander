@@ -3,9 +3,7 @@ package mobi.gpsmarker.gpsmarkercommander.data.storage;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import mobi.gpsmarker.gpsmarkercommander.data.network.res.SettingsDeviceResM180;
-
-public class DeviceSettingsDTO implements Parcelable {
+public class M180DeviceSettingsDTO implements Parcelable {
     private String mDTOName_Device;
     private int mDTODisp_name_in_sms;
     private String mDTOPhone_1_device;
@@ -69,7 +67,7 @@ public class DeviceSettingsDTO implements Parcelable {
     private int mDTOLatitube_device;
     private int mDTORadius_device;
 
-    public DeviceSettingsDTO(
+    public M180DeviceSettingsDTO(
             String mName_Device, int mDisp_name_in_sms,
             String mPhone_1_device,
             int mPhone_1_device_on, String mPhone_2_device,
@@ -167,7 +165,7 @@ public class DeviceSettingsDTO implements Parcelable {
 
     }
 
-    protected DeviceSettingsDTO(Parcel in) {
+    protected M180DeviceSettingsDTO(Parcel in) {
         mDTOName_Device = in.readString();
         mDTODisp_name_in_sms = in.readInt();
         mDTOPhone_1_device = in.readString();
@@ -306,15 +304,15 @@ public class DeviceSettingsDTO implements Parcelable {
     }
 
     @SuppressWarnings("unused")
-    public static final Creator<DeviceSettingsDTO> CREATOR = new Creator<DeviceSettingsDTO>() {
+    public static final Creator<M180DeviceSettingsDTO> CREATOR = new Creator<M180DeviceSettingsDTO>() {
         @Override
-        public DeviceSettingsDTO createFromParcel(Parcel in) {
-            return new DeviceSettingsDTO(in);
+        public M180DeviceSettingsDTO createFromParcel(Parcel in) {
+            return new M180DeviceSettingsDTO(in);
         }
 
         @Override
-        public DeviceSettingsDTO[] newArray(int size) {
-            return new DeviceSettingsDTO[size];
+        public M180DeviceSettingsDTO[] newArray(int size) {
+            return new M180DeviceSettingsDTO[size];
         }
     };
 

@@ -7,7 +7,7 @@ import java.util.List;
 
 import static android.R.attr.data;
 
-public class SettingsDeviceResM180 {
+public class M180SettingsDeviceRes {
 
     @SerializedName("error")
     @Expose

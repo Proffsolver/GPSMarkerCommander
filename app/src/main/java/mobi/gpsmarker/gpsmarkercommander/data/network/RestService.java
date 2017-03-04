@@ -4,7 +4,7 @@ import mobi.gpsmarker.gpsmarkercommander.data.network.req.GetDevicesReq;
 import mobi.gpsmarker.gpsmarkercommander.data.network.req.SettingsDeviceReq;
 import mobi.gpsmarker.gpsmarkercommander.data.network.req.UserLoginReq;
 import mobi.gpsmarker.gpsmarkercommander.data.network.res.GetDevicesRes;
-import mobi.gpsmarker.gpsmarkercommander.data.network.res.SettingsDeviceResM180;
+import mobi.gpsmarker.gpsmarkercommander.data.network.res.M180SettingsDeviceRes;
 import mobi.gpsmarker.gpsmarkercommander.data.network.res.UserLoginRes;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -23,7 +23,7 @@ public interface RestService {
     Call<GetDevicesRes> getDevices(@Body GetDevicesReq GetDevices);
 
     @POST("api/")
-    Call<SettingsDeviceResM180> getSettingsDevice(@Body SettingsDeviceReq GetSettingsDevice);
+    Call<M180SettingsDeviceRes> getSettingsDevice(@Body SettingsDeviceReq GetSettingsDevice);
     //   @Multipart
     //   @POST("user/{userId}/publicValues/profilePhoto")
     //   Call<UploadPhotoRes> uploadPhoto(@Path("userId") String userId),

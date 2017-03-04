@@ -3,18 +3,18 @@ package mobi.gpsmarker.gpsmarkercommander.data.storage;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class DeviceM180DTO implements Parcelable {
+public class DeviceDTO implements Parcelable {
     private String mDTOIdDevice;
     private String mDTOIdDeviceType;
     private String mDTOImeiDevice;
 
-    public DeviceM180DTO(String mIdDevice, String mIdDeviceType, String mImeiDevice) {
+    public DeviceDTO(String mIdDevice, String mIdDeviceType, String mImeiDevice) {
         mDTOIdDevice = mIdDevice;
         mDTOIdDeviceType = mIdDeviceType;
         mDTOImeiDevice = mImeiDevice;
     }
 
-    protected DeviceM180DTO(Parcel in) {
+    protected DeviceDTO(Parcel in) {
         mDTOIdDevice = in.readString();
         mDTOIdDeviceType = in.readString();
         mDTOImeiDevice = in.readString();
@@ -37,15 +37,15 @@ public class DeviceM180DTO implements Parcelable {
     }
 
     @SuppressWarnings("unused")
-    public static final Parcelable.Creator<DeviceM180DTO> CREATOR = new Parcelable.Creator<DeviceM180DTO>() {
+    public static final Parcelable.Creator<DeviceDTO> CREATOR = new Parcelable.Creator<DeviceDTO>() {
         @Override
-        public DeviceM180DTO createFromParcel(Parcel in) {
-            return new DeviceM180DTO(in);
+        public DeviceDTO createFromParcel(Parcel in) {
+            return new DeviceDTO(in);
         }
 
         @Override
-        public DeviceM180DTO[] newArray(int size) {
-            return new DeviceM180DTO[size];
+        public DeviceDTO[] newArray(int size) {
+            return new DeviceDTO[size];
         }
     };
 

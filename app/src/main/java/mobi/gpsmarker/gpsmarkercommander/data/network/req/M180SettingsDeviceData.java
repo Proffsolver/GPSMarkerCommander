@@ -1,6 +1,6 @@
 package mobi.gpsmarker.gpsmarkercommander.data.network.req;
 
-public class SettingsDeviceM180Data {
+public class M180SettingsDeviceData {
 
     private String mode_device;
     private String language_device;
@@ -92,7 +92,7 @@ public class SettingsDeviceM180Data {
     private String radius_device;
 
 
-    public SettingsDeviceM180Data(String mode_device, String language_device,
+    public M180SettingsDeviceData(String mode_device, String language_device,
                                   String name_device, String name_device_on,
                                   String gps_url_device, String gps_device_on,
                                   String unsleep_sms_device, String worry_call_device,
