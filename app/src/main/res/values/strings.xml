@@ -17,10 +17,16 @@
     <string name="auth.password">Введите пароль</string>
     <string name="auth.login">Войти</string>
     <string name="auth.remember">Забыли пароль?</string>
+    <string name="auth.registration">Регистрация</string>
 
 
     <string name="access_token">pk.eyJ1IjoicHJvZmZzb2x2ZXIiLCJhIjoiY2l4NHY3dWdkMDAwZjJvbnhrMGE2bHE3ZCJ9.yy9h4Qko5_l3OJyurWxQVQ</string>
     <string name="title_activity_awake_call">AwakeCallActivity</string>
     <string name="switchon">Вкл</string>
     <string name="switchoff">Выкл</string>
+
+    <string name="error_input_mail_message">Введенный Email не соответствует критериям ввода, измените значение и повторите снова</string>
+    <string name="error_input_IMEI">Длина IMEI 15 цифр, измените значение и повторите снова</string>
+    <string name="error_input_phone_number">"Введенный номер не соответствует формату ввода "+" и номер телефона от 11 до 15 цифр</string>
+
 </resources>

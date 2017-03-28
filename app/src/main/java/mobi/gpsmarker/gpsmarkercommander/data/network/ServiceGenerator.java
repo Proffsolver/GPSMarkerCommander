@@ -1,5 +1,7 @@
 package mobi.gpsmarker.gpsmarkercommander.data.network;
 
+//import com.facebook.stetho.okhttp3.StethoInterceptor;
+
 import java.util.concurrent.TimeUnit;
 
 import mobi.gpsmarker.gpsmarkercommander.data.network.interceptors.HeaderInterceptor;
@@ -27,10 +29,10 @@ public class ServiceGenerator {
 
         httpClient.addInterceptor(new HeaderInterceptor());
         httpClient.addInterceptor(logging);
- //       httpClient.connectTimeout(AppConfig.MAX_CONNECT_TIMEOUT, TimeUnit.MILLISECONDS);
- //       httpClient.readTimeout(AppConfig.MAX_READ_TIMEOUT, TimeUnit.MILLISECONDS);
- //       httpClient.cache (new Cache(GPSMarkerCommanderApp.getContext().getCacheDir(), Integer.MAX_VALUE));
- //       httpClient.addNetworkInterceptor(new StethoInterceptor());
+        httpClient.connectTimeout(AppConfig.MAX_CONNECT_TIMEOUT, TimeUnit.MILLISECONDS);
+        httpClient.readTimeout(AppConfig.MAX_READ_TIMEOUT, TimeUnit.MILLISECONDS);
+   //     httpClient.cache (new Cache(GPSMarkerCommanderApp.getContext().getCacheDir(), Integer.MAX_VALUE));
+   //     httpClient.addNetworkInterceptor(new StethoInterceptor());
 
         Retrofit retrofit = sBuilder
                 .client(httpClient.build())

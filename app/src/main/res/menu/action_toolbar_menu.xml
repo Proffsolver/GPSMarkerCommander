@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:yourapp="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_remove"
+        android:title="Удалить"
+        android:icon="@drawable/ic_delete_black_24dp"
+        yourapp:showAsAction="never" />
+    <item
+        android:id="@+id/action_map"
+        android:title="Карта"
+        android:icon="@drawable/ic_layers_white_24dp"
+        yourapp:showAsAction="always" />
+</menu>

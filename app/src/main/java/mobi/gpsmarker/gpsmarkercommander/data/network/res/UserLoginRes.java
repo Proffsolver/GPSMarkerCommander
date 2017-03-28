@@ -9,6 +9,15 @@ public class UserLoginRes {
     @SerializedName("error")
     @Expose
     private String error;
+
+    public String getCode() {
+        return code;
+    }
+
+    @SerializedName("code")
+    @Expose
+    private String code;
+
     @SerializedName("id_user")
     @Expose
     private String idUser;

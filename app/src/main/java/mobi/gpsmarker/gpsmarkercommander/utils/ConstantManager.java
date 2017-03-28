@@ -7,7 +7,53 @@ public interface ConstantManager {
     String USER_ID_KEY = "USER_ID_KEY";
     String USER_ID_PHONE = "USER_ID_PHONE";
     String USER_ID_EMAIL = "USER_ID_EMAIL";
+    String DEVICE_CURRENT_ID_TYPE = "DEVICE_CURRENT_ID_TYPE";
+    String DEVICE_CURRENT_ID = "DEVICE_CURRENT_ID";
+    String[] DEVICE_TYPE_STRINGS = {"m180"};
+    String USER_CURRENT_ACTION_W_ACCOUNT = "USER_CURRENT_ACTION_W_ACCOUNT";
     //String LOGIN_METHOD = "LOGIN_METHOD";
+
+    int CHANGE_NAME = 1;
+    int CHANGE_PHONES = 2;
+    int CHANGE_ALARMS_SMS = 3;
+    int CHANGE_TEMPVAL = 4;
+    int CHANGE_TEMPSIGNAL = 5;
+    int CHANGE_ADD_MON_SERV = 6;
+    int CHANGE_INTERNET = 7;
+    int CHANGE_POINT = 8;
+
+    //Methods JSON
+    int AUTHORIZATION  = 0;
+    int GET_DEVICES = 1;
+    int GET_DEVICES_DATA = 2;
+    int GET_USER_PASSWORD = 3;
+    int GET_DEVICE_TYPE = 4;
+    int GET_DEVICE_COORDINATE = 5;
+    int USER_REGISTRATION = 6;
+    int DEVICE_REGISTRATION = 7;
+    int DEVICE_DELETE = 8;
+    int SET_USER_DATA = 9;
+    int SET_DEVICE_DATA = 10;
+    int SET_DEVICE_COMMAND = 11;
+    int GET_DEVICE_COMMAND = 12;
+    int SET_USER_PASSWORD = 13;
+
+    String NO_ERROR = "000000";
+    String[] JSON_METHODS = {
+            "authorization",            //0
+            "get_devices",              //1
+            "get_device_data",          //2
+            "get_user_password",        //3
+            "get_device_type",          //4
+            "get_device_coordinate",    //5
+            "user_registration",        //6
+            "device_registration",      //7
+            "device_delete",            //8
+            "set_user_data",            //9
+            "set_device_data",          //10
+            "set_device_command",       //11
+            "get_device_command",       //12
+            "set_user_password"};       //13
 
 
     // Параметры для m180
@@ -17,6 +63,8 @@ public interface ConstantManager {
     String[] M180_LINKVIEW_STRINGS = {"Вид ссылки: Геокоординаты", "Вид ссылки: Яндекс ссылка", "Вид ссылки: Гугл ссылка", "Вид ссылки: Ссылка на город"};
     String[] M180_ALARM_SMS_STRINGS = {"SMS: При пробуждение","SMS: При тревоге","SMS: Не отправлять"};
     String[] M180_ALARM_CALL_STRINGS = {"Звонок: При пробуждение","Звонок: При тревоге","Звонок: Не звонить"};
+
+
 
     String M180_MODE_DEVICE = "mode_device";
     String M180_LANGUAGE_DEVICE = "language_device";

@@ -23,19 +23,24 @@ import java.util.List;
 
 import mobi.gpsmarker.gpsmarkercommander.R;
 import mobi.gpsmarker.gpsmarkercommander.data.managers.DataManager;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.DeviceAddOption;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.DeviceAddReq;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.DeviceTypeOption;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.DeviceTypeReq;
 import mobi.gpsmarker.gpsmarkercommander.data.network.req.GetDevicesOption;
 import mobi.gpsmarker.gpsmarkercommander.data.network.req.GetDevicesReq;
 import mobi.gpsmarker.gpsmarkercommander.data.network.res.GetDevicesRes;
-import mobi.gpsmarker.gpsmarkercommander.data.network.res.SettingsDeviceResM180;
-import mobi.gpsmarker.gpsmarkercommander.data.storage.DeviceM180DTO;
+import mobi.gpsmarker.gpsmarkercommander.data.network.res.UserAccoutActionRes;
+import mobi.gpsmarker.gpsmarkercommander.data.storage.models.DeviceDTO;
 import mobi.gpsmarker.gpsmarkercommander.ui.adapters.DevicesAdapter;
 import mobi.gpsmarker.gpsmarkercommander.utils.ConstantManager;
+import mobi.gpsmarker.gpsmarkercommander.utils.ErrorHandler;
 import mobi.gpsmarker.gpsmarkercommander.utils.NetworkStatusChecker;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends BaseActivity /*implements View.OnClickListener*/  {
+public class MainActivity extends BaseActivity implements View.OnClickListener  {
 
     private static final String TAG = ConstantManager.TAG_PREFIX+"Main Activity";
     private CoordinatorLayout mCoordinatorLayout;
@@ -48,7 +53,6 @@ public class MainActivity extends BaseActivity /*implements View.OnClickListener
     private TextView mHeaderEmail, mHeaderMobile;
     private Spinner mSpinner;
     private List<GetDevicesRes.Device> mDevices;
-    private SettingsDeviceResM180.Datum mDevice;
     private DevicesAdapter mDevicesAdapter;
     private RecyclerView mRecyclerView;
     private DevicesAdapter.CustomClickListener mCustomClickListener;
@@ -59,38 +63,19 @@ public class MainActivity extends BaseActivity /*implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d(TAG, "OnCreate");
-
+        mFab = (FloatingActionButton) findViewById(R.id.main_fab);
+        mFab.setOnClickListener(this);
         mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
         //mHeaderImage = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.image_header);
         mHeaderMobile = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.user_mobile_txt);
         mHeaderEmail = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.user_email_txt);
-/*        mSpinner = (Spinner) findViewById(R.id.mode_sp);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.Mode_m180, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
-        mSpinner.setAdapter(adapter)*/;
         mDataManager = DataManager.getInstance();
-   //     mImageView = (ImageView)findViewById(R.id.settings_img);
         mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.main_ccordinator_container);
-       // mImageView.setOnClickListener(this);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mNavigationDrawer = (DrawerLayout) findViewById(R.id.navigation_drawer);
-        //mFab = (FloatingActionButton) findViewById(R.id.main_fab);
-    //    mLoadButton = (Button) findViewById(R.id.load_data);
-        mRecyclerView = (RecyclerView) findViewById(R.id.device_list);
-        List<GetDevicesRes.Device> mDevices  = new ArrayList();
-        loadDeviceDataNetwork();
-        mRecyclerView.setAdapter(new DevicesAdapter(mDevices, mCustomClickListener));
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
-
         setupToolbar();
         setupDrawer();
-        loadUserInfo();
-        //loadUserInfoValue();
-       // mLoadButton.setOnClickListener(this);
-
+     //   loadUserInfo();
         if (savedInstanceState == null) {
 
         } else{
@@ -98,6 +83,43 @@ public class MainActivity extends BaseActivity /*implements View.OnClickListener
         }
 
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.main_fab:
+                Intent addDeviceIntent = new Intent(MainActivity.this, AddDeviceActivity.class);
+                startActivity(addDeviceIntent);
+                break;
+        }
+    }
+
+/*    private void loadNameDevices(){
+        if (NetworkStatusChecker.isNetworkAvailable(this)) {
+            Call<UserAccoutActionRes> call = mDataManager.getDeviceType(new DeviceTypeReq(ConstantManager.JSON_METHODS[ConstantManager.GET_DEVICE_TYPE], new DeviceTypeOption(mDataManager.getPreferenceManager().getUserId(), mDataManager.getPreferenceManager().getAuthToken())));
+            call.enqueue(new Callback<UserAccoutActionRes>() {
+                @Override
+                public void onResponse(Call<UserAccoutActionRes> call, Response<UserAccoutActionRes> response) {
+                    if (response.code() == 200){
+                        if (response.body().getCode().equals(ConstantManager.NO_ERROR)){
+                            showSnackbar(ErrorHandler.getErrorHandler(response.body().getCode(),ConstantManager.GET_DEVICE_TYPE));
+                        }else{
+                            showSnackbar(ErrorHandler.getErrorHandler(response.body().getCode(),ConstantManager.GET_DEVICE_TYPE));
+                        }
+                    } else if (response.code() == 404){
+                        showSnackbar("Неверный логин или пароль!");
+                    } else {
+                        showSnackbar("Что-то пошло не так!");
+                    }
+                }
+                @Override
+                public void onFailure(Call<UserAccoutActionRes> call, Throwable t) {
+                }
+            });
+        }else{
+            showSnackbar("Сеть на данный момент не доступна, попробуйте позже.");
+        }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -136,13 +158,21 @@ public class MainActivity extends BaseActivity /*implements View.OnClickListener
     protected void onPause() {
         super.onPause();
         Log.d(TAG, "onPause");
-    }
+    }*/
 
     @Override
     protected void onResume() {
+        mRecyclerView = (RecyclerView) findViewById(R.id.device_list);
+        List<GetDevicesRes.Device> mDevices  = new ArrayList();
+//        loadDeviceDataNetwork();
+        mRecyclerView.setAdapter(new DevicesAdapter(mDevices, mCustomClickListener));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        loadDeviceDataNetwork();
+        loadUserInfo();
         super.onResume();
-        Log.d(TAG, "onResume");
-    }*/
+
+    }
 
     private void showSnackbar(String message){
         Snackbar.make(mCoordinatorLayout, message,Snackbar.LENGTH_LONG).show();
@@ -159,7 +189,6 @@ public class MainActivity extends BaseActivity /*implements View.OnClickListener
 
     @Override
     public void onBackPressed() {
-        // Обработка BackPress
         if (mDrawerStart == 1){
             mDrawerStart = 0;
             mNavigationDrawer.closeDrawer(GravityCompat.START);
@@ -177,53 +206,69 @@ public class MainActivity extends BaseActivity /*implements View.OnClickListener
                 item.setChecked(true);
 /*                if (item.getItemId() == R.id.commands_menu){
                     mNavigationDrawer.closeDrawer(GravityCompat.START);}*/
-                if (item.getItemId() == R.id.events_menu){
+/*                if (item.getItemId() == R.id.events_menu){
                    // Intent teamIntent = new Intent(MainActivity.this, UserListActivity.class);
                   //  startActivity(teamIntent);
-                    mNavigationDrawer.closeDrawer(GravityCompat.START);}
+                    mNavigationDrawer.closeDrawer(GravityCompat.START);}*/
 /*                if (item.getItemId() == R.id.maps_menu){
                         mNavigationDrawer.closeDrawer(GravityCompat.START);}*/
-                if (item.getItemId() == R.id.settings_menu){
-                        mNavigationDrawer.closeDrawer(GravityCompat.START);}
+                if (item.getItemId() == R.id.change_pass_menu){
+                    Intent userChangePassIntent = new Intent(MainActivity.this, UserChangePasswordActivity.class);
+                    mDataManager.getPreferenceManager().saveUserCurrentActionWAccount("3");
+                    startActivity(userChangePassIntent);
+                    mNavigationDrawer.closeDrawer(GravityCompat.START);}
+                if (item.getItemId() == R.id.change_user_data_menu){
+                    Intent userDataChangeIntent = new Intent(MainActivity.this, UserChangeDataActivity.class);
+                    mDataManager.getPreferenceManager().saveUserCurrentActionWAccount("4");
+                    startActivity(userDataChangeIntent);
+                    mNavigationDrawer.closeDrawer(GravityCompat.START);}
                 return false;
             }
         });
     }
 
+
     private void loadDeviceDataNetwork(){
 
         if (NetworkStatusChecker.isNetworkAvailable(this)) {
-            Call<GetDevicesRes> call = mDataManager.getDevices(new GetDevicesReq("get_devices", new GetDevicesOption(mDataManager.getPreferenceManager().getUserId(), mDataManager.getPreferenceManager().getAuthToken())));
+            Call<GetDevicesRes> call = mDataManager.getDevicesFromNetwork(new GetDevicesReq(ConstantManager.JSON_METHODS[ConstantManager.GET_DEVICES], new GetDevicesOption(mDataManager.getPreferenceManager().getUserId(), mDataManager.getPreferenceManager().getAuthToken())));
             call.enqueue(new Callback<GetDevicesRes>() {
                 @Override
                 public void onResponse(Call<GetDevicesRes> call, Response<GetDevicesRes> response) {
                     if (response.code() == 200){
                         mDevices = response.body().getDevices();
-                        mDevicesAdapter = new DevicesAdapter(mDevices, new DevicesAdapter.CustomClickListener() {
-                            @Override
-                            public void onDeviceItemClickListener(int position, View v) {
-                              //  showSnackbar("Устройство с индексом "+ position);
-                                if (Integer.valueOf(mDevices.get(position).getIdDeviceType())==1){
-                                    switch (v.getId()) {
-                                        case R.id.settings_img:
-                                            showSnackbar("Настройки");
-                                            DeviceM180DTO deviceM180DTO = new DeviceM180DTO(mDevices.get(position).getIdDevice(), mDevices.get(position).getIdDeviceType(), mDevices.get(position).getImeiDevice());
-                                            Intent settingsIntent = new Intent(MainActivity.this, settings_m180_activity.class);
-                                            settingsIntent.putExtra(ConstantManager.PARCELABLE_KEY, deviceM180DTO);
-                                            startActivity(settingsIntent);
-                                            break;
-                                        case R.id.track_img:
-                                            showSnackbar("Трэки");
-                                            Intent trackIntent = new Intent(MainActivity.this, viewtrack_activity.class);
-                                            // profileIntent.putExtra(ConstantManager.PARCELABLE_KEY, trackDTO);
-                                            startActivity(trackIntent);
-                                            break;
+                        if (response.body().getCode().equals(ConstantManager.NO_ERROR)){
+                            showSnackbar(ErrorHandler.getErrorHandler(response.body().getCode(),ConstantManager.GET_DEVICES));
+                            mDevicesAdapter = new DevicesAdapter(mDevices, new DevicesAdapter.CustomClickListener() {
+                                @Override
+                                public void onDeviceItemClickListener(int position, View v) {
+                                    if (Integer.valueOf(mDevices.get(position).getIdDeviceType())==1){
+                                        switch (v.getId()) {
+                                            case R.id.settings_img:
+                                                //showSnackbar("Настройки");
+                                                DeviceDTO deviceDTO = new DeviceDTO(mDevices.get(position).getIdDevice(), mDevices.get(position).getIdDeviceType(), mDevices.get(position).getImeiDevice());
+                                                mDataManager.getPreferenceManager().saveCurrentDeviceIdType(mDevices.get(position).getIdDeviceType());
+                                                mDataManager.getPreferenceManager().saveCurrentDeviceId(mDevices.get(position).getIdDevice());
+                                                Intent settingsIntent = new Intent(MainActivity.this, M180SettingsActivity.class);
+                                                settingsIntent.putExtra(ConstantManager.PARCELABLE_KEY, deviceDTO);
+                                                startActivity(settingsIntent);
+                                                break;
+                                            case R.id.track_img:
+                                                //showSnackbar("Трэки");
+                                                Intent trackIntent = new Intent(MainActivity.this, viewtrack_activity.class);
+                                                // profileIntent.putExtra(ConstantManager.PARCELABLE_KEY, trackDTO);
+                                                startActivity(trackIntent);
+                                                break;
+                                        }
                                     }
                                 }
-                            }
-                        });
-                        mRecyclerView.setAdapter(mDevicesAdapter);
-                        mDevicesAdapter.notifyDataSetChanged();
+                            });
+                            mRecyclerView.setAdapter(mDevicesAdapter);
+                            mDevicesAdapter.notifyDataSetChanged();
+                        }else{
+                            showSnackbar(ErrorHandler.getErrorHandler(response.body().getCode(),ConstantManager.GET_DEVICES));
+
+                        }
                     } else if (response.code() == 404){
                         showSnackbar("Что-то пошло не так!");
                     } else {

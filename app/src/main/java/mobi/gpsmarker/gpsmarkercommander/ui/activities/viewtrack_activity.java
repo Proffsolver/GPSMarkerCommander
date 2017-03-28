@@ -2,8 +2,10 @@ package mobi.gpsmarker.gpsmarkercommander.ui.activities;
 
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 
 import com.mapbox.mapboxsdk.MapboxAccountManager;
 import com.mapbox.mapboxsdk.annotations.Icon;
@@ -22,6 +24,7 @@ public class viewtrack_activity extends AppCompatActivity {
 
     private MapView mapView;
     private MapboxMap mMapboxMap;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +32,8 @@ public class viewtrack_activity extends AppCompatActivity {
 
         MapboxAccountManager.start(this, getString(R.string.access_token));
         setContentView(activity_viewtrack);
-
-
-
+        mToolbar = (Toolbar) findViewById(R.id.map_toolbar);
+        setupToolbar();
         // Create a mapView
         mapView = (MapView) findViewById(R.id.mapview);
         mapView.onCreate(savedInstanceState);
@@ -55,7 +57,7 @@ public class viewtrack_activity extends AppCompatActivity {
             }
         });
     }
-
+/*
     @Override
     public void onResume() {
         super.onResume();
@@ -84,5 +86,15 @@ public class viewtrack_activity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
+    }*/
+
+
+
+    private void setupToolbar(){
+        setSupportActionBar(mToolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 }

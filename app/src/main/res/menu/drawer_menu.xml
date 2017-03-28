@@ -8,20 +8,25 @@
               android:icon="@drawable/ic_play_circle_filled_black_24dp"
               android:title="Команды"></item>-->
 
-        <item android:id="@+id/events_menu"
+<!--        <item android:id="@+id/events_menu"
               android:checkable="true"
               android:icon="@drawable/ic_new_releases_black_24dp"
-              android:title="Уведомления"></item>
+              android:title="Уведомления"></item>-->
 <!--
         <item android:id="@+id/maps_menu"
               android:checkable="true"
               android:icon="@drawable/ic_add_location_black_24dp"
               android:title="Карты"></item>-->
 
-        <item android:id="@+id/settings_menu"
+        <item android:id="@+id/change_pass_menu"
+              android:checkable="true"
+              android:icon="@drawable/ic_edit_black_24dp"
+              android:title="Сменить пароль"></item>
+
+        <item android:id="@+id/change_user_data_menu"
               android:checkable="true"
               android:icon="@drawable/ic_build_black_24dp"
-              android:title="Настройки"></item>
+              android:title="Данные пользователя"></item>
 
     </group>
 </menu>

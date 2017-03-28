@@ -1,35 +1,61 @@
 package mobi.gpsmarker.gpsmarkercommander.ui.activities.m180;
 
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SwitchCompat;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import java.util.List;
+
 import mobi.gpsmarker.gpsmarkercommander.R;
-import mobi.gpsmarker.gpsmarkercommander.data.storage.DeviceSettingsDTO;
+import mobi.gpsmarker.gpsmarkercommander.data.managers.DataManager;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Parameters.M180GetDeviceListPhonesData;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Parameters.M180GetDeviceListPhonesOption;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Parameters.M180GetDeviceListPhonesReq;
+import mobi.gpsmarker.gpsmarkercommander.data.network.res.M180.M180DeviceListPhonesRes;
+import mobi.gpsmarker.gpsmarkercommander.data.network.res.UserAccoutActionRes;
+import mobi.gpsmarker.gpsmarkercommander.data.storage.models.M180DeviceSettingsDTO;
 import mobi.gpsmarker.gpsmarkercommander.ui.activities.BaseActivity;
 import mobi.gpsmarker.gpsmarkercommander.utils.ConstantManager;
+import mobi.gpsmarker.gpsmarkercommander.utils.ErrorHandler;
+import mobi.gpsmarker.gpsmarkercommander.utils.NetworkStatusChecker;
+import mobi.gpsmarker.gpsmarkercommander.utils.UserInputChecker;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 
 public class M180ListPhonesActivity extends BaseActivity implements View.OnClickListener{
 
-    private DeviceSettingsDTO mDeviceSettingsDTO;
     private SwitchCompat mPhone1_Sw, mPhone2_Sw, mPhone3_Sw, mPhone4_Sw, mPhone5_Sw, mPhone6_Sw, mPhone7_Sw, mPhone8_Sw, mPhone9_Sw;
     private EditText mPhone1_Et, mPhone2_Et, mPhone3_Et, mPhone4_Et, mPhone5_Et, mPhone6_Et, mPhone7_Et, mPhone8_Et, mPhone9_Et;
     private Button mPhonesSaveBtn;
+    private Toolbar mToolbar;
+    private DataManager mDataManager;
+    private List<M180DeviceListPhonesRes.Datum> mDeviceListPhones;
+    private CoordinatorLayout mCoordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_M180_list_phones);
-        mDeviceSettingsDTO = getIntent().getParcelableExtra((ConstantManager.PARCELABLE_KEY));
+        setContentView(R.layout.m180_activity_list_phones);
+        mToolbar = (Toolbar) findViewById(R.id.M180_list_phones_toolbar);
+        setupToolbar();
+        mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.device_list_phones_coordinator_layout);
+        loadListPhonesFromInternet();
+        mDataManager = DataManager.getInstance();
 
         mPhone1_Et = (EditText) findViewById(R.id.phone_1_ed);
-        mPhone1_Et.setText(mDeviceSettingsDTO.getDTOPhone_1_device());
+        mPhone1_Et.setText(mDeviceListPhones.get(0).getPhone1Device());
 
         mPhone1_Sw = (SwitchCompat) findViewById(R.id.phone_1_sw);
         mPhone1_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -43,7 +69,7 @@ public class M180ListPhonesActivity extends BaseActivity implements View.OnClick
 
             }
         });
-        if (Integer.valueOf(mDeviceSettingsDTO.getDTOPhone_1_device_on())==1){
+        if (Integer.valueOf(mDeviceListPhones.get(1).getPhone1DeviceOn())==1){
             mPhone1_Sw.setText(getString(R.string.switchon));
             mPhone1_Sw.setChecked(TRUE);
         }else{
@@ -52,10 +78,10 @@ public class M180ListPhonesActivity extends BaseActivity implements View.OnClick
         }
 
         mPhone2_Et = (EditText) findViewById(R.id.phone_2_ed);
-        mPhone2_Et.setText(mDeviceSettingsDTO.getDTOPhone_2_device());
+        mPhone2_Et.setText(mDeviceListPhones.get(2).getPhone1Device());
 
         mPhone2_Sw = (SwitchCompat) findViewById(R.id.phone_2_sw);
-        if (Integer.valueOf(mDeviceSettingsDTO.getDTOPhone_2_device_on())==1){
+        if (Integer.valueOf(mDeviceListPhones.get(3).getPhone1DeviceOn())==1){
             mPhone2_Sw.setText(getString(R.string.switchon));
             mPhone2_Sw.setChecked(TRUE);
         }else{
@@ -75,10 +101,10 @@ public class M180ListPhonesActivity extends BaseActivity implements View.OnClick
         });
 
         mPhone3_Et = (EditText) findViewById(R.id.phone_3_ed);
-        mPhone3_Et.setText(mDeviceSettingsDTO.getDTOPhone_3_device());
+        mPhone3_Et.setText(mDeviceListPhones.get(4).getPhone1Device());
 
         mPhone3_Sw = (SwitchCompat) findViewById(R.id.phone_3_sw);
-        if (Integer.valueOf(mDeviceSettingsDTO.getDTOPhone_3_device_on())==1){
+        if (Integer.valueOf(mDeviceListPhones.get(5).getPhone1DeviceOn())==1){
             mPhone3_Sw.setText(getString(R.string.switchon));
             mPhone3_Sw.setChecked(TRUE);
         }else{
@@ -98,10 +124,10 @@ public class M180ListPhonesActivity extends BaseActivity implements View.OnClick
         });
 
         mPhone4_Et = (EditText) findViewById(R.id.phone_4_ed);
-        mPhone4_Et.setText(mDeviceSettingsDTO.getDTOPhone_4_device());
+        mPhone4_Et.setText(mDeviceListPhones.get(6).getPhone1Device());
 
         mPhone4_Sw = (SwitchCompat) findViewById(R.id.phone_4_sw);
-        if (Integer.valueOf(mDeviceSettingsDTO.getDTOPhone_4_device_on())==1){
+        if (Integer.valueOf(mDeviceListPhones.get(7).getPhone1DeviceOn())==1){
             mPhone4_Sw.setText(getString(R.string.switchon));
             mPhone4_Sw.setChecked(TRUE);
         }else{
@@ -121,10 +147,10 @@ public class M180ListPhonesActivity extends BaseActivity implements View.OnClick
         });
 
         mPhone5_Et = (EditText) findViewById(R.id.phone_5_ed);
-        mPhone5_Et.setText(mDeviceSettingsDTO.getDTOPhone_5_device());
+        mPhone5_Et.setText(mDeviceListPhones.get(8).getPhone1Device());
 
         mPhone5_Sw = (SwitchCompat) findViewById(R.id.phone_5_sw);
-        if (Integer.valueOf(mDeviceSettingsDTO.getDTOPhone_5_device_on())==1){
+        if (Integer.valueOf(mDeviceListPhones.get(9).getPhone1DeviceOn())==1){
             mPhone5_Sw.setText(getString(R.string.switchon));
             mPhone5_Sw.setChecked(TRUE);
         }else{
@@ -144,10 +170,10 @@ public class M180ListPhonesActivity extends BaseActivity implements View.OnClick
         });
 
         mPhone6_Et = (EditText) findViewById(R.id.phone_6_ed);
-        mPhone6_Et.setText(mDeviceSettingsDTO.getDTOPhone_6_device());
+        mPhone6_Et.setText(mDeviceListPhones.get(10).getPhone1Device());
 
         mPhone6_Sw = (SwitchCompat) findViewById(R.id.phone_6_sw);
-        if (Integer.valueOf(mDeviceSettingsDTO.getDTOPhone_6_device_on())==1){
+        if (Integer.valueOf(mDeviceListPhones.get(11).getPhone1DeviceOn())==1){
             mPhone6_Sw.setText(getString(R.string.switchon));
             mPhone6_Sw.setChecked(TRUE);
         }else{
@@ -167,10 +193,10 @@ public class M180ListPhonesActivity extends BaseActivity implements View.OnClick
         });
 
         mPhone7_Et = (EditText) findViewById(R.id.phone_7_ed);
-        mPhone7_Et.setText(mDeviceSettingsDTO.getDTOPhone_7_device());
+        mPhone7_Et.setText(mDeviceListPhones.get(12).getPhone1Device());
 
         mPhone7_Sw = (SwitchCompat) findViewById(R.id.phone_7_sw);
-        if (Integer.valueOf(mDeviceSettingsDTO.getDTOPhone_7_device_on())==1){
+        if (Integer.valueOf(mDeviceListPhones.get(13).getPhone1DeviceOn())==1){
             mPhone7_Sw.setText(getString(R.string.switchon));
             mPhone7_Sw.setChecked(TRUE);
         }else{
@@ -190,10 +216,10 @@ public class M180ListPhonesActivity extends BaseActivity implements View.OnClick
         });
 
         mPhone8_Et = (EditText) findViewById(R.id.phone_8_ed);
-        mPhone8_Et.setText(mDeviceSettingsDTO.getDTOPhone_8_device());
+        mPhone8_Et.setText(mDeviceListPhones.get(14).getPhone1Device());
 
         mPhone8_Sw = (SwitchCompat) findViewById(R.id.phone_8_sw);
-        if (Integer.valueOf(mDeviceSettingsDTO.getDTOPhone_8_device_on())==1){
+        if (Integer.valueOf(mDeviceListPhones.get(15).getPhone1DeviceOn())==1){
             mPhone8_Sw.setText(getString(R.string.switchon));
             mPhone8_Sw.setChecked(TRUE);
         }else{
@@ -213,10 +239,10 @@ public class M180ListPhonesActivity extends BaseActivity implements View.OnClick
         });
 
         mPhone9_Et = (EditText) findViewById(R.id.phone_9_ed);
-        mPhone9_Et.setText(mDeviceSettingsDTO.getDTOPhone_9_device());
+        mPhone9_Et.setText(mDeviceListPhones.get(16).getPhone1Device());
 
         mPhone9_Sw = (SwitchCompat) findViewById(R.id.phone_9_sw);
-        if (Integer.valueOf(mDeviceSettingsDTO.getDTOPhone_9_device_on())==1){
+        if (Integer.valueOf(mDeviceListPhones.get(17).getPhone1DeviceOn())==1){
             mPhone9_Sw.setText(getString(R.string.switchon));
             mPhone9_Sw.setChecked(TRUE);
         }else{
@@ -236,13 +262,149 @@ public class M180ListPhonesActivity extends BaseActivity implements View.OnClick
             }
         });
 
+        mPhonesSaveBtn = (Button) findViewById(R.id.phones_save_btn);
+        mPhonesSaveBtn.setOnClickListener(this);
+ /*       mPhone1_Et.addTextChangedListener(new UserInputChecker(getBaseContext(), mPhone1_Et, (TextInputLayout) findViewById(R.id.phone_1_til), mPhonesSaveBtn));
+        mPhone2_Et.addTextChangedListener(new UserInputChecker(getBaseContext(), mPhone2_Et, (TextInputLayout) findViewById(R.id.phone_2_til), mPhonesSaveBtn));
+        mPhone3_Et.addTextChangedListener(new UserInputChecker(getBaseContext(), mPhone3_Et, (TextInputLayout) findViewById(R.id.phone_3_til), mPhonesSaveBtn));
+        mPhone4_Et.addTextChangedListener(new UserInputChecker(getBaseContext(), mPhone4_Et, (TextInputLayout) findViewById(R.id.phone_4_til), mPhonesSaveBtn));
+        mPhone5_Et.addTextChangedListener(new UserInputChecker(getBaseContext(), mPhone5_Et, (TextInputLayout) findViewById(R.id.phone_5_til), mPhonesSaveBtn));
+        mPhone6_Et.addTextChangedListener(new UserInputChecker(getBaseContext(), mPhone6_Et, (TextInputLayout) findViewById(R.id.phone_6_til), mPhonesSaveBtn));
+        mPhone7_Et.addTextChangedListener(new UserInputChecker(getBaseContext(), mPhone7_Et, (TextInputLayout) findViewById(R.id.phone_7_til), mPhonesSaveBtn));
+        mPhone8_Et.addTextChangedListener(new UserInputChecker(getBaseContext(), mPhone8_Et, (TextInputLayout) findViewById(R.id.phone_8_til), mPhonesSaveBtn));
+        mPhone9_Et.addTextChangedListener(new UserInputChecker(getBaseContext(), mPhone9_Et, (TextInputLayout) findViewById(R.id.phone_9_til), mPhonesSaveBtn));*/
+
     }
 
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.phones_save_btn:
-                // TODO: Сделать сохранение данных и закрытие активити
-                break;
+        saveListPhonesFromInternet();
+        finish();
+    }
+
+    private void setupToolbar(){
+        setSupportActionBar(mToolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
         }
+    }
+
+    private void loadListPhonesFromInternet(){
+
+        if (NetworkStatusChecker.isNetworkAvailable(this)) {
+            Call<M180DeviceListPhonesRes> call = mDataManager.getDeviceListPhones(
+                    new M180GetDeviceListPhonesReq(ConstantManager.JSON_METHODS[ConstantManager.GET_DEVICES_DATA],
+                            new M180GetDeviceListPhonesOption(mDataManager.getPreferenceManager().getUserId(), mDataManager.getPreferenceManager().getAuthToken(), mDataManager.getPreferenceManager().getCurrentDeviceId(),
+                                    new M180GetDeviceListPhonesData(
+                                            ConstantManager.M180_PHONE_1_DEVICE, //11
+                                            ConstantManager.M180_PHONE_1_DEVICE_ON,
+                                            ConstantManager.M180_PHONE_2_DEVICE,
+                                            ConstantManager.M180_PHONE_2_DEVICE_ON,
+                                            ConstantManager.M180_PHONE_3_DEVICE, //15
+                                            ConstantManager.M180_PHONE_3_DEVICE_ON,
+                                            ConstantManager.M180_PHONE_4_DEVICE,
+                                            ConstantManager.M180_PHONE_4_DEVICE_ON,
+                                            ConstantManager.M180_PHONE_5_DEVICE,
+                                            ConstantManager.M180_PHONE_5_DEVICE_ON, //20
+                                            ConstantManager.M180_PHONE_6_DEVICE,
+                                            ConstantManager.M180_PHONE_6_DEVICE_ON,
+                                            ConstantManager.M180_PHONE_7_DEVICE,
+                                            ConstantManager.M180_PHONE_7_DEVICE_ON,
+                                            ConstantManager.M180_PHONE_8_DEVICE, //25
+                                            ConstantManager.M180_PHONE_8_DEVICE_ON,
+                                            ConstantManager.M180_PHONE_9_DEVICE,
+                                            ConstantManager.M180_PHONE_9_DEVICE_ON))));
+            call.enqueue(new Callback<M180DeviceListPhonesRes>() {
+                @Override
+                public void onResponse(Call<M180DeviceListPhonesRes> call, Response<M180DeviceListPhonesRes> response) {
+                    if (response.code() == 200) {
+                        if (response.body().getCode().equals(ConstantManager.NO_ERROR)) {
+                            //showSnackbar(ErrorHandler.getErrorHandler(response.body().getCode(),ConstantManager.GET_DEVICES_DATA));
+                            mDeviceListPhones = response.body().getData();
+
+                        } else {
+                            showSnackbar(ErrorHandler.getErrorHandler(response.body().getCode(), ConstantManager.GET_DEVICES_DATA));
+                        }
+                    } else if (response.code() == 404) {
+                        showSnackbar("Что-то пошло не так!");
+                    } else {
+                        showSnackbar("Что-то пошло не так!");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<M180DeviceListPhonesRes> call, Throwable t) {
+
+                }
+            });
+        }else{
+                showSnackbar("Сеть на данный момент не доступна, попробуйте позже.");
+            }
+        }
+
+    private void saveListPhonesFromInternet(){
+
+        if (NetworkStatusChecker.isNetworkAvailable(this)) {
+            Call<UserAccoutActionRes> call = mDataManager.setDeviceListPhones(
+                    new M180GetDeviceListPhonesReq(ConstantManager.JSON_METHODS[ConstantManager.SET_DEVICE_DATA],
+                            new M180GetDeviceListPhonesOption(mDataManager.getPreferenceManager().getUserId(), mDataManager.getPreferenceManager().getAuthToken(), mDataManager.getPreferenceManager().getCurrentDeviceId(),
+                                    new M180GetDeviceListPhonesData(
+                                            String.valueOf(mPhone1_Et.getText().toString()),
+                                            String.valueOf(checkerSW(mPhone1_Sw)),
+                                            String.valueOf(mPhone2_Et.getText().toString()),
+                                            String.valueOf(checkerSW(mPhone2_Sw)),
+                                            String.valueOf(mPhone3_Et.getText().toString()),
+                                            String.valueOf(checkerSW(mPhone3_Sw)),
+                                            String.valueOf(mPhone4_Et.getText().toString()),
+                                            String.valueOf(checkerSW(mPhone4_Sw)),
+                                            String.valueOf(mPhone5_Et.getText().toString()),
+                                            String.valueOf(checkerSW(mPhone5_Sw)),
+                                            String.valueOf(mPhone6_Et.getText().toString()),
+                                            String.valueOf(checkerSW(mPhone6_Sw)),
+                                            String.valueOf(mPhone7_Et.getText().toString()),
+                                            String.valueOf(checkerSW(mPhone7_Sw)),
+                                            String.valueOf(mPhone8_Et.getText().toString()),
+                                            String.valueOf(checkerSW(mPhone8_Sw)),
+                                            String.valueOf(mPhone9_Et.getText().toString()),
+                                            String.valueOf(checkerSW(mPhone9_Sw))))));
+            call.enqueue(new Callback<UserAccoutActionRes>() {
+                @Override
+                public void onResponse(Call<UserAccoutActionRes> call, Response<UserAccoutActionRes> response) {
+                    if (response.code() == 200) {
+                        if (response.body().getCode().equals(ConstantManager.NO_ERROR)) {
+                            showSnackbar(ErrorHandler.getErrorHandler(response.body().getCode(),ConstantManager.SET_DEVICE_DATA));
+                        } else {
+                            showSnackbar(ErrorHandler.getErrorHandler(response.body().getCode(), ConstantManager.SET_DEVICE_DATA));
+                        }
+                    } else if (response.code() == 404) {
+                        showSnackbar("Что-то пошло не так!");
+                    } else {
+                        showSnackbar("Что-то пошло не так!");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<UserAccoutActionRes> call, Throwable t) {
+
+                }
+            });
+        }else{
+            showSnackbar("Сеть на данный момент не доступна, попробуйте позже.");
+        }
+    }
+
+    private void showSnackbar(String message){
+        Snackbar.make(mCoordinatorLayout, message,Snackbar.LENGTH_LONG).show();
+    }
+
+    private int checkerSW(SwitchCompat sw){
+        int iCh;
+        if(sw.isChecked()){
+            iCh=1;
+        }
+        else{
+            iCh=0;
+        }
+        return iCh;
     }
 }

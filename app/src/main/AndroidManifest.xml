@@ -10,53 +10,117 @@
     <application
         android:name=".utils.GPSMarkerCommanderApp"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/gpsmarker"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activities.MainActivity">
-<!--                <intent-filter>
+        <activity
+            android:name=".ui.activities.MainActivity"
+            android:screenOrientation="portrait">
+
+            <!--
+                    <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>-->
+            </intent-filter>
+            -->
         </activity>
-        <activity android:name=".ui.activities.control_activity">
+        <activity
+            android:name=".ui.activities.control_activity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ui.activities.settings_m180_activity">
-<!--            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+        <activity
+            android:name=".ui.activities.M180SettingsActivity"
+            android:parentActivityName=".ui.activities.MainActivity"
+            android:screenOrientation="portrait">
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>-->
-        </activity>
-        <activity android:name=".ui.activities.viewtrack_activity">
-        </activity>
-        <activity android:name=".ui.activities.AuthActivity">
+            <!--
                 <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            -->
+
+        </activity>
+        <activity
+            android:name=".ui.activities.viewtrack_activity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".ui.activities.AuthActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <service android:name="com.mapbox.mapboxsdk.telemetry.TelemetryService"/>
+        <service android:name="com.mapbox.mapboxsdk.telemetry.TelemetryService" android:parentActivityName=".ui.activities.MainActivity" android:screenOrientation="portrait"/>
 
-        <activity android:name=".ui.activities.m180.M180ChangeNameActivity">
+        <activity
+            android:name=".ui.activities.m180.M180ChangeNameActivity"
+            android:parentActivityName=".ui.activities.M180SettingsActivity"
+            android:screenOrientation="portrait">
         </activity>
-            <activity android:name=".ui.activities.m180.M180ListPhonesActivity">
+        <activity
+            android:name=".ui.activities.m180.M180ListPhonesActivity"
+            android:parentActivityName=".ui.activities.M180SettingsActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ui.activities.m180.M180ListAlarmActivity">
+        <activity
+            android:name=".ui.activities.m180.M180ListAlarmActivity"
+            android:parentActivityName=".ui.activities.M180SettingsActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ui.activities.m180.M180SettingTempIntervalActivity">
+        <activity
+            android:name=".ui.activities.m180.M180SettingTempIntervalActivity"
+            android:parentActivityName=".ui.activities.M180SettingsActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ui.activities.m180.M180ChangeModeTempSignalActivity">
+        <activity
+            android:name=".ui.activities.m180.M180ChangeModeTempSignalActivity"
+            android:parentActivityName=".ui.activities.M180SettingsActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ui.activities.m180.M180SettingOperationCellularActivity">
+        <activity
+            android:name=".ui.activities.m180.M180SettingOperationCellularActivity"
+            android:parentActivityName=".ui.activities.M180SettingsActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ui.activities.m180.M180SettingMonitoringServerActivity">
+        <activity
+            android:name=".ui.activities.m180.M180SettingMonitoringServerActivity"
+            android:parentActivityName=".ui.activities.M180SettingsActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ui.activities.m180.M180GeoPointActivity">
+        <activity
+            android:name=".ui.activities.m180.M180GeoPointActivity"
+            android:parentActivityName=".ui.activities.M180SettingsActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".ui.activities.UserRegistrationActivity"
+            android:parentActivityName=".ui.activities.AuthActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".ui.activities.AddDeviceActivity"
+            android:parentActivityName=".ui.activities.MainActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".ui.activities.UserRememberPasswordActivity"
+                  android:parentActivityName=".ui.activities.AuthActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".ui.activities.UserChangeDataActivity"
+                  android:parentActivityName=".ui.activities.MainActivity"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".ui.activities.UserChangePasswordActivity"
+                  android:parentActivityName=".ui.activities.MainActivity"
+                  android:screenOrientation="portrait">
         </activity>
     </application>
 

@@ -1,0 +1,1010 @@
+package mobi.gpsmarker.gpsmarkercommander.data.network.res.M180;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
+import static android.R.attr.data;
+
+public class M180SettingsDeviceRes {
+
+    @SerializedName("error")
+    @Expose
+    private String error;
+
+    public String getCode() {
+        return code;
+    }
+
+    @SerializedName("code")
+    @Expose
+    private String code;
+
+    @SerializedName("data")
+    @Expose
+    private List<Datum> data = null;
+
+    public String getError() {
+        return error;
+    }
+
+    public List<Datum> getData() {
+        return data;
+    }
+
+    public class Datum {
+
+        @SerializedName("error")
+        @Expose
+        public String error;
+        @SerializedName("mode_device")
+        @Expose
+        public int modeDevice;
+        @SerializedName("language_device")
+        @Expose
+        public int languageDevice;
+        @SerializedName("name_device")
+        @Expose
+        public String nameDevice;
+        @SerializedName("name_device_on")
+        @Expose
+        public int nameDeviceOn;
+        @SerializedName("gps_url_device")
+        @Expose
+        public int gpsUrlDevice;
+        @SerializedName("gps_device_on")
+        @Expose
+        public int gpsDeviceOn;
+        @SerializedName("unsleep_sms_device")
+        @Expose
+        public int unsleepSmsDevice;
+        @SerializedName("worry_call_device")
+        @Expose
+        public int worryCallDevice;
+        @SerializedName("time_park_device")
+        @Expose
+        public String timeParkDevice;
+        @SerializedName("utc_device")
+        @Expose
+        public String utcDevice;
+        @SerializedName("lbs_device_on")
+        @Expose
+        public int lbsDeviceOn;
+        @SerializedName("phone_1_device")
+        @Expose
+        public String phone1Device;
+        @SerializedName("phone_1_device_on")
+        @Expose
+        public int phone1DeviceOn;
+        @SerializedName("phone_2_device")
+        @Expose
+        public String phone2Device;
+        @SerializedName("phone_2_device_on")
+        @Expose
+        public int phone2DeviceOn;
+        @SerializedName("phone_3_device")
+        @Expose
+        public String phone3Device;
+        @SerializedName("phone_3_device_on")
+        @Expose
+        public int phone3DeviceOn;
+        @SerializedName("phone_4_device")
+        @Expose
+        public String phone4Device;
+        @SerializedName("phone_4_device_on")
+        @Expose
+        public int phone4DeviceOn;
+        @SerializedName("phone_5_device")
+        @Expose
+        public String phone5Device;
+        @SerializedName("phone_5_device_on")
+        @Expose
+        public int phone5DeviceOn;
+        @SerializedName("phone_6_device")
+        @Expose
+        public String phone6Device;
+        @SerializedName("phone_6_device_on")
+        @Expose
+        public int phone6DeviceOn;
+        @SerializedName("phone_7_device")
+        @Expose
+        public String phone7Device;
+        @SerializedName("phone_7_device_on")
+        @Expose
+        public int phone7DeviceOn;
+        @SerializedName("phone_8_device")
+        @Expose
+        public String phone8Device;
+        @SerializedName("phone_8_device_on")
+        @Expose
+        public int phone8DeviceOn;
+        @SerializedName("phone_9_device")
+        @Expose
+        public String phone9Device;
+        @SerializedName("phone_9_device_on")
+        @Expose
+        public int phone9DeviceOn;
+        @SerializedName("unsleep_alarm_device")
+        @Expose
+        public String unsleepAlarmDevice;
+        @SerializedName("alarm_1_device")
+        @Expose
+        public String alarm1Device;
+        @SerializedName("alarm_1_device_on")
+        @Expose
+        public int alarm1DeviceOn;
+        @SerializedName("alarm_2_device")
+        @Expose
+        public String alarm2Device;
+        @SerializedName("alarm_2_device_on")
+        @Expose
+        public int alarm2DeviceOn;
+        @SerializedName("alarm_3_device")
+        @Expose
+        public String alarm3Device;
+        @SerializedName("alarm_3_device_on")
+        @Expose
+        public int alarm3DeviceOn;
+        @SerializedName("alarm_4_device")
+        @Expose
+        public String alarm4Device;
+        @SerializedName("alarm_4_device_on")
+        @Expose
+        public int alarm4DeviceOn;
+        @SerializedName("alarm_5_device")
+        @Expose
+        public String alarm5Device;
+        @SerializedName("alarm_5_device_on")
+        @Expose
+        public int alarm5DeviceOn;
+        @SerializedName("alarm_6_device")
+        @Expose
+        public String alarm6Device;
+        @SerializedName("alarm_6_device_on")
+        @Expose
+        public int alarm6DeviceOn;
+        @SerializedName("alarm_7_device")
+        @Expose
+        public String alarm7Device;
+        @SerializedName("alarm_7_device_on")
+        @Expose
+        public int alarm7DeviceOn;
+        @SerializedName("alarm_8_device")
+        @Expose
+        public String alarm8Device;
+        @SerializedName("alarm_8_device_on")
+        @Expose
+        public int alarm8DeviceOn;
+        @SerializedName("alarm_9_device")
+        @Expose
+        public String alarm9Device;
+        @SerializedName("alarm_9_device_on")
+        @Expose
+        public int alarm9DeviceOn;
+        @SerializedName("balance_device_on")
+        @Expose
+        public int balanceDeviceOn;
+        @SerializedName("min_balance_device")
+        @Expose
+        public String minBalanceDevice;
+       @SerializedName("ussd_balance_device")
+        @Expose
+        public String ussdBalanceDevice;
+        @SerializedName("button_device_on")
+        @Expose
+        public int buttonDeviceOn;
+        @SerializedName("move_device")
+        @Expose
+        public int moveDevice;
+        @SerializedName("move_device_on")
+        @Expose
+        public int moveDeviceOn;
+        @SerializedName("unmove_device")
+        @Expose
+        public int unmoveDevice;
+        @SerializedName("unmove_device_on")
+        @Expose
+        public int unmoveDeviceOn;
+        @SerializedName("speed_device")
+        @Expose
+        public int speedDevice;
+        @SerializedName("speed_device_on")
+        @Expose
+        public int speedDeviceOn;
+        @SerializedName("jack_device_on")
+        @Expose
+        public int jackDeviceOn;
+        @SerializedName("temp_device_on")
+        @Expose
+        public int tempDeviceOn;
+        @SerializedName("temp_device_1")
+        @Expose
+        public String tempDevice1;
+        @SerializedName("temp_device_2")
+        @Expose
+        public String tempDevice2;
+        @SerializedName("temp_relay_device")
+        @Expose
+        public int tempRelayDevice;
+        @SerializedName("temp_relay_sms_device")
+        @Expose
+        public int tempRelaySmsDevice;
+        @SerializedName("temp_imp_device")
+        @Expose
+        public int tempImpDevice;
+        @SerializedName("internet_device_on")
+        @Expose
+        public int internetDeviceOn;
+        @SerializedName("url_server_device")
+        @Expose
+        public String urlServerDevice;
+        @SerializedName("port_sever_device")
+        @Expose
+        public int portSeverDevice;
+        @SerializedName("url_apn_device")
+        @Expose
+        public String urlApnDevice;
+        @SerializedName("login_apn_device")
+        @Expose
+        public String loginApnDevice;
+        @SerializedName("password_apn_device")
+        @Expose
+        public String passwordApnDevice;
+        @SerializedName("time_send_message_device")
+        @Expose
+        public int timeSendMessageDevice;
+        @SerializedName("adtrack_device_on")
+        @Expose
+        public int adtrackDeviceOn;
+        @SerializedName("date_device_data")
+        @Expose
+        public String dateDeviceData;
+        @SerializedName("battery_device")
+        @Expose
+        public String batteryDevice;
+        @SerializedName("longitube_device_gps")
+        @Expose
+        public int longitubeDeviceGps;
+        @SerializedName("latitube_device_gps")
+        @Expose
+        public int latitubeDeviceGps;
+        @SerializedName("date_device_gps")
+        @Expose
+        public String dateDeviceGps;
+        @SerializedName("count_device_gps")
+        @Expose
+        public String countDeviceGps;
+        @SerializedName("longitube_device_lbs")
+        @Expose
+        public int longitubeDeviceLbs;
+        @SerializedName("latitube_device_lbs")
+        @Expose
+        public int latitubeDeviceLbs;
+        @SerializedName("date_device_lbs")
+        @Expose
+        public String dateDeviceLbs;
+        @SerializedName("count_device_lbs")
+        @Expose
+        public String countDeviceLbs;
+        @SerializedName("balance_device")
+        @Expose
+        public String balanceDevice;
+        @SerializedName("temp_device")
+        @Expose
+        public String tempDevice;
+        @SerializedName("longitube_device")
+        @Expose
+        public String longitubeDevice;
+        @SerializedName("latitube_device")
+        @Expose
+        public String latitubeDevice;
+        @SerializedName("radius_device")
+        @Expose
+        public int radiusDevice;
+
+        public int getAdtrackDeviceOn() {
+            return adtrackDeviceOn;
+        }
+
+        public String getAlarm1Device() {
+            return alarm1Device;
+        }
+
+        public int getAlarm1DeviceOn() {
+            return alarm1DeviceOn;
+        }
+
+        public String getAlarm2Device() {
+            return alarm2Device;
+        }
+
+        public int getAlarm2DeviceOn() {
+            return alarm2DeviceOn;
+        }
+
+        public String getAlarm3Device() {
+            return alarm3Device;
+        }
+
+        public int getAlarm3DeviceOn() {
+            return alarm3DeviceOn;
+        }
+
+        public String getAlarm4Device() {
+            return alarm4Device;
+        }
+
+        public int getAlarm4DeviceOn() {
+            return alarm4DeviceOn;
+        }
+
+        public String getAlarm5Device() {
+            return alarm5Device;
+        }
+
+        public int getAlarm5DeviceOn() {
+            return alarm5DeviceOn;
+        }
+
+        public String getAlarm6Device() {
+            return alarm6Device;
+        }
+
+        public int getAlarm6DeviceOn() {
+            return alarm6DeviceOn;
+        }
+
+        public String getAlarm7Device() {
+            return alarm7Device;
+        }
+
+        public int getAlarm7DeviceOn() {
+            return alarm7DeviceOn;
+        }
+
+        public String getAlarm8Device() {
+            return alarm8Device;
+        }
+
+        public int getAlarm8DeviceOn() {
+            return alarm8DeviceOn;
+        }
+
+        public String getAlarm9Device() {
+            return alarm9Device;
+        }
+
+        public int getAlarm9DeviceOn() {
+            return alarm9DeviceOn;
+        }
+
+        public String getBalanceDevice() {
+            return balanceDevice;
+        }
+
+        public int getBalanceDeviceOn() {
+            return balanceDeviceOn;
+        }
+
+        public String getBatteryDevice() {
+            return batteryDevice;
+        }
+
+        public int getButtonDeviceOn() {
+            return buttonDeviceOn;
+        }
+
+        public String getCountDeviceGps() {
+            return countDeviceGps;
+        }
+
+        public String getCountDeviceLbs() {
+            return countDeviceLbs;
+        }
+
+        public String getDateDeviceData() {
+            return dateDeviceData;
+        }
+
+        public String getDateDeviceGps() {
+            return dateDeviceGps;
+        }
+
+        public String getDateDeviceLbs() {
+            return dateDeviceLbs;
+        }
+
+        public int getGpsDeviceOn() {
+            return gpsDeviceOn;
+        }
+
+        public int getGpsUrlDevice() {
+            return gpsUrlDevice;
+        }
+
+        public int getInternetDeviceOn() {
+            return internetDeviceOn;
+        }
+
+        public int getJackDeviceOn() {
+            return jackDeviceOn;
+        }
+
+        public int getLanguageDevice() {
+            return languageDevice;
+        }
+
+        public String getLatitubeDevice() {
+            return latitubeDevice;
+        }
+
+        public int getLatitubeDeviceGps() {
+            return latitubeDeviceGps;
+        }
+
+        public int getLatitubeDeviceLbs() {
+            return latitubeDeviceLbs;
+        }
+
+        public int getLbsDeviceOn() {
+            return lbsDeviceOn;
+        }
+
+        public String getLoginApnDevice() {
+            return loginApnDevice;
+        }
+
+        public String getLongitubeDevice() {
+            return longitubeDevice;
+        }
+
+        public int getLongitubeDeviceGps() {
+            return longitubeDeviceGps;
+        }
+
+        public int getLongitubeDeviceLbs() {
+            return longitubeDeviceLbs;
+        }
+
+        public String getMinBalanceDevice() {
+            return minBalanceDevice;
+        }
+
+        public int getModeDevice() {
+            return modeDevice;
+        }
+
+        public int getMoveDevice() {
+            return moveDevice;
+        }
+
+        public int getMoveDeviceOn() {
+            return moveDeviceOn;
+        }
+
+        public String getNameDevice() {
+            return nameDevice;
+        }
+
+        public int getNameDeviceOn() {
+            return nameDeviceOn;
+        }
+
+        public String getPasswordApnDevice() {
+            return passwordApnDevice;
+        }
+
+        public String getPhone1Device() {
+            return phone1Device;
+        }
+
+        public int getPhone1DeviceOn() {
+            return phone1DeviceOn;
+        }
+
+        public String getPhone2Device() {
+            return phone2Device;
+        }
+
+        public int getPhone2DeviceOn() {
+            return phone2DeviceOn;
+        }
+
+        public String getPhone3Device() {
+            return phone3Device;
+        }
+
+        public int getPhone3DeviceOn() {
+            return phone3DeviceOn;
+        }
+
+        public String getPhone4Device() {
+            return phone4Device;
+        }
+
+        public int getPhone4DeviceOn() {
+            return phone4DeviceOn;
+        }
+
+        public String getPhone5Device() {
+            return phone5Device;
+        }
+
+        public int getPhone5DeviceOn() {
+            return phone5DeviceOn;
+        }
+
+        public String getPhone6Device() {
+            return phone6Device;
+        }
+
+        public int getPhone6DeviceOn() {
+            return phone6DeviceOn;
+        }
+
+        public String getPhone7Device() {
+            return phone7Device;
+        }
+
+        public int getPhone7DeviceOn() {
+            return phone7DeviceOn;
+        }
+
+        public String getPhone8Device() {
+            return phone8Device;
+        }
+
+        public int getPhone8DeviceOn() {
+            return phone8DeviceOn;
+        }
+
+        public String getPhone9Device() {
+            return phone9Device;
+        }
+
+        public int getPhone9DeviceOn() {
+            return phone9DeviceOn;
+        }
+
+        public int getPortSeverDevice() {
+            return portSeverDevice;
+        }
+
+        public int getRadiusDevice() {
+            return radiusDevice;
+        }
+
+        public int getSpeedDevice() {
+            return speedDevice;
+        }
+
+        public int getSpeedDeviceOn() {
+            return speedDeviceOn;
+        }
+
+        public String getTempDevice() {
+            return tempDevice;
+        }
+
+        public String getTempDevice1() {
+            return tempDevice1;
+        }
+
+        public String getTempDevice2() {
+            return tempDevice2;
+        }
+
+        public int getTempDeviceOn() {
+            return tempDeviceOn;
+        }
+
+        public int getTempImpDevice() {
+            return tempImpDevice;
+        }
+
+        public int getTempRelayDevice() {
+            return tempRelayDevice;
+        }
+
+        public int getTempRelaySmsDevice() {
+            return tempRelaySmsDevice;
+        }
+
+        public String getTimeParkDevice() {
+            return timeParkDevice;
+        }
+
+        public int getTimeSendMessageDevice() {
+            return timeSendMessageDevice;
+        }
+
+        public int getUnmoveDevice() {
+            return unmoveDevice;
+        }
+
+        public int getUnmoveDeviceOn() {
+            return unmoveDeviceOn;
+        }
+
+        public String getUnsleepAlarmDevice() {
+            return unsleepAlarmDevice;
+        }
+
+        public int getUnsleepSmsDevice() {
+            return unsleepSmsDevice;
+        }
+
+        public String getUrlApnDevice() {
+            return urlApnDevice;
+        }
+
+        public String getUrlServerDevice() {
+            return urlServerDevice;
+        }
+
+        public void setModeDevice(int modeDevice) {
+            this.modeDevice = modeDevice;
+        }
+
+        public void setLanguageDevice(int languageDevice) {
+            this.languageDevice = languageDevice;
+        }
+
+        public void setNameDevice(String nameDevice) {
+            this.nameDevice = nameDevice;
+        }
+
+        public void setNameDeviceOn(int nameDeviceOn) {
+            this.nameDeviceOn = nameDeviceOn;
+        }
+
+        public void setGpsUrlDevice(int gpsUrlDevice) {
+            this.gpsUrlDevice = gpsUrlDevice;
+        }
+
+        public void setGpsDeviceOn(int gpsDeviceOn) {
+            this.gpsDeviceOn = gpsDeviceOn;
+        }
+
+        public void setUnsleepSmsDevice(int unsleepSmsDevice) {
+            this.unsleepSmsDevice = unsleepSmsDevice;
+        }
+
+        public void setWorryCallDevice(int worryCallDevice) {
+            this.worryCallDevice = worryCallDevice;
+        }
+
+        public void setTimeParkDevice(String timeParkDevice) {
+            this.timeParkDevice = timeParkDevice;
+        }
+
+        public void setUtcDevice(String utcDevice) {
+            this.utcDevice = utcDevice;
+        }
+
+        public void setLbsDeviceOn(int lbsDeviceOn) {
+            this.lbsDeviceOn = lbsDeviceOn;
+        }
+
+        public void setPhone1Device(String phone1Device) {
+            this.phone1Device = phone1Device;
+        }
+
+        public void setPhone1DeviceOn(int phone1DeviceOn) {
+            this.phone1DeviceOn = phone1DeviceOn;
+        }
+
+        public void setPhone2Device(String phone2Device) {
+            this.phone2Device = phone2Device;
+        }
+
+        public void setPhone2DeviceOn(int phone2DeviceOn) {
+            this.phone2DeviceOn = phone2DeviceOn;
+        }
+
+        public void setPhone3Device(String phone3Device) {
+            this.phone3Device = phone3Device;
+        }
+
+        public void setPhone3DeviceOn(int phone3DeviceOn) {
+            this.phone3DeviceOn = phone3DeviceOn;
+        }
+
+        public void setPhone4Device(String phone4Device) {
+            this.phone4Device = phone4Device;
+        }
+
+        public void setPhone4DeviceOn(int phone4DeviceOn) {
+            this.phone4DeviceOn = phone4DeviceOn;
+        }
+
+        public void setPhone5Device(String phone5Device) {
+            this.phone5Device = phone5Device;
+        }
+
+        public void setPhone5DeviceOn(int phone5DeviceOn) {
+            this.phone5DeviceOn = phone5DeviceOn;
+        }
+
+        public void setPhone6Device(String phone6Device) {
+            this.phone6Device = phone6Device;
+        }
+
+        public void setPhone6DeviceOn(int phone6DeviceOn) {
+            this.phone6DeviceOn = phone6DeviceOn;
+        }
+
+        public void setPhone7Device(String phone7Device) {
+            this.phone7Device = phone7Device;
+        }
+
+        public void setPhone7DeviceOn(int phone7DeviceOn) {
+            this.phone7DeviceOn = phone7DeviceOn;
+        }
+
+        public void setPhone8Device(String phone8Device) {
+            this.phone8Device = phone8Device;
+        }
+
+        public void setPhone8DeviceOn(int phone8DeviceOn) {
+            this.phone8DeviceOn = phone8DeviceOn;
+        }
+
+        public void setPhone9Device(String phone9Device) {
+            this.phone9Device = phone9Device;
+        }
+
+        public void setPhone9DeviceOn(int phone9DeviceOn) {
+            this.phone9DeviceOn = phone9DeviceOn;
+        }
+
+        public void setUnsleepAlarmDevice(String unsleepAlarmDevice) {
+            this.unsleepAlarmDevice = unsleepAlarmDevice;
+        }
+
+        public void setAlarm1Device(String alarm1Device) {
+            this.alarm1Device = alarm1Device;
+        }
+
+        public void setAlarm1DeviceOn(int alarm1DeviceOn) {
+            this.alarm1DeviceOn = alarm1DeviceOn;
+        }
+
+        public void setAlarm2Device(String alarm2Device) {
+            this.alarm2Device = alarm2Device;
+        }
+
+        public void setAlarm2DeviceOn(int alarm2DeviceOn) {
+            this.alarm2DeviceOn = alarm2DeviceOn;
+        }
+
+        public void setAlarm3Device(String alarm3Device) {
+            this.alarm3Device = alarm3Device;
+        }
+
+        public void setAlarm3DeviceOn(int alarm3DeviceOn) {
+            this.alarm3DeviceOn = alarm3DeviceOn;
+        }
+
+        public void setAlarm4Device(String alarm4Device) {
+            this.alarm4Device = alarm4Device;
+        }
+
+        public void setAlarm4DeviceOn(int alarm4DeviceOn) {
+            this.alarm4DeviceOn = alarm4DeviceOn;
+        }
+
+        public void setAlarm5Device(String alarm5Device) {
+            this.alarm5Device = alarm5Device;
+        }
+
+        public void setAlarm5DeviceOn(int alarm5DeviceOn) {
+            this.alarm5DeviceOn = alarm5DeviceOn;
+        }
+
+        public void setAlarm6Device(String alarm6Device) {
+            this.alarm6Device = alarm6Device;
+        }
+
+        public void setAlarm6DeviceOn(int alarm6DeviceOn) {
+            this.alarm6DeviceOn = alarm6DeviceOn;
+        }
+
+        public void setAlarm7Device(String alarm7Device) {
+            this.alarm7Device = alarm7Device;
+        }
+
+        public void setAlarm7DeviceOn(int alarm7DeviceOn) {
+            this.alarm7DeviceOn = alarm7DeviceOn;
+        }
+
+        public void setAlarm8Device(String alarm8Device) {
+            this.alarm8Device = alarm8Device;
+        }
+
+        public void setAlarm8DeviceOn(int alarm8DeviceOn) {
+            this.alarm8DeviceOn = alarm8DeviceOn;
+        }
+
+        public void setAlarm9Device(String alarm9Device) {
+            this.alarm9Device = alarm9Device;
+        }
+
+        public void setAlarm9DeviceOn(int alarm9DeviceOn) {
+            this.alarm9DeviceOn = alarm9DeviceOn;
+        }
+
+        public void setBalanceDeviceOn(int balanceDeviceOn) {
+            this.balanceDeviceOn = balanceDeviceOn;
+        }
+
+        public void setMinBalanceDevice(String minBalanceDevice) {
+            this.minBalanceDevice = minBalanceDevice;
+        }
+
+/*        public void setUssdBalanceDevice(String ussdBalanceDevice) {
+            this.ussdBalanceDevice = ussdBalanceDevice;
+        }*/
+
+        public void setButtonDeviceOn(int buttonDeviceOn) {
+            this.buttonDeviceOn = buttonDeviceOn;
+        }
+
+        public void setMoveDevice(int moveDevice) {
+            this.moveDevice = moveDevice;
+        }
+
+        public void setMoveDeviceOn(int moveDeviceOn) {
+            this.moveDeviceOn = moveDeviceOn;
+        }
+
+        public void setUnmoveDevice(int unmoveDevice) {
+            this.unmoveDevice = unmoveDevice;
+        }
+
+        public void setUnmoveDeviceOn(int unmoveDeviceOn) {
+            this.unmoveDeviceOn = unmoveDeviceOn;
+        }
+
+        public void setSpeedDevice(int speedDevice) {
+            this.speedDevice = speedDevice;
+        }
+
+        public void setSpeedDeviceOn(int speedDeviceOn) {
+            this.speedDeviceOn = speedDeviceOn;
+        }
+
+        public void setJackDeviceOn(int jackDeviceOn) {
+            this.jackDeviceOn = jackDeviceOn;
+        }
+
+        public void setTempDeviceOn(int tempDeviceOn) {
+            this.tempDeviceOn = tempDeviceOn;
+        }
+
+        public void setTempDevice1(String tempDevice1) {
+            this.tempDevice1 = tempDevice1;
+        }
+
+        public void setTempDevice2(String tempDevice2) {
+            this.tempDevice2 = tempDevice2;
+        }
+
+        public void setTempRelayDevice(int tempRelayDevice) {
+            this.tempRelayDevice = tempRelayDevice;
+        }
+
+        public void setTempRelaySmsDevice(int tempRelaySmsDevice) {
+            this.tempRelaySmsDevice = tempRelaySmsDevice;
+        }
+
+        public void setTempImpDevice(int tempImpDevice) {
+            this.tempImpDevice = tempImpDevice;
+        }
+
+        public void setInternetDeviceOn(int internetDeviceOn) {
+            this.internetDeviceOn = internetDeviceOn;
+        }
+
+        public void setUrlServerDevice(String urlServerDevice) {
+            this.urlServerDevice = urlServerDevice;
+        }
+
+        public void setPortSeverDevice(int portSeverDevice) {
+            this.portSeverDevice = portSeverDevice;
+        }
+
+        public void setUrlApnDevice(String urlApnDevice) {
+            this.urlApnDevice = urlApnDevice;
+        }
+
+        public void setLoginApnDevice(String loginApnDevice) {
+            this.loginApnDevice = loginApnDevice;
+        }
+
+        public void setPasswordApnDevice(String passwordApnDevice) {
+            this.passwordApnDevice = passwordApnDevice;
+        }
+
+        public void setTimeSendMessageDevice(int timeSendMessageDevice) {
+            this.timeSendMessageDevice = timeSendMessageDevice;
+        }
+
+        public void setAdtrackDeviceOn(int adtrackDeviceOn) {
+            this.adtrackDeviceOn = adtrackDeviceOn;
+        }
+
+        public void setDateDeviceData(String dateDeviceData) {
+            this.dateDeviceData = dateDeviceData;
+        }
+
+        public void setBatteryDevice(String batteryDevice) {
+            this.batteryDevice = batteryDevice;
+        }
+
+        public void setLongitubeDeviceGps(int longitubeDeviceGps) {
+            this.longitubeDeviceGps = longitubeDeviceGps;
+        }
+
+        public void setLatitubeDeviceGps(int latitubeDeviceGps) {
+            this.latitubeDeviceGps = latitubeDeviceGps;
+        }
+
+        public void setDateDeviceGps(String dateDeviceGps) {
+            this.dateDeviceGps = dateDeviceGps;
+        }
+
+        public void setCountDeviceGps(String countDeviceGps) {
+            this.countDeviceGps = countDeviceGps;
+        }
+
+        public void setLongitubeDeviceLbs(int longitubeDeviceLbs) {
+            this.longitubeDeviceLbs = longitubeDeviceLbs;
+        }
+
+        public void setLatitubeDeviceLbs(int latitubeDeviceLbs) {
+            this.latitubeDeviceLbs = latitubeDeviceLbs;
+        }
+
+        public void setDateDeviceLbs(String dateDeviceLbs) {
+            this.dateDeviceLbs = dateDeviceLbs;
+        }
+
+        public void setCountDeviceLbs(String countDeviceLbs) {
+            this.countDeviceLbs = countDeviceLbs;
+        }
+
+        public void setBalanceDevice(String balanceDevice) {
+            this.balanceDevice = balanceDevice;
+        }
+
+        public void setTempDevice(String tempDevice) {
+            this.tempDevice = tempDevice;
+        }
+
+        public void setLongitubeDevice(String longitubeDevice) {
+            this.longitubeDevice = longitubeDevice;
+        }
+
+        public void setLatitubeDevice(String latitubeDevice) {
+            this.latitubeDevice = latitubeDevice;
+        }
+
+        public void setRadiusDevice(int radiusDevice) {
+            this.radiusDevice = radiusDevice;
+        }
+
+       public String getUssdBalanceDevice() {
+            return ussdBalanceDevice;
+        }
+
+        public String getUtcDevice() {
+            return utcDevice;
+        }
+
+        public int getWorryCallDevice() {
+            return worryCallDevice;
+        }
+    }
+}

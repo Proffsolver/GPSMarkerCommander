@@ -11,6 +11,7 @@
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/main_ccordinator_container"
         android:layout_width="match_parent"
+        android:background="@color/grey_light_light"
         android:layout_height="wrap_content">
             <android.support.design.widget.AppBarLayout
                 android:id="@+id/appbar_layout"
@@ -228,7 +229,7 @@
             app:layout_anchor="@id/outside"
             app:layout_anchorGravity="bottom|right"
             android:layout_marginRight="12dp"
-            android:layout_marginTop="540dp"/>
+            android:layout_marginTop="500dp"/>
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView

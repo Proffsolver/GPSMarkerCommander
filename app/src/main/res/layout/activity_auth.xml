@@ -22,7 +22,7 @@
             android:background="@drawable/login_bg"/>
         <android.support.v7.widget.CardView
             android:id="@+id/authorization_box"
-            android:layout_width="240dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             app:cardBackgroundColor="@color/white"
@@ -74,7 +74,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@string/ff_regular"
                             android:textSize="@dimen/font_small_14"
-                            android:text="Gps.platon@gmail.com"
+                            android:text="Algol1@mail.ru"
                             android:textColorHighlight="@color/grey"
                             android:hint="@string/auth.email"
                             android:inputType="textEmailAddress"
@@ -90,7 +90,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@string/ff_regular"
                             android:textSize="@dimen/font_small_14"
-                            android:text="gpsmarker63"
+                            android:text="YRAua"
                             android:textColorHighlight="@color/grey"
                             android:hint="@string/auth.password"
                             android:inputType="textPassword"
@@ -109,7 +109,17 @@
                         android:textAllCaps="true"
                         android:theme="@style/AppTheme.Button.Red"/>
                     <TextView
-                        android:id="@+id/remember_txt"
+                        android:id="@+id/registration_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/spacing_normal_16"
+                        android:fontFamily="@string/ff_regular"
+                        android:text="@string/auth.registration"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/font_small_14"/>
+                    <TextView
+                        android:id="@+id/remember_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"

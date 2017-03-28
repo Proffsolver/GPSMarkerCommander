@@ -12,6 +12,14 @@ public class GetDevicesRes {
     @SerializedName("error")
     @Expose
     private String error;
+
+    public String getCode() {
+        return code;
+    }
+
+    @SerializedName("code")
+    @Expose
+    private String code;
     @SerializedName("devices")
     @Expose
     private List<Device> devices = null;

@@ -68,4 +68,34 @@ public class PreferenceManager {
     public String getUserMobile() {
         return mSharedPreferences.getString(ConstantManager.USER_ID_PHONE, "null");
     }
+
+    public void saveCurrentDeviceIdType(String deviceIdType) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(ConstantManager.DEVICE_CURRENT_ID_TYPE, deviceIdType);
+        editor.apply();
+    }
+
+    public String getCurrentDeviceIdType() {
+        return mSharedPreferences.getString(ConstantManager.DEVICE_CURRENT_ID_TYPE, "null");
+    }
+
+    public void saveCurrentDeviceId(String deviceId) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(ConstantManager.DEVICE_CURRENT_ID, deviceId);
+        editor.apply();
+    }
+
+    public String getCurrentDeviceId() {
+        return mSharedPreferences.getString(ConstantManager.DEVICE_CURRENT_ID, "null");
+    }
+
+    public void saveUserCurrentActionWAccount(String action) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(ConstantManager.USER_CURRENT_ACTION_W_ACCOUNT, action);
+        editor.apply();
+    }
+
+    public String getUserCurrentActionWAccount() {
+        return mSharedPreferences.getString(ConstantManager.USER_CURRENT_ACTION_W_ACCOUNT, "null");
+    }
 }

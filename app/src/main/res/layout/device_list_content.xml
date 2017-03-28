@@ -3,6 +3,8 @@
     android:id="@+id/device_list"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:paddingTop="@dimen/line_size"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/cardview_light_background"
     android:layout_marginTop="@dimen/size_medium_56"
     style="@style/icon.all"/>
