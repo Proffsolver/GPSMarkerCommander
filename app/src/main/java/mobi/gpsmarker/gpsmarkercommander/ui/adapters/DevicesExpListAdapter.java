@@ -1,24 +1,17 @@
 package mobi.gpsmarker.gpsmarkercommander.ui.adapters;
 
 import android.content.Context;
-import android.provider.ContactsContract;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import mobi.gpsmarker.gpsmarkercommander.R;
-import mobi.gpsmarker.gpsmarkercommander.data.network.res.GetDevicesRes;
 import mobi.gpsmarker.gpsmarkercommander.data.storage.models.DeviceData;
 import mobi.gpsmarker.gpsmarkercommander.utils.ConstantManager;
 
@@ -32,7 +25,6 @@ public class DevicesExpListAdapter extends BaseExpandableListAdapter {
     private Context mContext;
 
     public DevicesExpListAdapter (Context context,ArrayList<ArrayList<String>> groups, ArrayList<DeviceData> deviceData){
-
         mContext = context;
         mGroups = groups;
         mDeviceData = deviceData;
@@ -77,12 +69,12 @@ public class DevicesExpListAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView,
                              ViewGroup parent) {
 
-        DeviceViewHolder holder;
+        DeviceNamneViewHolder holder;
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.device_list_group_view, null);
-            holder = new DeviceViewHolder();
+            holder = new DeviceNamneViewHolder();
             holder.mDeviceName = (TextView) convertView.findViewById(R.id.device_name_list_tv);
             holder.mDeviceName.setText(mDeviceData.get(0).toString());
             holder.mDeviceType = (TextView) convertView.findViewById(R.id.device_type_list_tv);
@@ -94,15 +86,15 @@ public class DevicesExpListAdapter extends BaseExpandableListAdapter {
 
         }
         else {
-            holder = (DeviceViewHolder) convertView.getTag();
+            holder = (DeviceNamneViewHolder) convertView.getTag();
         }
         ImageView imgGroup = (ImageView) convertView.findViewById(R.id.group_view_iv);
         if (isExpanded){
-            imgGroup.setImageResource(R.drawable.ic_remove_white_24dp);
+            imgGroup.setImageResource(R.drawable.ic_remove_black_24dp);
         }
         else{
             //Изменяем что-нибудь, если текущая Group скрыта
-            imgGroup.setImageResource(R.drawable.ic_add_white_24dp);
+            imgGroup.setImageResource(R.drawable.ic_add_black_24dp);
         }
 
 
@@ -113,6 +105,8 @@ public class DevicesExpListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
                              View convertView, ViewGroup parent) {
+
+
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.device_list_child_view, null);
@@ -151,9 +145,13 @@ public class DevicesExpListAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
-    public final class DeviceViewHolder {
-        TextView mDeviceName;
-        TextView mDeviceType;
+    public final class DeviceNamneViewHolder {
+        TextView mDeviceName, mDeviceType;
+    }
+
+    public final class DeviceStatusViewHolder {
+        TextView mDeviceBattery, mDeviceBalance, mDeviceTemp, mDeviceGSM, mDeviceLBS, mDeviceIMEI, mDeviceRefreshtData;
+        Button mDeviceDelete, mDeviceRefresh, mDeviceChangeSettings, mDeviceToMap;
     }
 
 }

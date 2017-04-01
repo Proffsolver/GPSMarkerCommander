@@ -226,7 +226,7 @@
             android:id="@+id/main_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_white_24dp"
+            android:src="@drawable/ic_add_black_24dp"
             app:layout_anchor="@id/outside"
             app:layout_anchorGravity="bottom|right"
             android:layout_marginRight="12dp"
