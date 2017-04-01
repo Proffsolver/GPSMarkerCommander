@@ -15,6 +15,7 @@
             android:theme="@style/ToolBarStyle"
             android:id="@+id/map_toolbar"
             android:layout_width="match_parent"
+            android:background="@color/color_accent"
             android:layout_height="?attr/actionBarSize"
             android:titleTextColor="@color/white"
             app:layout_collapseMode="pin"/>

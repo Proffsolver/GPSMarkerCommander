@@ -58,7 +58,10 @@
             </intent-filter>
         </activity>
 
-        <service android:name="com.mapbox.mapboxsdk.telemetry.TelemetryService" android:parentActivityName=".ui.activities.MainActivity" android:screenOrientation="portrait"/>
+        <service
+            android:name="com.mapbox.mapboxsdk.telemetry.TelemetryService"
+            android:parentActivityName=".ui.activities.MainActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ui.activities.m180.M180ChangeNameActivity"
@@ -86,7 +89,7 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".ui.activities.m180.M180SettingOperationCellularActivity"
+            android:name=".ui.activities.m180.M180SettingAPNActivity"
             android:parentActivityName=".ui.activities.M180SettingsActivity"
             android:screenOrientation="portrait">
         </activity>
@@ -110,17 +113,22 @@
             android:parentActivityName=".ui.activities.MainActivity"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ui.activities.UserRememberPasswordActivity"
-                  android:parentActivityName=".ui.activities.AuthActivity"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".ui.activities.UserRememberPasswordActivity"
+            android:parentActivityName=".ui.activities.AuthActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ui.activities.UserChangeDataActivity"
-                  android:parentActivityName=".ui.activities.MainActivity"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".ui.activities.UserChangeDataActivity"
+            android:parentActivityName=".ui.activities.MainActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ui.activities.UserChangePasswordActivity"
-                  android:parentActivityName=".ui.activities.MainActivity"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".ui.activities.UserChangePasswordActivity"
+            android:parentActivityName=".ui.activities.MainActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".ui.activities.TestExpandableActivity">
         </activity>
     </application>
 

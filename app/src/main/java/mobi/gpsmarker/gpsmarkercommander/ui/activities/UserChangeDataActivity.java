@@ -1,36 +1,23 @@
 package mobi.gpsmarker.gpsmarkercommander.ui.activities;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import mobi.gpsmarker.gpsmarkercommander.R;
 import mobi.gpsmarker.gpsmarkercommander.data.managers.DataManager;
 import mobi.gpsmarker.gpsmarkercommander.data.network.req.UserDataChangeData;
 import mobi.gpsmarker.gpsmarkercommander.data.network.req.UserDataChangeOption;
 import mobi.gpsmarker.gpsmarkercommander.data.network.req.UserDataChangeReq;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.UserRegOption;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.UserRegReq;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.UserResetPasswordOption;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.UserResetPasswordReq;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.UserSetPasswordOption;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.UserSetPasswordReq;
 import mobi.gpsmarker.gpsmarkercommander.data.network.res.UserAccoutActionRes;
-import mobi.gpsmarker.gpsmarkercommander.data.storage.models.DeviceDTO;
-import mobi.gpsmarker.gpsmarkercommander.ui.adapters.DevicesAdapter;
 import mobi.gpsmarker.gpsmarkercommander.utils.ConstantManager;
 import mobi.gpsmarker.gpsmarkercommander.utils.ErrorHandler;
-import mobi.gpsmarker.gpsmarkercommander.utils.GPSMarkerCommanderApp;
 import mobi.gpsmarker.gpsmarkercommander.utils.NetworkStatusChecker;
 import mobi.gpsmarker.gpsmarkercommander.utils.UserInputChecker;
 import retrofit2.Call;

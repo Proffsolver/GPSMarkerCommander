@@ -3,7 +3,6 @@ package mobi.gpsmarker.gpsmarkercommander.ui.activities.m180;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
@@ -16,17 +15,15 @@ import java.util.List;
 
 import mobi.gpsmarker.gpsmarkercommander.R;
 import mobi.gpsmarker.gpsmarkercommander.data.managers.DataManager;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Parameters.M180GetDeviceListPhonesData;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Parameters.M180GetDeviceListPhonesOption;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Parameters.M180GetDeviceListPhonesReq;
-import mobi.gpsmarker.gpsmarkercommander.data.network.res.M180.M180DeviceListPhonesRes;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Req.M180GetDeviceListPhonesData;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Req.M180GetDeviceListPhonesOption;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Req.M180GetDeviceListPhonesReq;
+import mobi.gpsmarker.gpsmarkercommander.data.network.res.M180Res.M180DeviceListPhonesRes;
 import mobi.gpsmarker.gpsmarkercommander.data.network.res.UserAccoutActionRes;
-import mobi.gpsmarker.gpsmarkercommander.data.storage.models.M180DeviceSettingsDTO;
 import mobi.gpsmarker.gpsmarkercommander.ui.activities.BaseActivity;
 import mobi.gpsmarker.gpsmarkercommander.utils.ConstantManager;
 import mobi.gpsmarker.gpsmarkercommander.utils.ErrorHandler;
 import mobi.gpsmarker.gpsmarkercommander.utils.NetworkStatusChecker;
-import mobi.gpsmarker.gpsmarkercommander.utils.UserInputChecker;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,225 +44,18 @@ public class M180ListPhonesActivity extends BaseActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mDataManager = DataManager.getInstance();
         setContentView(R.layout.m180_activity_list_phones);
         mToolbar = (Toolbar) findViewById(R.id.M180_list_phones_toolbar);
         setupToolbar();
         mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.device_list_phones_coordinator_layout);
-        loadListPhonesFromInternet();
-        mDataManager = DataManager.getInstance();
 
-        mPhone1_Et = (EditText) findViewById(R.id.phone_1_ed);
-        mPhone1_Et.setText(mDeviceListPhones.get(0).getPhone1Device());
 
-        mPhone1_Sw = (SwitchCompat) findViewById(R.id.phone_1_sw);
-        mPhone1_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    mPhone1_Sw.setText(getString(R.string.switchon));
-                }else{
-                    mPhone1_Sw.setText(getString(R.string.switchoff));
-                }
-
-            }
-        });
-        if (Integer.valueOf(mDeviceListPhones.get(1).getPhone1DeviceOn())==1){
-            mPhone1_Sw.setText(getString(R.string.switchon));
-            mPhone1_Sw.setChecked(TRUE);
-        }else{
-            mPhone1_Sw.setText(getString(R.string.switchoff));
-            mPhone1_Sw.setChecked(FALSE);
-        }
-
-        mPhone2_Et = (EditText) findViewById(R.id.phone_2_ed);
-        mPhone2_Et.setText(mDeviceListPhones.get(2).getPhone1Device());
-
-        mPhone2_Sw = (SwitchCompat) findViewById(R.id.phone_2_sw);
-        if (Integer.valueOf(mDeviceListPhones.get(3).getPhone1DeviceOn())==1){
-            mPhone2_Sw.setText(getString(R.string.switchon));
-            mPhone2_Sw.setChecked(TRUE);
-        }else{
-            mPhone2_Sw.setText(getString(R.string.switchoff));
-            mPhone2_Sw.setChecked(FALSE);
-        }
-        mPhone2_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    mPhone2_Sw.setText(getString(R.string.switchon));
-                }else{
-                    mPhone2_Sw.setText(getString(R.string.switchoff));
-                }
-
-            }
-        });
-
-        mPhone3_Et = (EditText) findViewById(R.id.phone_3_ed);
-        mPhone3_Et.setText(mDeviceListPhones.get(4).getPhone1Device());
-
-        mPhone3_Sw = (SwitchCompat) findViewById(R.id.phone_3_sw);
-        if (Integer.valueOf(mDeviceListPhones.get(5).getPhone1DeviceOn())==1){
-            mPhone3_Sw.setText(getString(R.string.switchon));
-            mPhone3_Sw.setChecked(TRUE);
-        }else{
-            mPhone3_Sw.setText(getString(R.string.switchoff));
-            mPhone3_Sw.setChecked(FALSE);
-        }
-        mPhone3_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    mPhone3_Sw.setText(getString(R.string.switchon));
-                }else{
-                    mPhone3_Sw.setText(getString(R.string.switchoff));
-                }
-
-            }
-        });
-
-        mPhone4_Et = (EditText) findViewById(R.id.phone_4_ed);
-        mPhone4_Et.setText(mDeviceListPhones.get(6).getPhone1Device());
-
-        mPhone4_Sw = (SwitchCompat) findViewById(R.id.phone_4_sw);
-        if (Integer.valueOf(mDeviceListPhones.get(7).getPhone1DeviceOn())==1){
-            mPhone4_Sw.setText(getString(R.string.switchon));
-            mPhone4_Sw.setChecked(TRUE);
-        }else{
-            mPhone4_Sw.setText(getString(R.string.switchoff));
-            mPhone4_Sw.setChecked(FALSE);
-        }
-        mPhone4_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    mPhone4_Sw.setText(getString(R.string.switchon));
-                }else{
-                    mPhone4_Sw.setText(getString(R.string.switchoff));
-                }
-
-            }
-        });
-
-        mPhone5_Et = (EditText) findViewById(R.id.phone_5_ed);
-        mPhone5_Et.setText(mDeviceListPhones.get(8).getPhone1Device());
-
-        mPhone5_Sw = (SwitchCompat) findViewById(R.id.phone_5_sw);
-        if (Integer.valueOf(mDeviceListPhones.get(9).getPhone1DeviceOn())==1){
-            mPhone5_Sw.setText(getString(R.string.switchon));
-            mPhone5_Sw.setChecked(TRUE);
-        }else{
-            mPhone5_Sw.setText(getString(R.string.switchoff));
-            mPhone5_Sw.setChecked(FALSE);
-        }
-        mPhone5_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    mPhone5_Sw.setText(getString(R.string.switchon));
-                }else{
-                    mPhone5_Sw.setText(getString(R.string.switchoff));
-                }
-
-            }
-        });
-
-        mPhone6_Et = (EditText) findViewById(R.id.phone_6_ed);
-        mPhone6_Et.setText(mDeviceListPhones.get(10).getPhone1Device());
-
-        mPhone6_Sw = (SwitchCompat) findViewById(R.id.phone_6_sw);
-        if (Integer.valueOf(mDeviceListPhones.get(11).getPhone1DeviceOn())==1){
-            mPhone6_Sw.setText(getString(R.string.switchon));
-            mPhone6_Sw.setChecked(TRUE);
-        }else{
-            mPhone6_Sw.setText(getString(R.string.switchoff));
-            mPhone6_Sw.setChecked(FALSE);
-        }
-        mPhone6_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    mPhone6_Sw.setText(getString(R.string.switchon));
-                }else{
-                    mPhone6_Sw.setText(getString(R.string.switchoff));
-                }
-
-            }
-        });
-
-        mPhone7_Et = (EditText) findViewById(R.id.phone_7_ed);
-        mPhone7_Et.setText(mDeviceListPhones.get(12).getPhone1Device());
-
-        mPhone7_Sw = (SwitchCompat) findViewById(R.id.phone_7_sw);
-        if (Integer.valueOf(mDeviceListPhones.get(13).getPhone1DeviceOn())==1){
-            mPhone7_Sw.setText(getString(R.string.switchon));
-            mPhone7_Sw.setChecked(TRUE);
-        }else{
-            mPhone7_Sw.setText(getString(R.string.switchoff));
-            mPhone7_Sw.setChecked(FALSE);
-        }
-        mPhone7_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    mPhone7_Sw.setText(getString(R.string.switchon));
-                }else{
-                    mPhone7_Sw.setText(getString(R.string.switchoff));
-                }
-
-            }
-        });
-
-        mPhone8_Et = (EditText) findViewById(R.id.phone_8_ed);
-        mPhone8_Et.setText(mDeviceListPhones.get(14).getPhone1Device());
-
-        mPhone8_Sw = (SwitchCompat) findViewById(R.id.phone_8_sw);
-        if (Integer.valueOf(mDeviceListPhones.get(15).getPhone1DeviceOn())==1){
-            mPhone8_Sw.setText(getString(R.string.switchon));
-            mPhone8_Sw.setChecked(TRUE);
-        }else{
-            mPhone8_Sw.setText(getString(R.string.switchoff));
-            mPhone8_Sw.setChecked(FALSE);
-        }
-        mPhone8_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    mPhone8_Sw.setText(getString(R.string.switchon));
-                }else{
-                    mPhone8_Sw.setText(getString(R.string.switchoff));
-                }
-
-            }
-        });
-
-        mPhone9_Et = (EditText) findViewById(R.id.phone_9_ed);
-        mPhone9_Et.setText(mDeviceListPhones.get(16).getPhone1Device());
-
-        mPhone9_Sw = (SwitchCompat) findViewById(R.id.phone_9_sw);
-        if (Integer.valueOf(mDeviceListPhones.get(17).getPhone1DeviceOn())==1){
-            mPhone9_Sw.setText(getString(R.string.switchon));
-            mPhone9_Sw.setChecked(TRUE);
-        }else{
-            mPhone9_Sw.setText(getString(R.string.switchoff));
-            mPhone9_Sw.setChecked(FALSE);
-        }
-                mPhonesSaveBtn = (Button) findViewById(R.id.phones_save_btn);
-        mPhone9_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    mPhone9_Sw.setText(getString(R.string.switchon));
-                }else{
-                    mPhone9_Sw.setText(getString(R.string.switchoff));
-                }
-
-            }
-        });
 
         mPhonesSaveBtn = (Button) findViewById(R.id.phones_save_btn);
         mPhonesSaveBtn.setOnClickListener(this);
- /*       mPhone1_Et.addTextChangedListener(new UserInputChecker(getBaseContext(), mPhone1_Et, (TextInputLayout) findViewById(R.id.phone_1_til), mPhonesSaveBtn));
-        mPhone2_Et.addTextChangedListener(new UserInputChecker(getBaseContext(), mPhone2_Et, (TextInputLayout) findViewById(R.id.phone_2_til), mPhonesSaveBtn));
+
+  /*       mPhone2_Et.addTextChangedListener(new UserInputChecker(getBaseContext(), mPhone2_Et, (TextInputLayout) findViewById(R.id.phone_2_til), mPhonesSaveBtn));
         mPhone3_Et.addTextChangedListener(new UserInputChecker(getBaseContext(), mPhone3_Et, (TextInputLayout) findViewById(R.id.phone_3_til), mPhonesSaveBtn));
         mPhone4_Et.addTextChangedListener(new UserInputChecker(getBaseContext(), mPhone4_Et, (TextInputLayout) findViewById(R.id.phone_4_til), mPhonesSaveBtn));
         mPhone5_Et.addTextChangedListener(new UserInputChecker(getBaseContext(), mPhone5_Et, (TextInputLayout) findViewById(R.id.phone_5_til), mPhonesSaveBtn));
@@ -273,13 +63,18 @@ public class M180ListPhonesActivity extends BaseActivity implements View.OnClick
         mPhone7_Et.addTextChangedListener(new UserInputChecker(getBaseContext(), mPhone7_Et, (TextInputLayout) findViewById(R.id.phone_7_til), mPhonesSaveBtn));
         mPhone8_Et.addTextChangedListener(new UserInputChecker(getBaseContext(), mPhone8_Et, (TextInputLayout) findViewById(R.id.phone_8_til), mPhonesSaveBtn));
         mPhone9_Et.addTextChangedListener(new UserInputChecker(getBaseContext(), mPhone9_Et, (TextInputLayout) findViewById(R.id.phone_9_til), mPhonesSaveBtn));*/
-
+        loadListPhonesFromInternet();
     }
 
     public void onClick(View v) {
+
         saveListPhonesFromInternet();
         finish();
     }
+    //TODO Сделать проверку введенных телефонов
+ /*   private void checkInputPhone(){
+        UserInputChecker(getBaseContext(), mPhone2_Et, (TextInputLayout),mPhonesSaveBtn);
+    }*/
 
     private void setupToolbar(){
         setSupportActionBar(mToolbar);
@@ -292,7 +87,7 @@ public class M180ListPhonesActivity extends BaseActivity implements View.OnClick
     private void loadListPhonesFromInternet(){
 
         if (NetworkStatusChecker.isNetworkAvailable(this)) {
-            Call<M180DeviceListPhonesRes> call = mDataManager.getDeviceListPhones(
+            Call<M180DeviceListPhonesRes> call = mDataManager.getM180DeviceListPhones(
                     new M180GetDeviceListPhonesReq(ConstantManager.JSON_METHODS[ConstantManager.GET_DEVICES_DATA],
                             new M180GetDeviceListPhonesOption(mDataManager.getPreferenceManager().getUserId(), mDataManager.getPreferenceManager().getAuthToken(), mDataManager.getPreferenceManager().getCurrentDeviceId(),
                                     new M180GetDeviceListPhonesData(
@@ -320,8 +115,214 @@ public class M180ListPhonesActivity extends BaseActivity implements View.OnClick
                     if (response.code() == 200) {
                         if (response.body().getCode().equals(ConstantManager.NO_ERROR)) {
                             //showSnackbar(ErrorHandler.getErrorHandler(response.body().getCode(),ConstantManager.GET_DEVICES_DATA));
-                            mDeviceListPhones = response.body().getData();
+                            mDeviceListPhones = response.body().getData();        mPhone1_Et = (EditText) findViewById(R.id.phone_1_ed);
+                            mPhone1_Et.setText(mDeviceListPhones.get(0).getPhone1Device());
 
+                            mPhone1_Sw = (SwitchCompat) findViewById(R.id.phone_1_sw);
+                            mPhone1_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                    if(isChecked){
+                                        mPhone1_Sw.setText(getString(R.string.switchon));
+                                    }else{
+                                        mPhone1_Sw.setText(getString(R.string.switchoff));
+                                    }
+
+                                }
+                            });
+                            if (Integer.valueOf(mDeviceListPhones.get(1).getPhone1DeviceOn())==1){
+                                mPhone1_Sw.setText(getString(R.string.switchon));
+                                mPhone1_Sw.setChecked(TRUE);
+                            }else{
+                                mPhone1_Sw.setText(getString(R.string.switchoff));
+                                mPhone1_Sw.setChecked(FALSE);
+                            }
+
+                            mPhone2_Et = (EditText) findViewById(R.id.phone_2_ed);
+                            mPhone2_Et.setText(mDeviceListPhones.get(2).getPhone1Device());
+
+                            mPhone2_Sw = (SwitchCompat) findViewById(R.id.phone_2_sw);
+                            if (Integer.valueOf(mDeviceListPhones.get(3).getPhone1DeviceOn())==1){
+                                mPhone2_Sw.setText(getString(R.string.switchon));
+                                mPhone2_Sw.setChecked(TRUE);
+                            }else{
+                                mPhone2_Sw.setText(getString(R.string.switchoff));
+                                mPhone2_Sw.setChecked(FALSE);
+                            }
+                            mPhone2_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                    if(isChecked){
+                                        mPhone2_Sw.setText(getString(R.string.switchon));
+                                    }else{
+                                        mPhone2_Sw.setText(getString(R.string.switchoff));
+                                    }
+
+                                }
+                            });
+
+                            mPhone3_Et = (EditText) findViewById(R.id.phone_3_ed);
+                            mPhone3_Et.setText(mDeviceListPhones.get(4).getPhone1Device());
+
+                            mPhone3_Sw = (SwitchCompat) findViewById(R.id.phone_3_sw);
+                            if (Integer.valueOf(mDeviceListPhones.get(5).getPhone1DeviceOn())==1){
+                                mPhone3_Sw.setText(getString(R.string.switchon));
+                                mPhone3_Sw.setChecked(TRUE);
+                            }else{
+                                mPhone3_Sw.setText(getString(R.string.switchoff));
+                                mPhone3_Sw.setChecked(FALSE);
+                            }
+                            mPhone3_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                    if(isChecked){
+                                        mPhone3_Sw.setText(getString(R.string.switchon));
+                                    }else{
+                                        mPhone3_Sw.setText(getString(R.string.switchoff));
+                                    }
+
+                                }
+                            });
+
+                            mPhone4_Et = (EditText) findViewById(R.id.phone_4_ed);
+                            mPhone4_Et.setText(mDeviceListPhones.get(6).getPhone1Device());
+
+                            mPhone4_Sw = (SwitchCompat) findViewById(R.id.phone_4_sw);
+                            if (Integer.valueOf(mDeviceListPhones.get(7).getPhone1DeviceOn())==1){
+                                mPhone4_Sw.setText(getString(R.string.switchon));
+                                mPhone4_Sw.setChecked(TRUE);
+                            }else{
+                                mPhone4_Sw.setText(getString(R.string.switchoff));
+                                mPhone4_Sw.setChecked(FALSE);
+                            }
+                            mPhone4_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                    if(isChecked){
+                                        mPhone4_Sw.setText(getString(R.string.switchon));
+                                    }else{
+                                        mPhone4_Sw.setText(getString(R.string.switchoff));
+                                    }
+
+                                }
+                            });
+
+                            mPhone5_Et = (EditText) findViewById(R.id.phone_5_ed);
+                            mPhone5_Et.setText(mDeviceListPhones.get(8).getPhone1Device());
+
+                            mPhone5_Sw = (SwitchCompat) findViewById(R.id.phone_5_sw);
+                            if (Integer.valueOf(mDeviceListPhones.get(9).getPhone1DeviceOn())==1){
+                                mPhone5_Sw.setText(getString(R.string.switchon));
+                                mPhone5_Sw.setChecked(TRUE);
+                            }else{
+                                mPhone5_Sw.setText(getString(R.string.switchoff));
+                                mPhone5_Sw.setChecked(FALSE);
+                            }
+                            mPhone5_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                    if(isChecked){
+                                        mPhone5_Sw.setText(getString(R.string.switchon));
+                                    }else{
+                                        mPhone5_Sw.setText(getString(R.string.switchoff));
+                                    }
+
+                                }
+                            });
+
+                            mPhone6_Et = (EditText) findViewById(R.id.phone_6_ed);
+                            mPhone6_Et.setText(mDeviceListPhones.get(10).getPhone1Device());
+
+                            mPhone6_Sw = (SwitchCompat) findViewById(R.id.phone_6_sw);
+                            if (Integer.valueOf(mDeviceListPhones.get(11).getPhone1DeviceOn())==1){
+                                mPhone6_Sw.setText(getString(R.string.switchon));
+                                mPhone6_Sw.setChecked(TRUE);
+                            }else{
+                                mPhone6_Sw.setText(getString(R.string.switchoff));
+                                mPhone6_Sw.setChecked(FALSE);
+                            }
+                            mPhone6_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                    if(isChecked){
+                                        mPhone6_Sw.setText(getString(R.string.switchon));
+                                    }else{
+                                        mPhone6_Sw.setText(getString(R.string.switchoff));
+                                    }
+
+                                }
+                            });
+
+                            mPhone7_Et = (EditText) findViewById(R.id.phone_7_ed);
+                            mPhone7_Et.setText(mDeviceListPhones.get(12).getPhone1Device());
+
+                            mPhone7_Sw = (SwitchCompat) findViewById(R.id.phone_7_sw);
+                            if (Integer.valueOf(mDeviceListPhones.get(13).getPhone1DeviceOn())==1){
+                                mPhone7_Sw.setText(getString(R.string.switchon));
+                                mPhone7_Sw.setChecked(TRUE);
+                            }else{
+                                mPhone7_Sw.setText(getString(R.string.switchoff));
+                                mPhone7_Sw.setChecked(FALSE);
+                            }
+                            mPhone7_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                    if(isChecked){
+                                        mPhone7_Sw.setText(getString(R.string.switchon));
+                                    }else{
+                                        mPhone7_Sw.setText(getString(R.string.switchoff));
+                                    }
+
+                                }
+                            });
+
+                            mPhone8_Et = (EditText) findViewById(R.id.phone_8_ed);
+                            mPhone8_Et.setText(mDeviceListPhones.get(14).getPhone1Device());
+
+                            mPhone8_Sw = (SwitchCompat) findViewById(R.id.phone_8_sw);
+                            if (Integer.valueOf(mDeviceListPhones.get(15).getPhone1DeviceOn())==1){
+                                mPhone8_Sw.setText(getString(R.string.switchon));
+                                mPhone8_Sw.setChecked(TRUE);
+                            }else{
+                                mPhone8_Sw.setText(getString(R.string.switchoff));
+                                mPhone8_Sw.setChecked(FALSE);
+                            }
+                            mPhone8_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                    if(isChecked){
+                                        mPhone8_Sw.setText(getString(R.string.switchon));
+                                    }else{
+                                        mPhone8_Sw.setText(getString(R.string.switchoff));
+                                    }
+
+                                }
+                            });
+
+                            mPhone9_Et = (EditText) findViewById(R.id.phone_9_ed);
+                            mPhone9_Et.setText(mDeviceListPhones.get(16).getPhone1Device());
+
+                            mPhone9_Sw = (SwitchCompat) findViewById(R.id.phone_9_sw);
+                            if (Integer.valueOf(mDeviceListPhones.get(17).getPhone1DeviceOn())==1){
+                                mPhone9_Sw.setText(getString(R.string.switchon));
+                                mPhone9_Sw.setChecked(TRUE);
+                            }else{
+                                mPhone9_Sw.setText(getString(R.string.switchoff));
+                                mPhone9_Sw.setChecked(FALSE);
+                            }
+                            mPhonesSaveBtn = (Button) findViewById(R.id.phones_save_btn);
+                            mPhone9_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                    if(isChecked){
+                                        mPhone9_Sw.setText(getString(R.string.switchon));
+                                    }else{
+                                        mPhone9_Sw.setText(getString(R.string.switchoff));
+                                    }
+
+                                }
+                            }
+                            );        //mPhone1_Et.addTextChangedListener(new UserInputChecker(getBaseContext(), mPhone1_Et, (TextInputLayout) findViewById(R.id.phone_1_til), mPhonesSaveBtn));
                         } else {
                             showSnackbar(ErrorHandler.getErrorHandler(response.body().getCode(), ConstantManager.GET_DEVICES_DATA));
                         }
@@ -331,7 +332,6 @@ public class M180ListPhonesActivity extends BaseActivity implements View.OnClick
                         showSnackbar("Что-то пошло не так!");
                     }
                 }
-
                 @Override
                 public void onFailure(Call<M180DeviceListPhonesRes> call, Throwable t) {
 

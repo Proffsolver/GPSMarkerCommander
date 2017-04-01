@@ -1,6 +1,7 @@
 package mobi.gpsmarker.gpsmarkercommander.ui.activities;
 
 import android.content.Intent;
+import android.os.StrictMode;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -18,19 +19,20 @@ import android.view.View;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import mobi.gpsmarker.gpsmarkercommander.R;
 import mobi.gpsmarker.gpsmarkercommander.data.managers.DataManager;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.DeviceAddOption;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.DeviceAddReq;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.DeviceTypeOption;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.DeviceTypeReq;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.CurrentCoordinateData;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.CurrentCoordinateOption;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.CurrentCoordinateReq;
 import mobi.gpsmarker.gpsmarkercommander.data.network.req.GetDevicesOption;
 import mobi.gpsmarker.gpsmarkercommander.data.network.req.GetDevicesReq;
+import mobi.gpsmarker.gpsmarkercommander.data.network.res.CurrentCoordinateRes;
 import mobi.gpsmarker.gpsmarkercommander.data.network.res.GetDevicesRes;
-import mobi.gpsmarker.gpsmarkercommander.data.network.res.UserAccoutActionRes;
+import mobi.gpsmarker.gpsmarkercommander.data.storage.models.CoordinateDTO;
 import mobi.gpsmarker.gpsmarkercommander.data.storage.models.DeviceDTO;
 import mobi.gpsmarker.gpsmarkercommander.ui.adapters.DevicesAdapter;
 import mobi.gpsmarker.gpsmarkercommander.utils.ConstantManager;
@@ -39,6 +41,8 @@ import mobi.gpsmarker.gpsmarkercommander.utils.NetworkStatusChecker;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.media.CamcorderProfile.get;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener  {
 
@@ -55,12 +59,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener  
     private List<GetDevicesRes.Device> mDevices;
     private DevicesAdapter mDevicesAdapter;
     private RecyclerView mRecyclerView;
+    private CoordinateDTO mCoordinateDTO;
     private DevicesAdapter.CustomClickListener mCustomClickListener;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         setContentView(R.layout.activity_main);
         Log.d(TAG, "OnCreate");
         mFab = (FloatingActionButton) findViewById(R.id.main_fab);
@@ -229,7 +238,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener  
 
 
     private void loadDeviceDataNetwork(){
-
         if (NetworkStatusChecker.isNetworkAvailable(this)) {
             Call<GetDevicesRes> call = mDataManager.getDevicesFromNetwork(new GetDevicesReq(ConstantManager.JSON_METHODS[ConstantManager.GET_DEVICES], new GetDevicesOption(mDataManager.getPreferenceManager().getUserId(), mDataManager.getPreferenceManager().getAuthToken())));
             call.enqueue(new Callback<GetDevicesRes>() {
@@ -255,12 +263,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener  
                                                 break;
                                             case R.id.track_img:
                                                 //showSnackbar("Трэки");
+                                                loadCurrentCoordinateSyncFromInternet(mDevices.get(position).getIdDevice());
                                                 Intent trackIntent = new Intent(MainActivity.this, viewtrack_activity.class);
-                                                // profileIntent.putExtra(ConstantManager.PARCELABLE_KEY, trackDTO);
+                                                trackIntent.putExtra(ConstantManager.PARCELABLE_KEY, mCoordinateDTO);
                                                 startActivity(trackIntent);
                                                 break;
+                                                }
                                         }
-                                    }
                                 }
                             });
                             mRecyclerView.setAdapter(mDevicesAdapter);
@@ -283,6 +292,69 @@ public class MainActivity extends BaseActivity implements View.OnClickListener  
             });
         }else{
             showSnackbar("Сеть на данный момент не доступна, попробуйте позже.");
+        }
+    }
+
+
+    private void loadCurrentCoordinateSyncFromInternet(String currentDeviceID){
+        if (NetworkStatusChecker.isNetworkAvailable(this)) {
+            Call<CurrentCoordinateRes> call = mDataManager.getCurrentCoordinate(
+                    new CurrentCoordinateReq(ConstantManager.JSON_METHODS[ConstantManager.GET_DEVICES_DATA],
+                            new CurrentCoordinateOption(mDataManager.getPreferenceManager().getUserId(), mDataManager.getPreferenceManager().getAuthToken(), currentDeviceID,
+                                    new CurrentCoordinateData(
+                                            ConstantManager.M180_GPS_DEVICE_ON,
+                                            ConstantManager.M180_LBS_DEVICE_ON,
+                                            ConstantManager.M180_LONGITUBE_DEVICE_GPS,
+                                            ConstantManager.M180_LATITUBE_DEVICE_GPS,
+                                            ConstantManager.M180_DATE_DEVICE_GPS,
+                                            ConstantManager.M180_LONGITUBE_DEVICE_LBS,
+                                            ConstantManager.M180_LATITUBE_DEVICE_LBS,
+                                            ConstantManager.M180_DATE_DEVICE_LBS))));
+            try {
+                Response<CurrentCoordinateRes> mCurrentCoordinate = call.execute();
+                ArrayList forDTOCurrCoord = new ArrayList();
+                for (int i=0; i<mCurrentCoordinate.body().getData().size(); i++){forDTOCurrCoord.add(i,"0");}
+                for (int i=0; i<mCurrentCoordinate.body().getData().size(); i++){
+                    if (mCurrentCoordinate.body().getData().get(i).getDateDeviceGps()!=null){
+                        forDTOCurrCoord.set(0,mCurrentCoordinate.body().getData().get(i).getDateDeviceGps());
+                    }
+                    if (mCurrentCoordinate.body().getData().get(i).getDateDeviceLbs()!=null){
+                    //    mCoordinateDTO.setDTODate_device_lbs(mCurrentCoordinate.body().getData().get(i).getDateDeviceLbs());
+                        forDTOCurrCoord.set(1,mCurrentCoordinate.body().getData().get(i).getDateDeviceLbs());
+                    }
+                    if (mCurrentCoordinate.body().getData().get(i).getLatitubeDeviceGps()!=null){
+           //             mCoordinateDTO.setDTOLatitube_device_gps(mCurrentCoordinate.body().getData().get(i).getLatitubeDeviceGps());
+                        forDTOCurrCoord.set(2,mCurrentCoordinate.body().getData().get(i).getLatitubeDeviceGps());
+                    }
+                    if (mCurrentCoordinate.body().getData().get(i).getLatitubeDeviceLbs()!=null){
+            //            mCoordinateDTO.setDTOLatitube_device_lbs(mCurrentCoordinate.body().getData().get(i).getLatitubeDeviceLbs());
+                        forDTOCurrCoord.set(3,mCurrentCoordinate.body().getData().get(i).getLatitubeDeviceLbs());
+                    }
+                    if (mCurrentCoordinate.body().getData().get(i).getLongitubeDeviceGps()!=null){
+                        String str = mCurrentCoordinate.body().getData().get(i).getLongitubeDeviceGps();
+                        forDTOCurrCoord.set(4, mCurrentCoordinate.body().getData().get(i).getLongitubeDeviceGps());
+                    }
+                    if (mCurrentCoordinate.body().getData().get(i).getLongitubeDeviceLbs()!=null){
+           //             mCoordinateDTO.setDTOLongitube_device_lbs(mCurrentCoordinate.body().getData().get(i).getLongitubeDeviceLbs());
+                        forDTOCurrCoord.set(5,mCurrentCoordinate.body().getData().get(i).getLongitubeDeviceLbs());
+                    }
+                    if ((mCurrentCoordinate.body().getData().get(i).getGpsDeviceOn()!=0)&&(Integer.valueOf(forDTOCurrCoord.get(6).toString())==0)){
+             //           mCoordinateDTO.setDTOgps_device_on(mCurrentCoordinate.body().getData().get(i).getGpsDeviceOn());
+                        forDTOCurrCoord.set(6,String.valueOf(mCurrentCoordinate.body().getData().get(i).getGpsDeviceOn()));
+                    } else {
+                        forDTOCurrCoord.set(6,"0");
+                    }
+                    if ((mCurrentCoordinate.body().getData().get(i).getLbsDeviceOn()!=0)&&(Integer.valueOf(forDTOCurrCoord.get(7).toString())==0)){
+               //         mCoordinateDTO.setDTOlbs_device_on(mCurrentCoordinate.body().getData().get(i).getLbsDeviceOn());
+                        forDTOCurrCoord.set(7,String.valueOf(mCurrentCoordinate.body().getData().get(i).getLbsDeviceOn()));}
+                    else {
+                 //       mCoordinateDTO.setDTOlbs_device_on(0);
+                        forDTOCurrCoord.set(7,"0");
+                    }
+                }
+                mCoordinateDTO = new CoordinateDTO(forDTOCurrCoord.get(0).toString(),forDTOCurrCoord.get(1).toString(),forDTOCurrCoord.get(2).toString(),forDTOCurrCoord.get(3).toString(),forDTOCurrCoord.get(4).toString(),forDTOCurrCoord.get(5).toString(),Integer.valueOf(forDTOCurrCoord.get(6).toString()),Integer.valueOf(forDTOCurrCoord.get(7).toString()));
+            } catch (IOException e) {
+            }
         }
     }
 

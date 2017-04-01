@@ -19,6 +19,7 @@
             android:id="@+id/M180_list_phones_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="@color/color_accent"
             android:titleTextColor="@color/white"
             app:layout_collapseMode="pin"/>
     </android.support.design.widget.AppBarLayout>
@@ -45,6 +46,13 @@
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:text="Телефоны"/>
+            <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_small_12"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:text="Формат ввода +Код страны и от 10 до 14 символов, без пробелов"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -67,22 +75,22 @@
                             android:orientation="horizontal"
                             android:gravity="center"
                             android:layout_marginLeft="@dimen/spacing_normal_16">
-                            <android.support.design.widget.TextInputLayout
+<!--                            <android.support.design.widget.TextInputLayout
                                 android:layout_width="match_parent"
+                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/phone_1_til">
+                                android:id="@+id/phone_1_til">-->
                                 <EditText
                                     android:id="@+id/phone_1_ed"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
+                                    android:layout_weight="1"
                                     android:textSize="@dimen/font_small_12"
-                                    android:text=""
                                     android:textAlignment="viewStart"
                                     android:gravity="center"
-                                    android:layout_weight="1"
                                     android:textColor="@color/black"
                                     android:background="@color/white"/>
-                            </android.support.design.widget.TextInputLayout>
+<!--                            </android.support.design.widget.TextInputLayout>-->
                             <android.support.v7.widget.SwitchCompat
                                 android:id="@+id/phone_1_sw"
                                 android:layout_width="match_parent"
@@ -109,10 +117,10 @@
                             android:orientation="horizontal"
                             android:gravity="center"
                             android:layout_marginLeft="@dimen/spacing_normal_16">
-                            <android.support.design.widget.TextInputLayout
+<!--                            <android.support.design.widget.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/phone_2_til">
+                                android:id="@+id/phone_2_til">-->
                                 <EditText
                                     android:id="@+id/phone_2_ed"
                                     android:layout_width="match_parent"
@@ -124,7 +132,7 @@
                                     android:layout_weight="1"
                                     android:textColor="@color/black"
                                     android:background="@color/white"/>
-                            </android.support.design.widget.TextInputLayout>
+                            <!--</android.support.design.widget.TextInputLayout>-->
                             <android.support.v7.widget.SwitchCompat
                                 android:id="@+id/phone_2_sw"
                                 android:layout_width="match_parent"
@@ -153,10 +161,10 @@
                             android:orientation="horizontal"
                             android:gravity="center"
                             android:layout_marginLeft="@dimen/spacing_normal_16">
-                            <android.support.design.widget.TextInputLayout
+<!--                            <android.support.design.widget.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/phone_3_til">
+                                android:id="@+id/phone_3_til">-->
                                 <EditText
                                     android:id="@+id/phone_3_ed"
                                     android:layout_width="match_parent"
@@ -168,7 +176,7 @@
                                     android:layout_weight="1"
                                     android:textColor="@color/black"
                                     android:background="@color/white"/>
-                            </android.support.design.widget.TextInputLayout>
+                            <!--</android.support.design.widget.TextInputLayout>-->
                             <android.support.v7.widget.SwitchCompat
                                 android:id="@+id/phone_3_sw"
                                 android:layout_width="match_parent"
@@ -197,10 +205,10 @@
                             android:orientation="horizontal"
                             android:gravity="center"
                             android:layout_marginLeft="@dimen/spacing_normal_16">
-                            <android.support.design.widget.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/phone_4_til">
+                            <!--<android.support.design.widget.TextInputLayout-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:id="@+id/phone_4_til">-->
                                 <EditText
                                     android:id="@+id/phone_4_ed"
                                     android:layout_width="match_parent"
@@ -212,7 +220,7 @@
                                     android:layout_weight="1"
                                     android:textColor="@color/black"
                                     android:background="@color/white"/>
-                            </android.support.design.widget.TextInputLayout>
+                            <!--</android.support.design.widget.TextInputLayout>-->
                             <android.support.v7.widget.SwitchCompat
                                 android:id="@+id/phone_4_sw"
                                 android:layout_width="match_parent"
@@ -241,10 +249,10 @@
                             android:orientation="horizontal"
                             android:gravity="center"
                             android:layout_marginLeft="@dimen/spacing_normal_16">
-                            <android.support.design.widget.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/phone_5_til">
+                            <!--<android.support.design.widget.TextInputLayout-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:id="@+id/phone_5_til">-->
                                 <EditText
                                     android:id="@+id/phone_5_ed"
                                     android:layout_width="match_parent"
@@ -256,7 +264,7 @@
                                     android:layout_weight="1"
                                     android:textColor="@color/black"
                                     android:background="@color/white"/>
-                            </android.support.design.widget.TextInputLayout>
+                            <!--</android.support.design.widget.TextInputLayout>-->
                             <android.support.v7.widget.SwitchCompat
                                 android:id="@+id/phone_5_sw"
                                 android:layout_width="match_parent"
@@ -285,10 +293,10 @@
                             android:orientation="horizontal"
                             android:gravity="center"
                             android:layout_marginLeft="@dimen/spacing_normal_16">
-                            <android.support.design.widget.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/phone_6_til">
+                            <!--<android.support.design.widget.TextInputLayout-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:id="@+id/phone_6_til">-->
                                 <EditText
                                     android:id="@+id/phone_6_ed"
                                     android:layout_width="match_parent"
@@ -300,7 +308,7 @@
                                     android:layout_weight="1"
                                     android:textColor="@color/black"
                                     android:background="@color/white"/>
-                            </android.support.design.widget.TextInputLayout>
+                            <!--</android.support.design.widget.TextInputLayout>-->
                             <android.support.v7.widget.SwitchCompat
                                 android:id="@+id/phone_6_sw"
                                 android:layout_width="match_parent"
@@ -329,10 +337,10 @@
                             android:orientation="horizontal"
                             android:gravity="center"
                             android:layout_marginLeft="@dimen/spacing_normal_16">
-                            <android.support.design.widget.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/phone_7_til">
+                            <!--<android.support.design.widget.TextInputLayout-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:id="@+id/phone_7_til">-->
                                 <EditText
                                     android:id="@+id/phone_7_ed"
                                     android:layout_width="match_parent"
@@ -344,7 +352,7 @@
                                     android:layout_weight="1"
                                     android:textColor="@color/black"
                                     android:background="@color/white"/>
-                            </android.support.design.widget.TextInputLayout>
+                            <!--</android.support.design.widget.TextInputLayout>-->
                             <android.support.v7.widget.SwitchCompat
                                 android:id="@+id/phone_7_sw"
                                 android:layout_width="match_parent"
@@ -373,10 +381,10 @@
                             android:orientation="horizontal"
                             android:gravity="center"
                             android:layout_marginLeft="@dimen/spacing_normal_16">
-                            <android.support.design.widget.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/phone_8_til">
+                            <!--<android.support.design.widget.TextInputLayout-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:id="@+id/phone_8_til">-->
                                 <EditText
                                     android:id="@+id/phone_8_ed"
                                     android:layout_width="match_parent"
@@ -388,7 +396,7 @@
                                     android:layout_weight="1"
                                     android:textColor="@color/black"
                                     android:background="@color/white"/>
-                            </android.support.design.widget.TextInputLayout>
+                            <!--</android.support.design.widget.TextInputLayout>-->
                             <android.support.v7.widget.SwitchCompat
                                 android:id="@+id/phone_8_sw"
                                 android:layout_width="match_parent"
@@ -417,10 +425,10 @@
                             android:orientation="horizontal"
                             android:gravity="center"
                             android:layout_marginLeft="@dimen/spacing_normal_16">
-                            <android.support.design.widget.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/phone_9_til">
+                            <!--<android.support.design.widget.TextInputLayout-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:id="@+id/phone_9_til">-->
                                 <EditText
                                     android:id="@+id/phone_9_ed"
                                     android:layout_width="match_parent"
@@ -432,7 +440,7 @@
                                     android:layout_weight="1"
                                     android:textColor="@color/black"
                                     android:background="@color/white"/>
-                            </android.support.design.widget.TextInputLayout>
+                            <!--</android.support.design.widget.TextInputLayout>-->
                             <android.support.v7.widget.SwitchCompat
                                 android:id="@+id/phone_9_sw"
                                 android:layout_width="match_parent"

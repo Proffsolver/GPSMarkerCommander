@@ -1,4 +1,4 @@
-package mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Parameters;
+package mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Req;
 
 public class M180GetDeviceListAlarmsData {
     private String unsleep_alarm_device;

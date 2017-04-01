@@ -1,6 +1,5 @@
 package mobi.gpsmarker.gpsmarkercommander.ui.activities.m180;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -16,16 +15,11 @@ import java.util.List;
 
 import mobi.gpsmarker.gpsmarkercommander.R;
 import mobi.gpsmarker.gpsmarkercommander.data.managers.DataManager;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Parameters.M180GetDeviceListAlarmsData;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Parameters.M180GetDeviceListAlarmsOption;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Parameters.M180GetDeviceListAlarmsReq;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Parameters.M180GetDeviceListPhonesData;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Parameters.M180GetDeviceListPhonesOption;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Parameters.M180GetDeviceListPhonesReq;
-import mobi.gpsmarker.gpsmarkercommander.data.network.res.M180.M180DeviceListAlarmRes;
-import mobi.gpsmarker.gpsmarkercommander.data.network.res.M180.M180DeviceListPhonesRes;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Req.M180GetDeviceListAlarmsData;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Req.M180GetDeviceListAlarmsOption;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Req.M180GetDeviceListAlarmsReq;
+import mobi.gpsmarker.gpsmarkercommander.data.network.res.M180Res.M180DeviceListAlarmRes;
 import mobi.gpsmarker.gpsmarkercommander.data.network.res.UserAccoutActionRes;
-import mobi.gpsmarker.gpsmarkercommander.data.storage.models.M180DeviceSettingsDTO;
 import mobi.gpsmarker.gpsmarkercommander.ui.activities.BaseActivity;
 import mobi.gpsmarker.gpsmarkercommander.utils.ConstantManager;
 import mobi.gpsmarker.gpsmarkercommander.utils.ErrorHandler;
@@ -36,8 +30,6 @@ import retrofit2.Response;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
-import static mobi.gpsmarker.gpsmarkercommander.utils.ConstantManager.M180_UNSLEEP_ALARM_DEVICE;
-import static mobi.gpsmarker.gpsmarkercommander.utils.ConstantManager.M180_UNSLEEP_SMS_DEVICE;
 
 public class M180ListAlarmActivity extends BaseActivity implements View.OnClickListener{
 
@@ -56,227 +48,16 @@ public class M180ListAlarmActivity extends BaseActivity implements View.OnClickL
         mToolbar = (Toolbar) findViewById(R.id.M180_sms_list_alarm_toolbar);
         mDataManager = DataManager.getInstance();
         setupToolbar();
-        loadListPhonesFromInternet();
+
         mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.device_list_alarms_coordinator_layout);
         mAlarmSmsPeriodDay = (EditText) findViewById(R.id.alarm_sms_period_day_ed);
         mAlarmSmsPeriodHour = (EditText) findViewById(R.id.alarm_sms_period_hour_ed);
         mAlarmSmsPeriodMin = (EditText) findViewById(R.id.alarm_sms_period_minute_ed);
-        mAlarmSmsPeriodDay.setText(mDeviceListAlarms.get(18).getUnsleepAlarmDevice().substring(0, mDeviceListAlarms.get(0).getUnsleepAlarmDevice().indexOf(".")));
-//        int fDD = mM180DeviceSettingsDTO.getDTOUnsleep_Alarm_sms_device().indexOf(":");
-        String afterFDD = mDeviceListAlarms.get(18).getUnsleepAlarmDevice().substring(mDeviceListAlarms.get(0).getUnsleepAlarmDevice().indexOf(".")+1);
-        int sDD = afterFDD.indexOf(":");
-        mAlarmSmsPeriodHour.setText(afterFDD.substring(0, sDD));
-        mAlarmSmsPeriodMin.setText(afterFDD.substring(sDD+1));
-        mAlarm_sms_1_Et = (EditText) findViewById(R.id.alarm_sms_1_ed);
-        mAlarm_sms_1_Et.setText(mDeviceListAlarms.get(0).getAlarm1Device());
 
-        mAlarm_sms_1_Sw = (SwitchCompat) findViewById(R.id.alarm_sms_1_sw);
-        mAlarm_sms_1_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    mAlarm_sms_1_Sw.setText(getString(R.string.switchon));
-                }else{
-                    mAlarm_sms_1_Sw.setText(getString(R.string.switchoff));
-                }
-
-            }
-        });
-        if (Integer.valueOf(mDeviceListAlarms.get(1).getAlarm1DeviceOn())==1){
-            mAlarm_sms_1_Sw.setText(getString(R.string.switchon));
-            mAlarm_sms_1_Sw.setChecked(TRUE);
-        }else{
-            mAlarm_sms_1_Sw.setText(getString(R.string.switchoff));
-            mAlarm_sms_1_Sw.setChecked(FALSE);
-        }
-
-        mAlarm_sms_2_Et = (EditText) findViewById(R.id.alarm_sms_2_ed);
-        mAlarm_sms_2_Et.setText(mDeviceListAlarms.get(2).getAlarm2Device());
-
-        mAlarm_sms_2_Sw = (SwitchCompat) findViewById(R.id.alarm_sms_2_sw);
-        if (Integer.valueOf(mDeviceListAlarms.get(3).getAlarm2DeviceOn())==1){
-            mAlarm_sms_2_Sw.setText(getString(R.string.switchon));
-            mAlarm_sms_2_Sw.setChecked(TRUE);
-        }else{
-            mAlarm_sms_2_Sw.setText(getString(R.string.switchoff));
-            mAlarm_sms_2_Sw.setChecked(FALSE);
-        }
-        mAlarm_sms_2_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    mAlarm_sms_2_Sw.setText(getString(R.string.switchon));
-                }else{
-                    mAlarm_sms_2_Sw.setText(getString(R.string.switchoff));
-                }
-
-            }
-        });
-
-        mAlarm_sms_3_Et = (EditText) findViewById(R.id.alarm_sms_3_ed);
-        mAlarm_sms_3_Et.setText(mDeviceListAlarms.get(4).getAlarm3Device());
-
-        mAlarm_sms_3_Sw = (SwitchCompat) findViewById(R.id.alarm_sms_3_sw);
-        if (Integer.valueOf(mDeviceListAlarms.get(5).getAlarm3DeviceOn())==1){
-            mAlarm_sms_3_Sw.setText(getString(R.string.switchon));
-            mAlarm_sms_3_Sw.setChecked(TRUE);
-        }else{
-            mAlarm_sms_3_Sw.setText(getString(R.string.switchoff));
-            mAlarm_sms_3_Sw.setChecked(FALSE);
-        }
-        mAlarm_sms_3_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    mAlarm_sms_3_Sw.setText(getString(R.string.switchon));
-                }else{
-                    mAlarm_sms_3_Sw.setText(getString(R.string.switchoff));
-                }
-
-            }
-        });
-
-        mAlarm_sms_4_Et = (EditText) findViewById(R.id.alarm_sms_4_ed);
-        mAlarm_sms_4_Et.setText(mDeviceListAlarms.get(6).getAlarm4Device());
-
-        mAlarm_sms_4_Sw = (SwitchCompat) findViewById(R.id.alarm_sms_4_sw);
-        if (Integer.valueOf(mDeviceListAlarms.get(7).getAlarm4DeviceOn())==1){
-            mAlarm_sms_4_Sw.setText(getString(R.string.switchon));
-            mAlarm_sms_4_Sw.setChecked(TRUE);
-        }else{
-            mAlarm_sms_4_Sw.setText(getString(R.string.switchoff));
-            mAlarm_sms_4_Sw.setChecked(FALSE);
-        }
-        mAlarm_sms_4_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    mAlarm_sms_4_Sw.setText(getString(R.string.switchon));
-                }else{
-                    mAlarm_sms_4_Sw.setText(getString(R.string.switchoff));
-                }
-
-            }
-        });
-
-        mAlarm_sms_5_Et = (EditText) findViewById(R.id.alarm_sms_5_ed);
-        mAlarm_sms_5_Et.setText(mDeviceListAlarms.get(8).getAlarm5Device());
-
-        mAlarm_sms_5_Sw = (SwitchCompat) findViewById(R.id.alarm_sms_5_sw);
-        if (Integer.valueOf(mDeviceListAlarms.get(9).getAlarm5DeviceOn())==1){
-            mAlarm_sms_5_Sw.setText(getString(R.string.switchon));
-            mAlarm_sms_5_Sw.setChecked(TRUE);
-        }else{
-            mAlarm_sms_5_Sw.setText(getString(R.string.switchoff));
-            mAlarm_sms_5_Sw.setChecked(FALSE);
-        }
-        mAlarm_sms_5_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    mAlarm_sms_5_Sw.setText(getString(R.string.switchon));
-                }else{
-                    mAlarm_sms_5_Sw.setText(getString(R.string.switchoff));
-                }
-
-            }
-        });
-
-        mAlarm_sms_6_Et = (EditText) findViewById(R.id.alarm_sms_6_ed);
-        mAlarm_sms_6_Et.setText(mDeviceListAlarms.get(10).getAlarm6Device());
-
-        mAlarm_sms_6_Sw = (SwitchCompat) findViewById(R.id.alarm_sms_6_sw);
-        if (Integer.valueOf(mDeviceListAlarms.get(11).getAlarm6DeviceOn())==1){
-            mAlarm_sms_6_Sw.setText(getString(R.string.switchon));
-            mAlarm_sms_6_Sw.setChecked(TRUE);
-        }else{
-            mAlarm_sms_6_Sw.setText(getString(R.string.switchoff));
-            mAlarm_sms_6_Sw.setChecked(FALSE);
-        }
-        mAlarm_sms_6_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    mAlarm_sms_6_Sw.setText(getString(R.string.switchon));
-                }else{
-                    mAlarm_sms_6_Sw.setText(getString(R.string.switchoff));
-                }
-
-            }
-        });
-
-        mAlarm_sms_7_Et = (EditText) findViewById(R.id.alarm_sms_7_ed);
-        mAlarm_sms_7_Et.setText(mDeviceListAlarms.get(12).getAlarm7Device());
-
-        mAlarm_sms_7_Sw = (SwitchCompat) findViewById(R.id.alarm_sms_7_sw);
-        if (Integer.valueOf(mDeviceListAlarms.get(13).getAlarm7DeviceOn())==1){
-            mAlarm_sms_7_Sw.setText(getString(R.string.switchon));
-            mAlarm_sms_7_Sw.setChecked(TRUE);
-        }else{
-            mAlarm_sms_7_Sw.setText(getString(R.string.switchoff));
-            mAlarm_sms_7_Sw.setChecked(FALSE);
-        }
-        mAlarm_sms_7_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    mAlarm_sms_7_Sw.setText(getString(R.string.switchon));
-                }else{
-                    mAlarm_sms_7_Sw.setText(getString(R.string.switchoff));
-                }
-
-            }
-        });
-
-        mAlarm_sms_8_Et = (EditText) findViewById(R.id.alarm_sms_8_ed);
-        mAlarm_sms_8_Et.setText(mDeviceListAlarms.get(14).getAlarm8Device());
-
-        mAlarm_sms_8_Sw = (SwitchCompat) findViewById(R.id.alarm_sms_8_sw);
-        if (Integer.valueOf(mDeviceListAlarms.get(15).getAlarm8DeviceOn())==1){
-            mAlarm_sms_8_Sw.setText(getString(R.string.switchon));
-            mAlarm_sms_8_Sw.setChecked(TRUE);
-        }else{
-            mAlarm_sms_8_Sw.setText(getString(R.string.switchoff));
-            mAlarm_sms_8_Sw.setChecked(FALSE);
-        }
-        mAlarm_sms_8_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    mAlarm_sms_8_Sw.setText(getString(R.string.switchon));
-                }else{
-                    mAlarm_sms_8_Sw.setText(getString(R.string.switchoff));
-                }
-
-            }
-        });
-
-        mAlarm_sms_9_Et = (EditText) findViewById(R.id.alarm_sms_9_ed);
-        mAlarm_sms_9_Et.setText(mDeviceListAlarms.get(16).getAlarm9Device());
-
-        mAlarm_sms_9_Sw = (SwitchCompat) findViewById(R.id.alarm_sms_9_sw);
-        if (Integer.valueOf(mDeviceListAlarms.get(17).getAlarm9DeviceOn())==1){
-            mAlarm_sms_9_Sw.setText(getString(R.string.switchon));
-            mAlarm_sms_9_Sw.setChecked(TRUE);
-        }else{
-            mAlarm_sms_9_Sw.setText(getString(R.string.switchoff));
-            mAlarm_sms_9_Sw.setChecked(FALSE);
-        }
-        mAlarm_sms_9_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    mAlarm_sms_9_Sw.setText(getString(R.string.switchon));
-                }else{
-                    mAlarm_sms_9_Sw.setText(getString(R.string.switchoff));
-                }
-
-            }
-        });
 
         mAlarm_sms_btn = (Button) findViewById(R.id.alarm_sms_save_btn);
         mAlarm_sms_btn.setOnClickListener(this);
-
+        loadListPhonesFromInternet();
     }
 
     public void onClick(View v) {
@@ -325,7 +106,220 @@ public class M180ListAlarmActivity extends BaseActivity implements View.OnClickL
                         if (response.body().getCode().equals(ConstantManager.NO_ERROR)) {
                             //showSnackbar(ErrorHandler.getErrorHandler(response.body().getCode(),ConstantManager.GET_DEVICES_DATA));
                             mDeviceListAlarms = response.body().getData();
+/*                            for (M180DeviceListAlarmRes.Datum deviceDatum: mDeviceListAlarms){
+                                if (deviceDatum != null) ||
+                            }*/
+                            mAlarmSmsPeriodDay.setText(mDeviceListAlarms.get(17).getUnsleepAlarmDevice().substring(0, mDeviceListAlarms.get(17).getUnsleepAlarmDevice().indexOf(".")));
+                            String afterFDD = mDeviceListAlarms.get(17).getUnsleepAlarmDevice().substring(mDeviceListAlarms.get(17).getUnsleepAlarmDevice().indexOf(".")+1);
+                            int sDD = afterFDD.indexOf(":");
+                            mAlarmSmsPeriodHour.setText(afterFDD.substring(0, sDD));
+                            mAlarmSmsPeriodMin.setText(afterFDD.substring(sDD+1));
+                            mAlarm_sms_1_Et = (EditText) findViewById(R.id.alarm_sms_1_ed);
+                            mAlarm_sms_1_Et.setText(mDeviceListAlarms.get(18).getAlarm1Device());
 
+                            mAlarm_sms_1_Sw = (SwitchCompat) findViewById(R.id.alarm_sms_1_sw);
+                            mAlarm_sms_1_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                    if(isChecked){
+                                        mAlarm_sms_1_Sw.setText(getString(R.string.switchon));
+                                    }else{
+                                        mAlarm_sms_1_Sw.setText(getString(R.string.switchoff));
+                                    }
+
+                                }
+                            });
+                            if (Integer.valueOf(mDeviceListAlarms.get(0).getAlarm1DeviceOn())==1){
+                                mAlarm_sms_1_Sw.setText(getString(R.string.switchon));
+                                mAlarm_sms_1_Sw.setChecked(TRUE);
+                            }else{
+                                mAlarm_sms_1_Sw.setText(getString(R.string.switchoff));
+                                mAlarm_sms_1_Sw.setChecked(FALSE);
+                            }
+
+                            mAlarm_sms_2_Et = (EditText) findViewById(R.id.alarm_sms_2_ed);
+                            mAlarm_sms_2_Et.setText(mDeviceListAlarms.get(1).getAlarm2Device());
+
+                            mAlarm_sms_2_Sw = (SwitchCompat) findViewById(R.id.alarm_sms_2_sw);
+                            if (Integer.valueOf(mDeviceListAlarms.get(2).getAlarm2DeviceOn())==1){
+                                mAlarm_sms_2_Sw.setText(getString(R.string.switchon));
+                                mAlarm_sms_2_Sw.setChecked(TRUE);
+                            }else{
+                                mAlarm_sms_2_Sw.setText(getString(R.string.switchoff));
+                                mAlarm_sms_2_Sw.setChecked(FALSE);
+                            }
+                            mAlarm_sms_2_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                    if(isChecked){
+                                        mAlarm_sms_2_Sw.setText(getString(R.string.switchon));
+                                    }else{
+                                        mAlarm_sms_2_Sw.setText(getString(R.string.switchoff));
+                                    }
+
+                                }
+                            });
+
+                            mAlarm_sms_3_Et = (EditText) findViewById(R.id.alarm_sms_3_ed);
+                            mAlarm_sms_3_Et.setText(mDeviceListAlarms.get(3).getAlarm3Device());
+
+                            mAlarm_sms_3_Sw = (SwitchCompat) findViewById(R.id.alarm_sms_3_sw);
+                            if (Integer.valueOf(mDeviceListAlarms.get(4).getAlarm3DeviceOn())==1){
+                                mAlarm_sms_3_Sw.setText(getString(R.string.switchon));
+                                mAlarm_sms_3_Sw.setChecked(TRUE);
+                            }else{
+                                mAlarm_sms_3_Sw.setText(getString(R.string.switchoff));
+                                mAlarm_sms_3_Sw.setChecked(FALSE);
+                            }
+                            mAlarm_sms_3_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                    if(isChecked){
+                                        mAlarm_sms_3_Sw.setText(getString(R.string.switchon));
+                                    }else{
+                                        mAlarm_sms_3_Sw.setText(getString(R.string.switchoff));
+                                    }
+
+                                }
+                            });
+
+                            mAlarm_sms_4_Et = (EditText) findViewById(R.id.alarm_sms_4_ed);
+                            mAlarm_sms_4_Et.setText(mDeviceListAlarms.get(5).getAlarm4Device());
+
+                            mAlarm_sms_4_Sw = (SwitchCompat) findViewById(R.id.alarm_sms_4_sw);
+                            if (Integer.valueOf(mDeviceListAlarms.get(6).getAlarm4DeviceOn())==1){
+                                mAlarm_sms_4_Sw.setText(getString(R.string.switchon));
+                                mAlarm_sms_4_Sw.setChecked(TRUE);
+                            }else{
+                                mAlarm_sms_4_Sw.setText(getString(R.string.switchoff));
+                                mAlarm_sms_4_Sw.setChecked(FALSE);
+                            }
+                            mAlarm_sms_4_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                    if(isChecked){
+                                        mAlarm_sms_4_Sw.setText(getString(R.string.switchon));
+                                    }else{
+                                        mAlarm_sms_4_Sw.setText(getString(R.string.switchoff));
+                                    }
+
+                                }
+                            });
+
+                            mAlarm_sms_5_Et = (EditText) findViewById(R.id.alarm_sms_5_ed);
+                            mAlarm_sms_5_Et.setText(mDeviceListAlarms.get(7).getAlarm5Device());
+
+                            mAlarm_sms_5_Sw = (SwitchCompat) findViewById(R.id.alarm_sms_5_sw);
+                            if (Integer.valueOf(mDeviceListAlarms.get(8).getAlarm5DeviceOn())==1){
+                                mAlarm_sms_5_Sw.setText(getString(R.string.switchon));
+                                mAlarm_sms_5_Sw.setChecked(TRUE);
+                            }else{
+                                mAlarm_sms_5_Sw.setText(getString(R.string.switchoff));
+                                mAlarm_sms_5_Sw.setChecked(FALSE);
+                            }
+                            mAlarm_sms_5_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                    if(isChecked){
+                                        mAlarm_sms_5_Sw.setText(getString(R.string.switchon));
+                                    }else{
+                                        mAlarm_sms_5_Sw.setText(getString(R.string.switchoff));
+                                    }
+
+                                }
+                            });
+
+                            mAlarm_sms_6_Et = (EditText) findViewById(R.id.alarm_sms_6_ed);
+                            mAlarm_sms_6_Et.setText(mDeviceListAlarms.get(9).getAlarm6Device());
+
+                            mAlarm_sms_6_Sw = (SwitchCompat) findViewById(R.id.alarm_sms_6_sw);
+                            if (Integer.valueOf(mDeviceListAlarms.get(10).getAlarm6DeviceOn())==1){
+                                mAlarm_sms_6_Sw.setText(getString(R.string.switchon));
+                                mAlarm_sms_6_Sw.setChecked(TRUE);
+                            }else{
+                                mAlarm_sms_6_Sw.setText(getString(R.string.switchoff));
+                                mAlarm_sms_6_Sw.setChecked(FALSE);
+                            }
+                            mAlarm_sms_6_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                    if(isChecked){
+                                        mAlarm_sms_6_Sw.setText(getString(R.string.switchon));
+                                    }else{
+                                        mAlarm_sms_6_Sw.setText(getString(R.string.switchoff));
+                                    }
+
+                                }
+                            });
+
+                            mAlarm_sms_7_Et = (EditText) findViewById(R.id.alarm_sms_7_ed);
+                            mAlarm_sms_7_Et.setText(mDeviceListAlarms.get(11).getAlarm7Device());
+
+                            mAlarm_sms_7_Sw = (SwitchCompat) findViewById(R.id.alarm_sms_7_sw);
+                            if (Integer.valueOf(mDeviceListAlarms.get(12).getAlarm7DeviceOn())==1){
+                                mAlarm_sms_7_Sw.setText(getString(R.string.switchon));
+                                mAlarm_sms_7_Sw.setChecked(TRUE);
+                            }else{
+                                mAlarm_sms_7_Sw.setText(getString(R.string.switchoff));
+                                mAlarm_sms_7_Sw.setChecked(FALSE);
+                            }
+                            mAlarm_sms_7_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                    if(isChecked){
+                                        mAlarm_sms_7_Sw.setText(getString(R.string.switchon));
+                                    }else{
+                                        mAlarm_sms_7_Sw.setText(getString(R.string.switchoff));
+                                    }
+
+                                }
+                            });
+
+                            mAlarm_sms_8_Et = (EditText) findViewById(R.id.alarm_sms_8_ed);
+                            mAlarm_sms_8_Et.setText(mDeviceListAlarms.get(13).getAlarm8Device());
+
+                            mAlarm_sms_8_Sw = (SwitchCompat) findViewById(R.id.alarm_sms_8_sw);
+                            if (Integer.valueOf(mDeviceListAlarms.get(14).getAlarm8DeviceOn())==1){
+                                mAlarm_sms_8_Sw.setText(getString(R.string.switchon));
+                                mAlarm_sms_8_Sw.setChecked(TRUE);
+                            }else{
+                                mAlarm_sms_8_Sw.setText(getString(R.string.switchoff));
+                                mAlarm_sms_8_Sw.setChecked(FALSE);
+                            }
+                            mAlarm_sms_8_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                    if(isChecked){
+                                        mAlarm_sms_8_Sw.setText(getString(R.string.switchon));
+                                    }else{
+                                        mAlarm_sms_8_Sw.setText(getString(R.string.switchoff));
+                                    }
+
+                                }
+                            });
+
+                            mAlarm_sms_9_Et = (EditText) findViewById(R.id.alarm_sms_9_ed);
+                            mAlarm_sms_9_Et.setText(mDeviceListAlarms.get(15).getAlarm9Device());
+
+                            mAlarm_sms_9_Sw = (SwitchCompat) findViewById(R.id.alarm_sms_9_sw);
+                            if (Integer.valueOf(mDeviceListAlarms.get(16).getAlarm9DeviceOn())==1){
+                                mAlarm_sms_9_Sw.setText(getString(R.string.switchon));
+                                mAlarm_sms_9_Sw.setChecked(TRUE);
+                            }else{
+                                mAlarm_sms_9_Sw.setText(getString(R.string.switchoff));
+                                mAlarm_sms_9_Sw.setChecked(FALSE);
+                            }
+                            mAlarm_sms_9_Sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                    if(isChecked){
+                                        mAlarm_sms_9_Sw.setText(getString(R.string.switchon));
+                                    }else{
+                                        mAlarm_sms_9_Sw.setText(getString(R.string.switchoff));
+                                    }
+
+                                }
+                            });
                         } else {
                             showSnackbar(ErrorHandler.getErrorHandler(response.body().getCode(), ConstantManager.GET_DEVICES_DATA));
                         }

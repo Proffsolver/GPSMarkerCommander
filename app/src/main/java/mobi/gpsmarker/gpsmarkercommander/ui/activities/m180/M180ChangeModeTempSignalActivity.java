@@ -1,11 +1,9 @@
 package mobi.gpsmarker.gpsmarkercommander.ui.activities.m180;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
@@ -16,16 +14,11 @@ import java.util.List;
 
 import mobi.gpsmarker.gpsmarkercommander.R;
 import mobi.gpsmarker.gpsmarkercommander.data.managers.DataManager;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Parameters.M180ChangeModeTempSignalData;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Parameters.M180ChangeModeTempSignalOption;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Parameters.M180ChangeModeTempSignalReq;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Parameters.M180GetDeviceListAlarmsData;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Parameters.M180GetDeviceListAlarmsOption;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Parameters.M180GetDeviceListAlarmsReq;
-import mobi.gpsmarker.gpsmarkercommander.data.network.res.M180.M180ChangeModeTempSignalRes;
-import mobi.gpsmarker.gpsmarkercommander.data.network.res.M180.M180DeviceListAlarmRes;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Req.M180ChangeModeTempSignalData;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Req.M180ChangeModeTempSignalOption;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Req.M180ChangeModeTempSignalReq;
+import mobi.gpsmarker.gpsmarkercommander.data.network.res.M180Res.M180ChangeModeTempSignalRes;
 import mobi.gpsmarker.gpsmarkercommander.data.network.res.UserAccoutActionRes;
-import mobi.gpsmarker.gpsmarkercommander.data.storage.models.M180DeviceSettingsDTO;
 import mobi.gpsmarker.gpsmarkercommander.ui.activities.BaseActivity;
 import mobi.gpsmarker.gpsmarkercommander.utils.ConstantManager;
 import mobi.gpsmarker.gpsmarkercommander.utils.ErrorHandler;
@@ -52,7 +45,7 @@ public class M180ChangeModeTempSignalActivity extends BaseActivity implements Vi
         mToolbar = (Toolbar) findViewById(R.id.M180_change_mode_temp_toolbar);
         setupToolbar();
         mDataManager = DataManager.getInstance();
-        loadTempRelayFromInternet();
+
         mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.set_temp_signal_ccordinator_container);
         mModeTemp1Et = (TextView) findViewById(R.id.mode_temp_1_tv);
         mModeTemp2Et = (TextView) findViewById(R.id.mode_temp_2_tv);
@@ -63,6 +56,7 @@ public class M180ChangeModeTempSignalActivity extends BaseActivity implements Vi
         mModeTemp3Img = (ImageView) findViewById(R.id.mode_temp_3_iv);
         mModeTemp4Img = (ImageView) findViewById(R.id.mode_temp_4_iv);
         mChTempModeSaveBtn = (Button) findViewById(R.id.ch_temp_mode_save_btn);
+        mChTempModeSaveBtn.setOnClickListener(this);
         mModeTemp1Et.setBackgroundColor(getResources().getColor(R.color.grey_light_light));
         mModeTemp1Img.setBackgroundColor(getResources().getColor(R.color.grey_light_light));
         mModeTemp2Et.setBackgroundColor(getResources().getColor(R.color.grey_light_light));
@@ -71,29 +65,7 @@ public class M180ChangeModeTempSignalActivity extends BaseActivity implements Vi
         mModeTemp3Img.setBackgroundColor(getResources().getColor(R.color.grey_light_light));
         mModeTemp4Et.setBackgroundColor(getResources().getColor(R.color.grey_light_light));
         mModeTemp4Img.setBackgroundColor(getResources().getColor(R.color.grey_light_light));
-        mChTempModeSaveBtn.setOnClickListener(this);
-        switch (Integer.valueOf(mTempSignal.get(0).getTempRelayDevice())) {
-            case 1:
-                mModeTemp1Et.setBackgroundColor(getResources().getColor(R.color.grey_light));
-                mModeTemp1Img.setBackgroundColor(getResources().getColor(R.color.grey_light));
-                iChTemp = 1;
-                break;
-            case 2:
-                mModeTemp2Et.setBackgroundColor(getResources().getColor(R.color.grey_light));
-                mModeTemp2Img.setBackgroundColor(getResources().getColor(R.color.grey_light));
-                iChTemp = 2;
-                break;
-            case 3:
-                mModeTemp3Et.setBackgroundColor(getResources().getColor(R.color.grey_light));
-                mModeTemp3Img.setBackgroundColor(getResources().getColor(R.color.grey_light));
-                iChTemp = 3;
-                break;
-            case 4:
-                mModeTemp4Et.setBackgroundColor(getResources().getColor(R.color.grey_light));
-                mModeTemp4Img.setBackgroundColor(getResources().getColor(R.color.grey_light));
-                iChTemp = 4;
-                break;
-        }
+        loadTempRelayFromInternet();
     }
 
     @Override
@@ -216,6 +188,29 @@ public class M180ChangeModeTempSignalActivity extends BaseActivity implements Vi
                         if (response.body().getCode().equals(ConstantManager.NO_ERROR)) {
                             //showSnackbar(ErrorHandler.getErrorHandler(response.body().getCode(),ConstantManager.GET_DEVICES_DATA));
                             mTempSignal = response.body().getData();
+                            switch (Integer.valueOf(mTempSignal.get(0).getTempRelayDevice())) {
+                                case 1:
+                                    mModeTemp1Et.setBackgroundColor(getResources().getColor(R.color.grey_light));
+                                    mModeTemp1Img.setBackgroundColor(getResources().getColor(R.color.grey_light));
+                                    iChTemp = 1;
+                                    break;
+                                case 2:
+                                    mModeTemp2Et.setBackgroundColor(getResources().getColor(R.color.grey_light));
+                                    mModeTemp2Img.setBackgroundColor(getResources().getColor(R.color.grey_light));
+                                    iChTemp = 2;
+                                    break;
+                                case 3:
+                                    mModeTemp3Et.setBackgroundColor(getResources().getColor(R.color.grey_light));
+                                    mModeTemp3Img.setBackgroundColor(getResources().getColor(R.color.grey_light));
+                                    iChTemp = 3;
+                                    break;
+                                case 4:
+                                    mModeTemp4Et.setBackgroundColor(getResources().getColor(R.color.grey_light));
+                                    mModeTemp4Img.setBackgroundColor(getResources().getColor(R.color.grey_light));
+                                    iChTemp = 4;
+                                    break;
+                            }
+
 
                         } else {
                             showSnackbar(ErrorHandler.getErrorHandler(response.body().getCode(), ConstantManager.GET_DEVICES_DATA));

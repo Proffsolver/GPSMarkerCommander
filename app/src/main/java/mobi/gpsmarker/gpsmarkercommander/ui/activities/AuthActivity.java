@@ -25,7 +25,7 @@ import retrofit2.Response;
 public class AuthActivity extends BaseActivity implements View.OnClickListener {
 
     private Button mSignIn;
-    private TextView mRememberPassword, mRegistration;
+    private TextView mRememberPassword, mRegistration, mtest;
     private EditText mLogin, mPassword;
     private CoordinatorLayout mCoordinatorLayout;
     private DataManager mDataManager;
@@ -41,9 +41,10 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
         mSignIn = (Button) findViewById(R.id.login_btn);
         mRememberPassword = (TextView) findViewById(R.id.remember_tv);
         mRegistration = (TextView) findViewById(R.id.registration_tv);
+        mtest = (TextView) findViewById(R.id.test_tv);
         mLogin = (EditText) findViewById(R.id.login_email_et);
         mPassword = (EditText) findViewById(R.id.login_password_et);
-
+        mtest.setOnClickListener(this);
         mRememberPassword.setOnClickListener(this);
         mRegistration.setOnClickListener(this);
         mSignIn.setOnClickListener(this);
@@ -66,8 +67,48 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
                 Intent registrationIntent = new Intent(AuthActivity.this, UserRegistrationActivity.class);
                 startActivity(registrationIntent);
                 break;
+            case R.id.test_tv:
+                test();
+                break;
         }
     }
+
+
+    private void test(){
+        if (NetworkStatusChecker.isNetworkAvailable(this)) {
+            Call<UserLoginRes>  call = mDataManager.loginUser(new UserLoginReq(ConstantManager.JSON_METHODS[ConstantManager.AUTHORIZATION], new UserLoginOption(mLogin.getText().toString(), mPassword.getText().toString())));
+            call.enqueue(new Callback<UserLoginRes>() {
+                @Override
+                public void onResponse(Call<UserLoginRes> call, Response<UserLoginRes> response) {
+                    if (response.code() == 200){
+                        if (response.body().getCode().equals(ConstantManager.NO_ERROR)){
+                            showSnackbar(ErrorHandler.getErrorHandler(response.body().getCode(),ConstantManager.AUTHORIZATION));
+                            mDataManager.getPreferenceManager().saveAuthToken(response.body().getToken());
+                            mDataManager.getPreferenceManager().saveUserId(response.body().getIdUser());
+                            mDataManager.getPreferenceManager().saveUserMobile(response.body().getPhoneUser());
+                            mDataManager.getPreferenceManager().saveUserEmail(response.body().getEmailUser());
+                            Intent testIntent = new Intent(AuthActivity.this, TestExpandableActivity.class);
+                            startActivity(testIntent);
+                        }else{
+                            showSnackbar(ErrorHandler.getErrorHandler(response.body().getCode(),ConstantManager.AUTHORIZATION));
+                        }
+                    } else if (response.code() == 404){
+                        showSnackbar("Неверный логин или пароль!");
+                    } else {
+                        showSnackbar("Что-то пошло не так!");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<UserLoginRes> call, Throwable t) {
+
+                }
+            });
+        }else{
+            showSnackbar("Сеть на данный момент не доступна, попробуйте позже.");
+        }
+    }
+
 
     private void showSnackbar(String message){
         Snackbar.make(mCoordinatorLayout, message, Snackbar.LENGTH_LONG).show();

@@ -19,6 +19,8 @@
                 android:id="@+id/M180_set_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+
+                android:background="@color/color_accent"
                 android:titleTextColor="@color/white"
                 app:layout_collapseMode="pin"/>
         </android.support.design.widget.AppBarLayout>
@@ -410,6 +412,39 @@
                     android:layout_height="@dimen/line_size"
                     android:background="@color/grey_light"
                     android:layout_marginLeft="@dimen/spacing_large_54"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        style="@style/icon.left"
+                        android:src="@drawable/ic_gps_25dp"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_medium_56"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/spacing_normal_16">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:textSize="@dimen/font_normal_15"
+                            android:text="GPS определение"
+                            android:textAlignment="viewStart"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:background="@color/white"/>
+                        <android.support.v7.widget.SwitchCompat
+                            android:id="@+id/gps_defination_sw"
+                            android:layout_weight="2.5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Выкл"
+                            android:textOff="Выкл"
+                            android:textOn="Вкл"/>
+                    </LinearLayout>
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">

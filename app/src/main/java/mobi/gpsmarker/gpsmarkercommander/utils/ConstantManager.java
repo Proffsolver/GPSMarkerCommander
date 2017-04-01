@@ -13,13 +13,14 @@ public interface ConstantManager {
     String USER_CURRENT_ACTION_W_ACCOUNT = "USER_CURRENT_ACTION_W_ACCOUNT";
     //String LOGIN_METHOD = "LOGIN_METHOD";
 
+
+    // Типа устройств
+    String[] DEVICE_TYPE = {"m130"};
+    int M180 = 0;
+
+    int NEED_RELOAD_ADAPTERS = 1;
+
     int CHANGE_NAME = 1;
-    int CHANGE_PHONES = 2;
-    int CHANGE_ALARMS_SMS = 3;
-    int CHANGE_TEMPVAL = 4;
-    int CHANGE_TEMPSIGNAL = 5;
-    int CHANGE_ADD_MON_SERV = 6;
-    int CHANGE_INTERNET = 7;
     int CHANGE_POINT = 8;
 
     //Methods JSON

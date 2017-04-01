@@ -1,4 +1,4 @@
-package mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Parameters;
+package mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Req;
 
 public class M180GetDeviceListAlarmsReq {
 
@@ -9,5 +9,7 @@ public class M180GetDeviceListAlarmsReq {
         this.method = method;
         this.options = options;
     }
+
+
 
 }

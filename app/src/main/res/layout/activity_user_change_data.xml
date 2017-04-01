@@ -20,6 +20,7 @@
             android:id="@+id/user_data_change_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="@color/color_accent"
             android:titleTextColor="@color/white"
             app:layout_collapseMode="pin"/>
     </android.support.design.widget.AppBarLayout>

@@ -1,4 +1,4 @@
-package mobi.gpsmarker.gpsmarkercommander.data.network.res.M180;
+package mobi.gpsmarker.gpsmarkercommander.data.network.res.M180Res;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

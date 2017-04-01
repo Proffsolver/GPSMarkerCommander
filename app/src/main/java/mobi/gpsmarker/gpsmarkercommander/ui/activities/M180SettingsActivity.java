@@ -19,16 +19,17 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import mobi.gpsmarker.gpsmarkercommander.R;
 import mobi.gpsmarker.gpsmarkercommander.data.managers.DataManager;
 import mobi.gpsmarker.gpsmarkercommander.data.network.req.DeviceDeleteOption;
 import mobi.gpsmarker.gpsmarkercommander.data.network.req.DeviceDeleteReq;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Parameters.M180SettingsDeviceData;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Parameters.M180SettingsDeviceOption;
-import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Parameters.M180SettingsDeviceReq;
-import mobi.gpsmarker.gpsmarkercommander.data.network.res.M180.M180SettingsDeviceRes;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Req.M180SettingsDeviceData;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Req.M180SettingsDeviceOption;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Req.M180SettingsDeviceReq;
+import mobi.gpsmarker.gpsmarkercommander.data.network.res.M180Res.M180SettingsDeviceRes;
 import mobi.gpsmarker.gpsmarkercommander.data.network.res.UserAccoutActionRes;
 import mobi.gpsmarker.gpsmarkercommander.data.storage.models.DeviceDTO;
 import mobi.gpsmarker.gpsmarkercommander.data.storage.models.M180DeviceSettingsDTO;
@@ -38,7 +39,7 @@ import mobi.gpsmarker.gpsmarkercommander.ui.activities.m180.M180ListAlarmActivit
 import mobi.gpsmarker.gpsmarkercommander.ui.activities.m180.M180ListPhonesActivity;
 import mobi.gpsmarker.gpsmarkercommander.ui.activities.m180.M180ChangeNameActivity;
 import mobi.gpsmarker.gpsmarkercommander.ui.activities.m180.M180SettingMonitoringServerActivity;
-import mobi.gpsmarker.gpsmarkercommander.ui.activities.m180.M180SettingOperationCellularActivity;
+import mobi.gpsmarker.gpsmarkercommander.ui.activities.m180.M180SettingAPNActivity;
 import mobi.gpsmarker.gpsmarkercommander.ui.activities.m180.M180SettingTempIntervalActivity;
 import mobi.gpsmarker.gpsmarkercommander.utils.ConstantManager;
 import mobi.gpsmarker.gpsmarkercommander.utils.ErrorHandler;
@@ -62,7 +63,7 @@ public class M180SettingsActivity extends BaseActivity implements View.OnClickLi
     private EditText mM180_RADUIS_DEVICEEt, mM180_TIME_SEND_MESSAGE_DEVICEEt, mM180_TEMP_IMP_DEVICEEt, mM180_TIME_PARK_DEVICE_hour_Et, mM180_TIME_PARK_DEVICE_minute_Et, mM180_UTC_DEVICEEt, mM180_MIN_BALANCE_DEVICEEt, mM180_USSD_BALANCE_DEVICEEt, mM180_MOVE_DEVICEEt, mM180_SPEED_DEVICEEt, mM180_UNMOVE_DEVICEEt;
     private Spinner mM180_MODE_DEVICESp, mM180_LANGUAGE_DEVICESp, mM180_GPS_URL_DEVICESp, mM180_UNSLEEP_SMS_DEVICESp, mM180_WORRY_CALL_DEVICESp;
     private TextView mM180_NAME_DEVICETv, mListPnonesTv, mAlarmsTv, mTempvalTv, mTempsignalTv, mAddressMoniServerTv, mSettingInternetTv, mM180_POINTTv;
-    private SwitchCompat mM180_LBS_DEVICE_ONSw, mM180_BALANCE_DEVICE_ONSw,  mM180_BUTTON_DEVICE_ONSw, mM180_JACK_DEVICE_ONSw, mM180_MOVE_DEVICE_ONSw, mM180_UNMOVE_DEVICE_ONSw, mM180_SPEED_DEVICE_ONSw, mM180_TEMP_DEVICE_ONSw, mM180_TEMP_RELAY_SMS_DEVICESw, mM180_INTERNET_DEVICE_ONSw, mM180_ADTRACK_DEVICE_ONSw, mLinkViewSw;
+    private SwitchCompat mM180_GPS_DEVICE_ONSw, mM180_LBS_DEVICE_ONSw, mM180_BALANCE_DEVICE_ONSw,  mM180_BUTTON_DEVICE_ONSw, mM180_JACK_DEVICE_ONSw, mM180_MOVE_DEVICE_ONSw, mM180_UNMOVE_DEVICE_ONSw, mM180_SPEED_DEVICE_ONSw, mM180_TEMP_DEVICE_ONSw, mM180_TEMP_RELAY_SMS_DEVICESw, mM180_INTERNET_DEVICE_ONSw, mM180_ADTRACK_DEVICE_ONSw, mLinkViewSw;
     private Button mChangeSettingsSaveBtn;
 
     @Override
@@ -170,7 +171,7 @@ public class M180SettingsActivity extends BaseActivity implements View.OnClickLi
             mM180_TIME_SEND_MESSAGE_DEVICEEt = (EditText) findViewById(R.id.intarvel_send_ed);
             mM180_RADUIS_DEVICEEt = (EditText) findViewById(R.id.distance_ed);
             mM180_LBS_DEVICE_ONSw =(SwitchCompat) findViewById(R.id.lbs_defination_sw);
-     //       mLinkViewSw =(SwitchCompat) findViewById(R.id.linkview_sw);
+            mM180_GPS_DEVICE_ONSw =(SwitchCompat) findViewById(R.id.gps_defination_sw);
             mListPnonesTv =(TextView) findViewById(R.id.listphones_tv);
             mAlarmsTv =(TextView) findViewById(R.id.alarms_sms_tv);
             mM180_BALANCE_DEVICE_ONSw =(SwitchCompat) findViewById(R.id.balance_sw);
@@ -189,6 +190,17 @@ public class M180SettingsActivity extends BaseActivity implements View.OnClickLi
             mM180_POINTTv =(TextView) findViewById(R.id.point_tv);
             mAddressMoniServerTv =(TextView) findViewById(R.id.address_mon_server_tv);
             mM180_NAME_DEVICETv.setOnClickListener(this);
+            mM180_GPS_DEVICE_ONSw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked){
+                        mM180_GPS_DEVICE_ONSw.setText(getString(R.string.switchon));
+                    }else{
+                        mM180_GPS_DEVICE_ONSw.setText(getString(R.string.switchoff));
+                    }
+
+                }
+            });
             mM180_LBS_DEVICE_ONSw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -331,46 +343,20 @@ public class M180SettingsActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        // check that it is the SecondActivity with an OK result
         if (requestCode == ConstantManager.CHANGE_NAME) {
             if (resultCode == RESULT_OK) {
                  mM180_NAME_DEVICETv.setText(data.getStringExtra(ConstantManager.M180_NAME_DEVICE));
-                 mDevice.get(45).setNameDevice(data.getStringExtra(ConstantManager.M180_NAME_DEVICE));
+                 mDevice.get(25).setNameDevice(data.getStringExtra(ConstantManager.M180_NAME_DEVICE));
                  mM180DeviceSettingsDTO.setDTOName_Device(data.getStringExtra(ConstantManager.M180_NAME_DEVICE));
-                 mDevice.get(46).setNameDevice(data.getStringExtra(ConstantManager.M180_NAME_DEVICE_ON));
+                 mDevice.get(26).setNameDevice(data.getStringExtra(ConstantManager.M180_NAME_DEVICE_ON));
                  mM180DeviceSettingsDTO.setDTODisp_name_in_sms(Integer.valueOf(data.getStringExtra(ConstantManager.M180_NAME_DEVICE_ON)));
             }
         }
-        if (requestCode == ConstantManager.CHANGE_TEMPVAL) {
-            if (resultCode == RESULT_OK) {
-                mDevice.get(70).setTempDevice1(data.getStringExtra(ConstantManager.M180_TEMP_DEVICE_1));
-                mM180DeviceSettingsDTO.setDTOTemp_device_1(String.valueOf(data.getStringExtra(ConstantManager.M180_TEMP_DEVICE_1)));
-                mDevice.get(71).setTempDevice2(data.getStringExtra(ConstantManager.M180_TEMP_DEVICE_2));
-                mM180DeviceSettingsDTO.setDTOTemp_device_2(String.valueOf(data.getStringExtra(ConstantManager.M180_TEMP_DEVICE_2)));
-            }}
-        if (requestCode == ConstantManager.CHANGE_ADD_MON_SERV) {
-            if (resultCode == RESULT_OK) {
-                mDevice.get(84).setUrlServerDevice(data.getStringExtra(ConstantManager.M180_URL_SERVER_DEVICE));
-                mM180DeviceSettingsDTO.setDTOUrl_server_device(data.getStringExtra(ConstantManager.M180_URL_SERVER_DEVICE));
-                mDevice.get(66).setPortSeverDevice(Integer.valueOf(data.getStringExtra(ConstantManager.M180_PORT_SEVER_DEVICE)));
-                mM180DeviceSettingsDTO.setDTOPort_sever_device(Integer.valueOf(data.getStringExtra(ConstantManager.M180_PORT_SEVER_DEVICE)));
-            }}
-        if (requestCode == ConstantManager.CHANGE_INTERNET) {
-            if (resultCode == RESULT_OK) {
-                mDevice.get(83).setUrlApnDevice(data.getStringExtra(ConstantManager.M180_URL_APN_DEVICE));
-                mM180DeviceSettingsDTO.setDTOUrl_apn_device(data.getStringExtra(ConstantManager.M180_URL_APN_DEVICE));
-                mDevice.get(37).setLoginApnDevice(data.getStringExtra(ConstantManager.M180_LOGIN_APN_DEVICE));
-                mM180DeviceSettingsDTO.setDTOLogin_apn_device(data.getStringExtra(ConstantManager.M180_LOGIN_APN_DEVICE));
-                mDevice.get(47).setPasswordApnDevice(data.getStringExtra(ConstantManager.M180_PASSWORD_APN_DEVICE));
-                mM180DeviceSettingsDTO.setDTOPassword_apn_device(data.getStringExtra(ConstantManager.M180_PASSWORD_APN_DEVICE));
-
-            }}
         if (requestCode == ConstantManager.CHANGE_POINT) {
             if (resultCode == RESULT_OK) {
-                mDevice.get(40).setLongitubeDevice(String.valueOf(data.getStringExtra(ConstantManager.M180_LONGITUBE_DEVICE)));
+                mDevice.get(14).setLongitubeDevice(data.getStringExtra(ConstantManager.M180_LONGITUBE_DEVICE));
                 mM180DeviceSettingsDTO.setDTOLongitube_device(String.valueOf(data.getStringExtra(ConstantManager.M180_LONGITUBE_DEVICE)));
-                mDevice.get(35).setLatitubeDevice(String.valueOf(data.getStringExtra(ConstantManager.M180_LATITUBE_DEVICE)));
+                mDevice.get(18).setLatitubeDevice(data.getStringExtra(ConstantManager.M180_LATITUBE_DEVICE));
                 mM180DeviceSettingsDTO.setDTOLatitube_device(String.valueOf(data.getStringExtra(ConstantManager.M180_LATITUBE_DEVICE)));
                 mM180_POINTTv.setText(String.valueOf(data.getStringExtra(ConstantManager.M180_LATITUBE_DEVICE)+"::"+String.valueOf(data.getStringExtra(ConstantManager.M180_LONGITUBE_DEVICE))));
             }}
@@ -407,7 +393,7 @@ public class M180SettingsActivity extends BaseActivity implements View.OnClickLi
                 startActivityForResult(addressMoniServerIntent, 6);
                 break;
             case R.id.setting_internet_tv:
-                Intent settingInternetIntent = new Intent(M180SettingsActivity.this, M180SettingOperationCellularActivity.class);
+                Intent settingInternetIntent = new Intent(M180SettingsActivity.this, M180SettingAPNActivity.class);
                 settingInternetIntent.putExtra(ConstantManager.PARCELABLE_SETTINGS_KEY, mM180DeviceSettingsDTO);
                 startActivityForResult(settingInternetIntent, 7);
                 break;
@@ -502,56 +488,36 @@ public class M180SettingsActivity extends BaseActivity implements View.OnClickLi
                     new M180SettingsDeviceReq(ConstantManager.JSON_METHODS[ConstantManager.GET_DEVICES_DATA],
                     new M180SettingsDeviceOption(mDataManager.getPreferenceManager().getUserId(), mDataManager.getPreferenceManager().getAuthToken(), mDataManager.getPreferenceManager().getCurrentDeviceId(),
                     new M180SettingsDeviceData(
-                                    ConstantManager.M180_MODE_DEVICE, //0
-                                    ConstantManager.M180_LANGUAGE_DEVICE, //1
-                                    ConstantManager.M180_NAME_DEVICE, //2
-                                    ConstantManager.M180_NAME_DEVICE_ON, //3
-                                    ConstantManager.M180_GPS_URL_DEVICE, //4
-                                    ConstantManager.M180_GPS_DEVICE_ON, //5
-                                    ConstantManager.M180_UNSLEEP_SMS_DEVICE, //6
-                                    ConstantManager.M180_WORRY_CALL_DEVICE, //7
-                                    ConstantManager.M180_TIME_PARK_DEVICE, //8
-                                    ConstantManager.M180_UTC_DEVICE, //9
-                                    ConstantManager.M180_LBS_DEVICE_ON,  //10
-                                    ConstantManager.M180_BALANCE_DEVICE_ON, //48
-                                    ConstantManager.M180_MIN_BALANCE_DEVICE, //49
-                                    ConstantManager.M180_USSD_BALANCE_DEVICE, //50
-                                    ConstantManager.M180_BUTTON_DEVICE_ON, //51
-                                    ConstantManager.M180_MOVE_DEVICE, //52
-                                    ConstantManager.M180_MOVE_DEVICE_ON,
-                                    ConstantManager.M180_UNMOVE_DEVICE, //54
-                                    ConstantManager.M180_UNMOVE_DEVICE_ON,
-                                    ConstantManager.M180_SPEED_DEVICE, //56
-                                    ConstantManager.M180_SPEED_DEVICE_ON,
-                                    ConstantManager.M180_JACK_DEVICE_ON, 
-                                    ConstantManager.M180_TEMP_DEVICE_ON, //59
-                                    ConstantManager.M180_TEMP_DEVICE_1, //60
-                                    ConstantManager.M180_TEMP_DEVICE_2,  //61
-                                    ConstantManager.M180_TEMP_RELAY_SMS_DEVICE, //63
-                                    ConstantManager.M180_TEMP_IMP_DEVICE, 
-                                    ConstantManager.M180_INTERNET_DEVICE_ON, //65
-                                    ConstantManager.M180_URL_SERVER_DEVICE, //66
-                                    ConstantManager.M180_PORT_SEVER_DEVICE,//67
-                                    ConstantManager.M180_URL_APN_DEVICE, //68
-                                    ConstantManager.M180_LOGIN_APN_DEVICE,//69
-                                    ConstantManager.M180_PASSWORD_APN_DEVICE, //70
-                                    ConstantManager.M180_TIME_SEND_MESSAGE_DEVICE, //71
-                                    ConstantManager.M180_ADTRACK_DEVICE_ON, //72
-                                    ConstantManager.M180_DATE_DEVICE_DATA, //73
-                                    ConstantManager.M180_BATTERY_DEVICE, //74
-                                    ConstantManager.M180_LONGITUBE_DEVICE_GPS,//75
-                                    ConstantManager.M180_LATITUBE_DEVICE_GPS, //76
-                                    ConstantManager.M180_DATE_DEVICE_GPS,//77
-                                    ConstantManager.M180_COUNT_DEVICE_GPS, //78
-                                    ConstantManager.M180_LONGITUBE_DEVICE_LBS,//79
-                                    ConstantManager.M180_LATITUBE_DEVICE_LBS, //80
-                                    ConstantManager.M180_DATE_DEVICE_LBS,//81
-                                    ConstantManager.M180_COUNT_DEVICE_LBS, //82
-                                    ConstantManager.M180_BALANCE_DEVICE,//83
-                                    ConstantManager.M180_TEMP_DEVICE, //84
-                                    ConstantManager.M180_LONGITUBE_DEVICE,//85
-                                    ConstantManager.M180_LATITUBE_DEVICE, //86
-                                    ConstantManager.M180_RADUIS_DEVICE))));
+                            ConstantManager.M180_ADTRACK_DEVICE_ON, //1
+                            ConstantManager.M180_BALANCE_DEVICE_ON, //2
+                            ConstantManager.M180_BUTTON_DEVICE_ON, //3
+                            ConstantManager.M180_GPS_DEVICE_ON, //4
+                            ConstantManager.M180_INTERNET_DEVICE_ON, //5
+                            ConstantManager.M180_JACK_DEVICE_ON, //6
+                            ConstantManager.M180_LANGUAGE_DEVICE, //7
+                            ConstantManager.M180_LATITUBE_DEVICE, //8
+                            ConstantManager.M180_LBS_DEVICE_ON,  //9
+                            ConstantManager.M180_LONGITUBE_DEVICE,//10
+                            ConstantManager.M180_MIN_BALANCE_DEVICE, //11
+                            ConstantManager.M180_MODE_DEVICE, //12
+                            ConstantManager.M180_MOVE_DEVICE,//13
+                            ConstantManager.M180_MOVE_DEVICE_ON, //14
+                            ConstantManager.M180_NAME_DEVICE, //15
+                            ConstantManager.M180_NAME_DEVICE_ON, //16
+                            ConstantManager.M180_RADUIS_DEVICE, //17
+                            ConstantManager.M180_SPEED_DEVICE, //18
+                            ConstantManager.M180_SPEED_DEVICE_ON, //19
+                            ConstantManager.M180_TEMP_DEVICE_ON, //20
+                            ConstantManager.M180_TEMP_IMP_DEVICE,  //21
+                            ConstantManager.M180_TEMP_RELAY_SMS_DEVICE, //22
+                            ConstantManager.M180_TIME_PARK_DEVICE, //23
+                            ConstantManager.M180_TIME_SEND_MESSAGE_DEVICE, //24
+                            ConstantManager.M180_UNMOVE_DEVICE,  //25
+                            ConstantManager.M180_UNMOVE_DEVICE_ON, //26
+                            ConstantManager.M180_UNSLEEP_SMS_DEVICE, //27
+                            ConstantManager.M180_USSD_BALANCE_DEVICE, //28
+                            ConstantManager.M180_UTC_DEVICE, //29
+                            ConstantManager.M180_WORRY_CALL_DEVICE)))); //30
             call.enqueue(new Callback<M180SettingsDeviceRes>() {
                 @Override
                 public void onResponse(Call<M180SettingsDeviceRes> call, Response<M180SettingsDeviceRes> response) {
@@ -559,116 +525,263 @@ public class M180SettingsActivity extends BaseActivity implements View.OnClickLi
                         if (response.body().getCode().equals(ConstantManager.NO_ERROR)){
                             //showSnackbar(ErrorHandler.getErrorHandler(response.body().getCode(),ConstantManager.GET_DEVICES_DATA));
                             mDevice = response.body().getData();
-                            mM180_MODE_DEVICESp.setSelection(mDevice.get(42).getLanguageDevice());
-                            mM180_LANGUAGE_DEVICESp.setSelection(mDevice.get(32).getLanguageDevice());
-                            mM180_NAME_DEVICETv.setText("Имя: "+mDevice.get(45).getNameDevice());
-                   //         mM180_GPS_URL_DEVICESp.setSelection(mDevice.get(29).getGpsUrlDevice());
-                            mM180_UNSLEEP_SMS_DEVICESp.setSelection(mDevice.get(82).getUnsleepSmsDevice());
-                            mM180_WORRY_CALL_DEVICESp.setSelection(mDevice.get(87).getWorryCallDevice());
-                            mM180_TIME_PARK_DEVICE_hour_Et.setText(mDevice.get(77).getTimeParkDevice().substring(0,mDevice.get(77).getTimeParkDevice().indexOf(":")));
-
-                            mM180_TIME_PARK_DEVICE_minute_Et.setText(mDevice.get(77).getTimeParkDevice().substring(mDevice.get(77).getTimeParkDevice().indexOf(":")));
-                            mM180_UTC_DEVICEEt.setText(mDevice.get(86).getUtcDevice());
-                            if (Integer.valueOf(mDevice.get(36).getLbsDeviceOn())==1){
-                                mM180_LBS_DEVICE_ONSw.setText(getString(R.string.switchon));
-                                mM180_LBS_DEVICE_ONSw.setChecked(TRUE);
-                            }else{
-                                mM180_LBS_DEVICE_ONSw.setText(getString(R.string.switchoff));
-                                mM180_LBS_DEVICE_ONSw.setChecked(FALSE);
-                            }
-                            if (Integer.valueOf(mDevice.get(20).getBalanceDeviceOn())==1){
-                                mM180_BALANCE_DEVICE_ONSw.setText(getString(R.string.switchon));
-                                mM180_BALANCE_DEVICE_ONSw.setChecked(TRUE);
-                            }else{
-                                mM180_BALANCE_DEVICE_ONSw.setText(getString(R.string.switchoff));
-                                mM180_BALANCE_DEVICE_ONSw.setChecked(FALSE);
-                            }
-                            mM180_MIN_BALANCE_DEVICEEt.setText(mDevice.get(41).getMinBalanceDevice());
-
-/*                            mM180_USSD_BALANCE_DEVICEEt.setText(mDevice.get(85).getUssdBalanceDevice());*/
-                            if (Integer.valueOf(mDevice.get(22).getButtonDeviceOn())==1){
-                                mM180_BUTTON_DEVICE_ONSw.setText(getString(R.string.switchon));
-                                mM180_BUTTON_DEVICE_ONSw.setChecked(TRUE);
-                            }else{
-                                mM180_BUTTON_DEVICE_ONSw.setText(getString(R.string.switchoff));
-                                mM180_BUTTON_DEVICE_ONSw.setChecked(FALSE);
-                            }
-                            mM180_MOVE_DEVICEEt.setText(Integer.toString(mDevice.get(43).getMoveDevice()));
-                            if (Integer.valueOf(mDevice.get(44).getMoveDeviceOn())==1){
-                                mM180_MOVE_DEVICE_ONSw.setText(getString(R.string.switchon));
-                                mM180_MOVE_DEVICE_ONSw.setChecked(TRUE);
-                            }else{
-                                mM180_MOVE_DEVICE_ONSw.setText(getString(R.string.switchoff));
-                                mM180_MOVE_DEVICE_ONSw.setChecked(FALSE);
-                            }
-                            mM180_UNMOVE_DEVICEEt.setText(Integer.toString(mDevice.get(80).getUnmoveDevice()));
-                            if (Integer.valueOf(mDevice.get(79).getUnmoveDeviceOn())==1){
-                                mM180_UNMOVE_DEVICE_ONSw.setText(getString(R.string.switchon));
-                                mM180_UNMOVE_DEVICE_ONSw.setChecked(TRUE);
-                            }else{
-                                mM180_UNMOVE_DEVICE_ONSw.setText(getString(R.string.switchoff));
-                                mM180_UNMOVE_DEVICE_ONSw.setChecked(FALSE);
-                            }
-                            mM180_SPEED_DEVICEEt.setText(Integer.toString(mDevice.get(68).getSpeedDevice()));
-                            if (Integer.valueOf(mDevice.get(69).getSpeedDeviceOn())==1){
-                                mM180_SPEED_DEVICE_ONSw.setText(getString(R.string.switchon));
-                                mM180_SPEED_DEVICE_ONSw.setChecked(TRUE);
-                            }else{
-                                mM180_SPEED_DEVICE_ONSw.setText(getString(R.string.switchoff));
-                                mM180_SPEED_DEVICE_ONSw.setChecked(FALSE);
-                            }
-                            if (Integer.valueOf(mDevice.get(31).getJackDeviceOn())==1){
-                                mM180_JACK_DEVICE_ONSw.setText(getString(R.string.switchon));
-                                mM180_JACK_DEVICE_ONSw.setChecked(TRUE);
-                            }else{
-                                mM180_JACK_DEVICE_ONSw.setText(getString(R.string.switchoff));
-                                mM180_JACK_DEVICE_ONSw.setChecked(FALSE);
-                            }
-                            if (Integer.valueOf(mDevice.get(73).getTempDeviceOn())==1){
-                                mM180_TEMP_DEVICE_ONSw.setText(getString(R.string.switchon));
-                                mM180_TEMP_DEVICE_ONSw.setChecked(TRUE);
-                            }else{
-                                mM180_TEMP_DEVICE_ONSw.setText(getString(R.string.switchoff));
-                                mM180_TEMP_DEVICE_ONSw.setChecked(FALSE);
-                            }
-                            if (Integer.valueOf(mDevice.get(75).getTempRelaySmsDevice())==1){
-                                mM180_TEMP_RELAY_SMS_DEVICESw.setText(getString(R.string.switchon));
-                                mM180_TEMP_RELAY_SMS_DEVICESw.setChecked(TRUE);
-                            }else{
-                                mM180_TEMP_RELAY_SMS_DEVICESw.setText(getString(R.string.switchoff));
-                                mM180_TEMP_RELAY_SMS_DEVICESw.setChecked(FALSE);
-                            }
-                            mM180_TEMP_IMP_DEVICEEt.setText(Integer.toString(mDevice.get(74).getTempImpDevice()));
-                            if (Integer.valueOf(mDevice.get(30).getInternetDeviceOn())==1){
-                                mM180_INTERNET_DEVICE_ONSw.setText(getString(R.string.switchon));
-                                mM180_INTERNET_DEVICE_ONSw.setChecked(TRUE);
-                            }else{
-                                mM180_INTERNET_DEVICE_ONSw.setText(getString(R.string.switchoff));
-                                mM180_INTERNET_DEVICE_ONSw.setChecked(FALSE);
-                            }
-                            mM180_TIME_SEND_MESSAGE_DEVICEEt.setText(Integer.toString(mDevice.get(78).getTimeSendMessageDevice()));
-                            if (Integer.valueOf(mDevice.get(0).getAdtrackDeviceOn())==1){
+                            ArrayList forDeviceSettings = new ArrayList();
+                            for (int i=0; i<mDevice.size(); i++){forDeviceSettings.add(i,"0");}
+                            for (int i=0; i<mDevice.size(); i++){
+                                if ((mDevice.get(i).getAdtrackDeviceOn()!=0)&&(Integer.valueOf(forDeviceSettings.get(0).toString())==0)){
+                                    forDeviceSettings.set(0,String.valueOf(mDevice.get(i).getAdtrackDeviceOn()));}
+                                else {
+                                    forDeviceSettings.set(0,"0");
+                                }
+                                if ((mDevice.get(i).getBalanceDeviceOn()!=0)&&(Integer.valueOf(forDeviceSettings.get(1).toString())==0)){
+                                    forDeviceSettings.set(1,String.valueOf(mDevice.get(i).getBalanceDeviceOn()));}
+                                else {
+                                    forDeviceSettings.set(1,"0");
+                                }
+                                if ((mDevice.get(i).getButtonDeviceOn()!=0)&&(Integer.valueOf(forDeviceSettings.get(2).toString())==0)){
+                                    forDeviceSettings.set(2,String.valueOf(mDevice.get(i).getButtonDeviceOn()));}
+                                else {
+                                    forDeviceSettings.set(2,"0");
+                                }
+                                if ((mDevice.get(i).getGpsDeviceOn()!=0)&&(Integer.valueOf(forDeviceSettings.get(3).toString())==0)){
+                                    forDeviceSettings.set(3,String.valueOf(mDevice.get(i).getGpsDeviceOn()));}
+                                else {
+                                    forDeviceSettings.set(3,"0");
+                                }
+                                if ((mDevice.get(i).getInternetDeviceOn()!=0)&&(Integer.valueOf(forDeviceSettings.get(4).toString())==0)){
+                                    forDeviceSettings.set(4,String.valueOf(mDevice.get(i).getInternetDeviceOn()));}
+                                else {
+                                    forDeviceSettings.set(4,"0");
+                                }
+                                if ((mDevice.get(i).getJackDeviceOn()!=0)&&(Integer.valueOf(forDeviceSettings.get(5).toString())==0)){
+                                    forDeviceSettings.set(5,String.valueOf(mDevice.get(i).getJackDeviceOn()));}
+                                else {
+                                    forDeviceSettings.set(5,"0");
+                                }
+                                if ((mDevice.get(i).getLanguageDevice()!=0)&&(Integer.valueOf(forDeviceSettings.get(6).toString())==0)){
+                                    forDeviceSettings.set(6,String.valueOf(mDevice.get(i).getLanguageDevice()));}
+                                else {
+                                    forDeviceSettings.set(6,"0");
+                                }
+                               if (mDevice.get(i).getLatitubeDevice()!=null){
+                                    forDeviceSettings.set(7,mDevice.get(i).getLatitubeDevice());
+                               }
+                               if ((mDevice.get(i).getLbsDeviceOn()!=0)&&(Integer.valueOf(forDeviceSettings.get(8).toString())==0)){
+                                    forDeviceSettings.set(8,String.valueOf(mDevice.get(i).getLbsDeviceOn()));}
+                               else {
+                                    forDeviceSettings.set(8,"0");
+                               }
+                               if (mDevice.get(i).getLongitubeDevice()!=null){
+                                    forDeviceSettings.set(9,mDevice.get(i).getLongitubeDevice());
+                               }
+                               if (mDevice.get(i).getMinBalanceDevice()!=null){
+                                    forDeviceSettings.set(10,mDevice.get(i).getMinBalanceDevice());
+                               }
+                               if ((mDevice.get(i).getModeDevice()!=0)&&(Integer.valueOf(forDeviceSettings.get(11).toString())==0)){
+                                   forDeviceSettings.set(11,String.valueOf(mDevice.get(i).getModeDevice()));}
+                               else {
+                                   forDeviceSettings.set(11,"0");
+                               }
+                               if ((mDevice.get(i).getMoveDevice()!=0)&&(Integer.valueOf(forDeviceSettings.get(12).toString())==0)){
+                                   forDeviceSettings.set(12,String.valueOf(mDevice.get(i).getMoveDevice()));}
+                               else {
+                                   forDeviceSettings.set(12,"0");
+                               }
+                               if ((mDevice.get(i).getMoveDeviceOn()!=0)&&(Integer.valueOf(forDeviceSettings.get(13).toString())==0)){
+                                   forDeviceSettings.set(13,String.valueOf(mDevice.get(i).getMoveDeviceOn()));}
+                               else {
+                                   forDeviceSettings.set(13,"0");
+                               }
+                               if (mDevice.get(i).getNameDevice()!=null){
+                                   forDeviceSettings.set(14,mDevice.get(i).getNameDevice());
+                               }
+                               if ((mDevice.get(i).getNameDeviceOn()!=0)&&(Integer.valueOf(forDeviceSettings.get(15).toString())==0)){
+                                   forDeviceSettings.set(15,String.valueOf(mDevice.get(i).getNameDeviceOn()));}
+                               else {
+                                   forDeviceSettings.set(15,"0");
+                               }
+                               if ((mDevice.get(i).getRadiusDevice()!=0)&&(Integer.valueOf(forDeviceSettings.get(16).toString())==0)){
+                                   forDeviceSettings.set(16,String.valueOf(mDevice.get(i).getRadiusDevice()));}
+                               else {
+                                   forDeviceSettings.set(16,"0");
+                               }
+                               if ((mDevice.get(i).getSpeedDevice()!=0)&&(Integer.valueOf(forDeviceSettings.get(17).toString())==0)){
+                                   forDeviceSettings.set(17,String.valueOf(mDevice.get(i).getSpeedDevice()));}
+                               else {
+                                   forDeviceSettings.set(17,"0");
+                               }
+                               if ((mDevice.get(i).getSpeedDeviceOn()!=0)&&(Integer.valueOf(forDeviceSettings.get(18).toString())==0)){
+                                   forDeviceSettings.set(18,String.valueOf(mDevice.get(i).getSpeedDeviceOn()));}
+                               else {
+                                   forDeviceSettings.set(18,"0");
+                               }
+                               if ((mDevice.get(i).getTempDeviceOn()!=0)&&(Integer.valueOf(forDeviceSettings.get(19).toString())==0)){
+                                   forDeviceSettings.set(19,String.valueOf(mDevice.get(i).getTempDeviceOn()));}
+                               else {
+                                   forDeviceSettings.set(19,"0");
+                               }
+                               if ((mDevice.get(i).getTempImpDevice()!=0)&&(Integer.valueOf(forDeviceSettings.get(20).toString())==0)){
+                                   forDeviceSettings.set(20,String.valueOf(mDevice.get(i).getTempImpDevice()));}
+                               else {
+                                   forDeviceSettings.set(20,"0");
+                               }
+                               if ((mDevice.get(i).getTempRelaySmsDevice()!=0)&&(Integer.valueOf(forDeviceSettings.get(21).toString())==0)){
+                                   forDeviceSettings.set(21,String.valueOf(mDevice.get(i).getTempRelaySmsDevice()));}
+                               else {
+                                   forDeviceSettings.set(21,"0");
+                               }
+                               if (mDevice.get(i).getTimeParkDevice()!=null){
+                                   forDeviceSettings.set(22,mDevice.get(i).getTimeParkDevice());
+                               }
+                               if ((mDevice.get(i).getTimeSendMessageDevice()!=0)&&(Integer.valueOf(forDeviceSettings.get(23).toString())==0)){
+                                   forDeviceSettings.set(23,String.valueOf(mDevice.get(i).getTimeSendMessageDevice()));}
+                               else {
+                                   forDeviceSettings.set(23,"0");
+                               }
+                               if ((mDevice.get(i).getUnmoveDevice()!=0)&&(Integer.valueOf(forDeviceSettings.get(24).toString())==0)){
+                                   forDeviceSettings.set(24,String.valueOf(mDevice.get(i).getUnmoveDevice()));}
+                               else {
+                                   forDeviceSettings.set(24,"0");
+                               }
+                               if ((mDevice.get(i).getUnmoveDeviceOn()!=0)&&(Integer.valueOf(forDeviceSettings.get(25).toString())==0)){
+                                   forDeviceSettings.set(25,String.valueOf(mDevice.get(i).getUnmoveDeviceOn()));}
+                               else {
+                                   forDeviceSettings.set(25,"0");
+                               }
+                               if ((mDevice.get(i).getUnsleepSmsDevice()!=0)&&(Integer.valueOf(forDeviceSettings.get(26).toString())==0)){
+                                   forDeviceSettings.set(26,String.valueOf(mDevice.get(i).getUnsleepSmsDevice()));}
+                               else {
+                                   forDeviceSettings.set(26,"0");
+                               }
+                               if (mDevice.get(i).getUssd_balance_device()!=null){
+                                   forDeviceSettings.set(27,mDevice.get(i).getUssd_balance_device());
+                               }
+                               if (mDevice.get(i).getUtcDevice()!=null){
+                                   forDeviceSettings.set(28,mDevice.get(i).getUtcDevice());
+                               }
+                               if ((mDevice.get(i).getWorryCallDevice()!=0)&&(Integer.valueOf(forDeviceSettings.get(29).toString())==0)){
+                                   forDeviceSettings.set(29,String.valueOf(mDevice.get(i).getWorryCallDevice()));}
+                               else {
+                                   forDeviceSettings.set(29,"0");
+                               }
+                             }
+                            if (Integer.valueOf(forDeviceSettings.get(0).toString())==1){
                                 mM180_ADTRACK_DEVICE_ONSw.setText(getString(R.string.switchon));
                                 mM180_ADTRACK_DEVICE_ONSw.setChecked(TRUE);
                             }else{
                                 mM180_ADTRACK_DEVICE_ONSw.setText(getString(R.string.switchoff));
                                 mM180_ADTRACK_DEVICE_ONSw.setChecked(FALSE);
                             }
-                            mM180_RADUIS_DEVICEEt.setText(Integer.toString(mDevice.get(56).getRadiusDevice()));
-                            mM180_POINTTv.setText(mDevice.get(2).getLatitubeDevice()+"::"+mDevice.get(2).getLongitubeDevice());
+                            if (Integer.valueOf(forDeviceSettings.get(1).toString())==1){
+                                mM180_BALANCE_DEVICE_ONSw.setText(getString(R.string.switchon));
+                                mM180_BALANCE_DEVICE_ONSw.setChecked(TRUE);
+                            }else{
+                                mM180_BALANCE_DEVICE_ONSw.setText(getString(R.string.switchoff));
+                                mM180_BALANCE_DEVICE_ONSw.setChecked(FALSE);
+                            }
+                            if (Integer.valueOf(forDeviceSettings.get(2).toString())==1){
+                                mM180_BUTTON_DEVICE_ONSw.setText(getString(R.string.switchon));
+                                mM180_BUTTON_DEVICE_ONSw.setChecked(TRUE);
+                            }else{
+                                mM180_BUTTON_DEVICE_ONSw.setText(getString(R.string.switchoff));
+                                mM180_BUTTON_DEVICE_ONSw.setChecked(FALSE);
+                            }
+                            if (Integer.valueOf(forDeviceSettings.get(3).toString())==1){
+                                mM180_GPS_DEVICE_ONSw.setText(getString(R.string.switchon));
+                                mM180_GPS_DEVICE_ONSw.setChecked(TRUE);
+                            }else{
+                                mM180_GPS_DEVICE_ONSw.setText(getString(R.string.switchoff));
+                                mM180_GPS_DEVICE_ONSw.setChecked(FALSE);
+                            }
+                            if (Integer.valueOf(forDeviceSettings.get(4).toString())==1){
+                                mM180_INTERNET_DEVICE_ONSw.setText(getString(R.string.switchon));
+                                mM180_INTERNET_DEVICE_ONSw.setChecked(TRUE);
+                            }else{
+                                mM180_INTERNET_DEVICE_ONSw.setText(getString(R.string.switchoff));
+                                mM180_INTERNET_DEVICE_ONSw.setChecked(FALSE);
+                            }
+                            if (Integer.valueOf(forDeviceSettings.get(5).toString())==1){
+                                mM180_JACK_DEVICE_ONSw.setText(getString(R.string.switchon));
+                                mM180_JACK_DEVICE_ONSw.setChecked(TRUE);
+                            }else{
+                                mM180_JACK_DEVICE_ONSw.setText(getString(R.string.switchoff));
+                                mM180_JACK_DEVICE_ONSw.setChecked(FALSE);
+                            }
+
+                            mM180_LANGUAGE_DEVICESp.setSelection(Integer.valueOf(forDeviceSettings.get(6).toString()));
+
+                            if (Integer.valueOf(forDeviceSettings.get(8).toString())==1){
+                                mM180_LBS_DEVICE_ONSw.setText(getString(R.string.switchon));
+                                mM180_LBS_DEVICE_ONSw.setChecked(TRUE);
+                            }else{
+                                mM180_LBS_DEVICE_ONSw.setText(getString(R.string.switchoff));
+                                mM180_LBS_DEVICE_ONSw.setChecked(FALSE);
+                            }
+
+                            mM180_MODE_DEVICESp.setSelection(Integer.valueOf(forDeviceSettings.get(11).toString()));
+                            mM180_MIN_BALANCE_DEVICEEt.setText(forDeviceSettings.get(10).toString());
+                            mM180_MOVE_DEVICEEt.setText(forDeviceSettings.get(12).toString());
+                            if (Integer.valueOf(forDeviceSettings.get(13).toString())==1){
+                                mM180_MOVE_DEVICE_ONSw.setText(getString(R.string.switchon));
+                                mM180_MOVE_DEVICE_ONSw.setChecked(TRUE);
+                            }else{
+                                mM180_MOVE_DEVICE_ONSw.setText(getString(R.string.switchoff));
+                                mM180_MOVE_DEVICE_ONSw.setChecked(FALSE);
+                            }
+
+                            mM180_NAME_DEVICETv.setText("Имя: "+forDeviceSettings.get(14).toString());
+                            mM180_RADUIS_DEVICEEt.setText(forDeviceSettings.get(15).toString());
+
+                            mM180_SPEED_DEVICEEt.setText(forDeviceSettings.get(17).toString());
+                            if (Integer.valueOf(forDeviceSettings.get(18).toString())==1){
+                                mM180_SPEED_DEVICE_ONSw.setText(getString(R.string.switchon));
+                                mM180_SPEED_DEVICE_ONSw.setChecked(TRUE);
+                            }else{
+                                mM180_SPEED_DEVICE_ONSw.setText(getString(R.string.switchoff));
+                                mM180_SPEED_DEVICE_ONSw.setChecked(FALSE);
+                            }
+
+                            if (Integer.valueOf(forDeviceSettings.get(20).toString())==1){
+                                mM180_TEMP_DEVICE_ONSw.setText(getString(R.string.switchon));
+                                mM180_TEMP_DEVICE_ONSw.setChecked(TRUE);
+                            }else{
+                                mM180_TEMP_DEVICE_ONSw.setText(getString(R.string.switchoff));
+                                mM180_TEMP_DEVICE_ONSw.setChecked(FALSE);
+                            }
+
+                            mM180_TEMP_IMP_DEVICEEt.setText(forDeviceSettings.get(19).toString());
+                            if (Integer.valueOf(forDeviceSettings.get(21).toString())==1){
+                                mM180_TEMP_RELAY_SMS_DEVICESw.setText(getString(R.string.switchon));
+                                mM180_TEMP_RELAY_SMS_DEVICESw.setChecked(TRUE);
+                            }else{
+                                mM180_TEMP_RELAY_SMS_DEVICESw.setText(getString(R.string.switchoff));
+                                mM180_TEMP_RELAY_SMS_DEVICESw.setChecked(FALSE);
+                            }
+                            mM180_TIME_PARK_DEVICE_hour_Et.setText(forDeviceSettings.get(22).toString().substring(0,forDeviceSettings.get(22).toString().indexOf(":")));
+                            mM180_TIME_PARK_DEVICE_minute_Et.setText(forDeviceSettings.get(22).toString().substring(forDeviceSettings.get(22).toString().indexOf(":")));
+                            mM180_TIME_SEND_MESSAGE_DEVICEEt.setText(forDeviceSettings.get(23).toString());
+
+                            mM180_UNMOVE_DEVICEEt.setText(forDeviceSettings.get(24).toString());
+                            if (Integer.valueOf(forDeviceSettings.get(25).toString())==1){
+                                mM180_UNMOVE_DEVICE_ONSw.setText(getString(R.string.switchon));
+                                mM180_UNMOVE_DEVICE_ONSw.setChecked(TRUE);
+                            }else{
+                                mM180_UNMOVE_DEVICE_ONSw.setText(getString(R.string.switchoff));
+                                mM180_UNMOVE_DEVICE_ONSw.setChecked(FALSE);
+                            }
+                            mM180_UNSLEEP_SMS_DEVICESp.setSelection(Integer.valueOf(forDeviceSettings.get(26).toString())-1);
+                            mM180_USSD_BALANCE_DEVICEEt.setText(forDeviceSettings.get(27).toString());
+                            mM180_UTC_DEVICEEt.setText(forDeviceSettings.get(28).toString());
+                            mM180_WORRY_CALL_DEVICESp.setSelection(Integer.valueOf(forDeviceSettings.get(29).toString())-1);
+                            forDeviceSettings.set(7, forDeviceSettings.get(7).toString().substring(1, forDeviceSettings.get(7).toString().length() - 1));
+                            forDeviceSettings.set(9, forDeviceSettings.get(9).toString().substring(1, forDeviceSettings.get(9).toString().length() - 1));
+                            mM180_POINTTv.setText(forDeviceSettings.get(7).toString()+"::"+forDeviceSettings.get(9).toString());
                             mM180DeviceSettingsDTO = new M180DeviceSettingsDTO(
-                                    mDevice.get(45).getNameDevice(), mDevice.get(46).getNameDeviceOn(),
-                                    mDevice.get(70).getTempDevice1(), mDevice.get(71).getTempDevice2(),
-                                    mDevice.get(84).getUrlServerDevice(), mDevice.get(66).getPortSeverDevice(),
-                                    mDevice.get(83).getUrlApnDevice(), mDevice.get(37).getLoginApnDevice(),
-                                    mDevice.get(47).getPasswordApnDevice(), mDevice.get(25).getDateDeviceData(),
-                                    mDevice.get(21).getBatteryDevice(), /*mDevice.get(38).getLongitubeDeviceGps(),
-                                    mDevice.get(33).getLatitubeDeviceGps(), mDevice.get(25).getDateDeviceGps(),
-                                    mDevice.get(23).getCountDeviceGps(), mDevice.get(39).getLongitubeDeviceLbs(),
-                                    mDevice.get(34).getLatitubeDeviceLbs(), mDevice.get(27).getDateDeviceLbs(),
-                                    mDevice.get(24).getCountDeviceLbs(), */mDevice.get(19).getBalanceDevice(),
-                                    mDevice.get(72).getTempDevice(), mDevice.get(40).getLongitubeDevice(),
-                                    mDevice.get(35).getLatitubeDevice(), mDevice.get(67).getRadiusDevice());}
+                                    forDeviceSettings.get(14).toString(),
+                                    Integer.valueOf(forDeviceSettings.get(15).toString()),
+                                    forDeviceSettings.get(9).toString(),
+                                    forDeviceSettings.get(7).toString(),
+                                    Integer.valueOf(forDeviceSettings.get(16).toString()));}
                         else{
                             showSnackbar(ErrorHandler.getErrorHandler(response.body().getCode(),ConstantManager.GET_DEVICES_DATA));
                         }
@@ -705,25 +818,6 @@ public class M180SettingsActivity extends BaseActivity implements View.OnClickLi
                                             String.valueOf(mDevice.get(77).getTimeParkDevice()),
                                             String.valueOf(mDevice.get(86).getUtcDevice()),
                                             String.valueOf(mDevice.get(36).getLbsDeviceOn()),
-                                            String.valueOf(mDevice.get(81).getUnsleepAlarmDevice()),
-                                            String.valueOf(mDevice.get(1).getAlarm1Device()),
-                                            String.valueOf(mDevice.get(2).getAlarm1DeviceOn()),
-                                            String.valueOf(mDevice.get(3).getAlarm2Device()),
-                                            String.valueOf(mDevice.get(4).getAlarm2DeviceOn()),
-                                            String.valueOf(mDevice.get(5).getAlarm3Device()),
-                                            String.valueOf(mDevice.get(6).getAlarm3DeviceOn()),
-                                            String.valueOf(mDevice.get(7).getAlarm4Device()),
-                                            String.valueOf(mDevice.get(8).getAlarm4DeviceOn()),
-                                            String.valueOf(mDevice.get(9).getAlarm5Device()),
-                                            String.valueOf(mDevice.get(10).getAlarm5DeviceOn()),
-                                            String.valueOf(mDevice.get(11).getAlarm6Device()),
-                                            String.valueOf(mDevice.get(12).getAlarm6DeviceOn()),
-                                            String.valueOf(mDevice.get(13).getAlarm7Device()),
-                                            String.valueOf(mDevice.get(14).getAlarm7DeviceOn()),
-                                            String.valueOf(mDevice.get(15).getAlarm8Device()),
-                                            String.valueOf(mDevice.get(16).getAlarm8DeviceOn()),
-                                            String.valueOf(mDevice.get(17).getAlarm9Device()),
-                                            String.valueOf(mDevice.get(18).getAlarm9DeviceOn()),
                                             String.valueOf(mDevice.get(20).getBalanceDeviceOn()),
                                             String.valueOf(mDevice.get(41).getMinBalanceDevice()),
                                             String.valueOf(mDevice.get(85).getUssdBalanceDevice()),
@@ -736,20 +830,11 @@ public class M180SettingsActivity extends BaseActivity implements View.OnClickLi
                                             String.valueOf(mDevice.get(69).getSpeedDeviceOn()),
                                             String.valueOf(mDevice.get(31).getJackDeviceOn()),
                                             String.valueOf(mDevice.get(73).getTempDeviceOn()),
-                                            String.valueOf(mDevice.get(70).getTempDevice1()),
-                                            String.valueOf(mDevice.get(71).getTempDevice2()),
-                                            String.valueOf(mDevice.get(75).getTempRelayDevice()),
                                             String.valueOf(mDevice.get(75).getTempRelaySmsDevice()),
                                             String.valueOf(mDevice.get(74).getTempImpDevice()),
                                             String.valueOf(mDevice.get(30).getInternetDeviceOn()),
-                                            String.valueOf(mDevice.get(84).getUrlServerDevice()),
-                                            String.valueOf(mDevice.get(66).getPortSeverDevice()),
-                                            String.valueOf(mDevice.get(83).getUrlApnDevice()),
-                                            String.valueOf(mDevice.get(37).getLoginApnDevice()),
-                                            String.valueOf(mDevice.get(47).getPasswordApnDevice()),
                                             String.valueOf(mDevice.get(78).getTimeSendMessageDevice()),
                                             String.valueOf(mDevice.get(25).getDateDeviceData()),
-                                            String.valueOf(mDevice.get(21).getBatteryDevice()),
                                             String.valueOf(mDevice.get(38).getLongitubeDeviceGps()),
                                             String.valueOf(mDevice.get(33).getLatitubeDeviceGps()),
                                             String.valueOf(mDevice.get(25).getDateDeviceGps()),
@@ -759,7 +844,6 @@ public class M180SettingsActivity extends BaseActivity implements View.OnClickLi
                                             String.valueOf(mDevice.get(27).getDateDeviceLbs()),
                                             String.valueOf(mDevice.get(24).getCountDeviceLbs()),
                                             String.valueOf(mDevice.get(19).getBalanceDevice()),
-                                            String.valueOf(mDevice.get(72).getTempDevice()),
                                             String.valueOf(mDevice.get(40).getLongitubeDevice()),
                                             String.valueOf(mDevice.get(35).getLatitubeDevice()),
                                             String.valueOf(mDevice.get(56).getRadiusDevice())))));
