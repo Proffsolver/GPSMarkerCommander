@@ -18,6 +18,7 @@
             android:id="@+id/M180_change_name_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="@color/color_accent"
             android:titleTextColor="@color/white"
             app:layout_collapseMode="pin"/>
     </android.support.design.widget.AppBarLayout>

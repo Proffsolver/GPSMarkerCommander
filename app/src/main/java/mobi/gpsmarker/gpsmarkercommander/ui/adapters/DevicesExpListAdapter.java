@@ -98,10 +98,12 @@ public class DevicesExpListAdapter extends BaseExpandableListAdapter implements 
         ImageView imgGroup = (ImageView) convertView.findViewById(R.id.group_view_iv);
         if (isExpanded){
             imgGroup.setImageResource(R.drawable.ic_remove_black_24dp);
+            holderGr.mDeviceName.setText(mDeviceData.get(groupPosition).getsDDNameDevice().toString());
         }
         else{
             //Изменяем что-нибудь, если текущая Group скрыта
             imgGroup.setImageResource(R.drawable.ic_add_black_24dp);
+            holderGr.mDeviceName.setText(mDeviceData.get(groupPosition).getsDDNameDevice().toString());
         }
 
 

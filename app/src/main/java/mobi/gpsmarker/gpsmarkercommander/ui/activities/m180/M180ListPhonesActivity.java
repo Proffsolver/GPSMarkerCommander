@@ -67,7 +67,6 @@ public class M180ListPhonesActivity extends BaseActivity implements View.OnClick
     }
 
     public void onClick(View v) {
-
         saveListPhonesFromInternet();
         finish();
     }

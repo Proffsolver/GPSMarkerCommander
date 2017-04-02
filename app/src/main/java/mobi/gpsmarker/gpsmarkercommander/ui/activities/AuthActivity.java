@@ -41,10 +41,10 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
         mSignIn = (Button) findViewById(R.id.login_btn);
         mRememberPassword = (TextView) findViewById(R.id.remember_tv);
         mRegistration = (TextView) findViewById(R.id.registration_tv);
-        mtest = (TextView) findViewById(R.id.test_tv);
+      //  mtest = (TextView) findViewById(R.id.test_tv);
         mLogin = (EditText) findViewById(R.id.login_email_et);
         mPassword = (EditText) findViewById(R.id.login_password_et);
-        mtest.setOnClickListener(this);
+     //   mtest.setOnClickListener(this);
         mRememberPassword.setOnClickListener(this);
         mRegistration.setOnClickListener(this);
         mSignIn.setOnClickListener(this);
@@ -67,9 +67,9 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
                 Intent registrationIntent = new Intent(AuthActivity.this, UserRegistrationActivity.class);
                 startActivity(registrationIntent);
                 break;
-            case R.id.test_tv:
+/*            case R.id.test_tv:
                 test();
-                break;
+                break;*/
         }
     }
 

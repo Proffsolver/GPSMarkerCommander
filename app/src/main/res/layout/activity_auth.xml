@@ -74,7 +74,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@string/ff_regular"
                             android:textSize="@dimen/font_small_14"
-                            android:text="Algol1@mail.ru"
+                            android:text=""
                             android:textColorHighlight="@color/grey"
                             android:hint="@string/auth.email"
                             android:inputType="textEmailAddress"
@@ -90,7 +90,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@string/ff_regular"
                             android:textSize="@dimen/font_small_14"
-                            android:text="YRAua"
+                            android:text=""
                             android:textColorHighlight="@color/grey"
                             android:hint="@string/auth.password"
                             android:inputType="textPassword"
@@ -128,7 +128,7 @@
                         android:text="@string/auth.remember"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/font_small_14"/>
-                    <TextView
+<!--                    <TextView
                         android:id="@+id/test_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -137,7 +137,7 @@
                         android:fontFamily="@string/ff_regular"
                         android:text="Test"
                         android:textColor="@color/grey"
-                        android:textSize="@dimen/font_small_14"/>
+                        android:textSize="@dimen/font_small_14"/>-->
 
                 </LinearLayout>
             </LinearLayout>

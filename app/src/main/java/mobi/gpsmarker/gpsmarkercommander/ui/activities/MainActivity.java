@@ -66,14 +66,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener  
     private DataManager mDataManager;
     private NavigationView mNavigationView;
     private TextView mHeaderEmail, mHeaderMobile;
-    private Spinner mSpinner;
     private List<GetDevicesRes.Device> mDevices;
-    private DevicesAdapter mDevicesAdapter;
-    private RecyclerView mRecyclerView;
     private CoordinateDTO mCoordinateDTO;
- //   private DevicesAdapter.CustomClickListener mCustomClickListener;
-
-  //  private ExpandableListView listView;
 
 
     @Override
