@@ -33,6 +33,14 @@
         <item name="android:layout_marginBottom">@dimen/spacing_small_8</item>
     </style>
 
+    <style name="icon.all_small" parent="icon">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginTop">@dimen/spacing_extrasmall_4</item>
+        <item name="android:layout_marginLeft">@dimen/spacing_extrasmall_4</item>
+        <item name="android:layout_marginRight">@dimen/spacing_extrasmall_4</item>
+        <item name="android:layout_marginBottom">@dimen/spacing_extrasmall_4</item>
+    </style>
+
     <style name="icon.all_wo_bot" parent="icon">
         <item name="android:layout_gravity">center</item>
         <item name="android:layout_marginTop">@dimen/spacing_small_8</item>

@@ -1,6 +1,7 @@
 package mobi.gpsmarker.gpsmarkercommander.ui.activities;
 
 import android.content.Intent;
+import android.os.StrictMode;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
@@ -65,9 +66,14 @@ public class M180SettingsActivity extends BaseActivity implements View.OnClickLi
     private TextView mM180_NAME_DEVICETv, mListPnonesTv, mAlarmsTv, mTempvalTv, mTempsignalTv, mAddressMoniServerTv, mSettingInternetTv, mM180_POINTTv;
     private SwitchCompat mM180_GPS_DEVICE_ONSw, mM180_LBS_DEVICE_ONSw, mM180_BALANCE_DEVICE_ONSw,  mM180_BUTTON_DEVICE_ONSw, mM180_JACK_DEVICE_ONSw, mM180_MOVE_DEVICE_ONSw, mM180_UNMOVE_DEVICE_ONSw, mM180_SPEED_DEVICE_ONSw, mM180_TEMP_DEVICE_ONSw, mM180_TEMP_RELAY_SMS_DEVICESw, mM180_INTERNET_DEVICE_ONSw, mM180_ADTRACK_DEVICE_ONSw, mLinkViewSw;
     private Button mChangeSettingsSaveBtn;
+    private ArrayList forDeviceSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         super.onCreate(savedInstanceState);
         mDataManager = DataManager.getInstance();
         setContentView(R.layout.m180_activity_settings);
@@ -75,6 +81,7 @@ public class M180SettingsActivity extends BaseActivity implements View.OnClickLi
         mToolbar = (Toolbar) findViewById(R.id.M180_set_toolbar);
         setupToolbar();
         mChangeSettingsSaveBtn = (Button) findViewById(R.id.change_settinmgs_save_btn);
+        ArrayList forDeviceSettings = new ArrayList();
         mChangeSettingsSaveBtn.setOnClickListener(this);
         mDeviceDTO = getIntent().getParcelableExtra((ConstantManager.PARCELABLE_KEY));
         if (Integer.valueOf(mDataManager.getPreferenceManager().getCurrentDeviceIdType())==1){
@@ -402,15 +409,9 @@ public class M180SettingsActivity extends BaseActivity implements View.OnClickLi
                 geoPointIntent.putExtra(ConstantManager.PARCELABLE_SETTINGS_KEY, mM180DeviceSettingsDTO);
                 startActivityForResult(geoPointIntent, 8);
                 break;
-/*            case R.id.change_settinmgs_save_btn:
-       //TODO: сделать передачу, что надо обновить адаптер
-        Intent intent = new Intent();
-        intent.putExtra(ConstantManager.M180_URL_APN_DEVICE, mApnEt.getText().toString());
-        intent.putExtra(ConstantManager.M180_LOGIN_APN_DEVICE, mOcLoginEt.getText().toString());
-        intent.putExtra(ConstantManager.M180_PASSWORD_APN_DEVICE, mOcPassEt.getText().toString());
-        setResult(RESULT_OK, intent);
+            case R.id.change_settinmgs_save_btn:
                 saveDeviceM180SettingsDataToInternet();
-                break;*/
+                break;
 /*            case R.id.go_set_control_tv:
                 Intent goSetControlIntent = new Intent(M180SettingsActivity.this, control_activity.class);
                 goSetControlIntent.putExtra(ConstantManager.PARCELABLE_SETTINGS_KEY, mM180DeviceSettingsDTO);
@@ -525,7 +526,6 @@ public class M180SettingsActivity extends BaseActivity implements View.OnClickLi
                         if (response.body().getCode().equals(ConstantManager.NO_ERROR)){
                             //showSnackbar(ErrorHandler.getErrorHandler(response.body().getCode(),ConstantManager.GET_DEVICES_DATA));
                             mDevice = response.body().getData();
-                            ArrayList forDeviceSettings = new ArrayList();
                             for (int i=0; i<mDevice.size(); i++){forDeviceSettings.add(i,"0");}
                             for (int i=0; i<mDevice.size(); i++){
                                 if ((mDevice.get(i).getAdtrackDeviceOn()!=0)&&(Integer.valueOf(forDeviceSettings.get(0).toString())==0)){
@@ -801,52 +801,42 @@ public class M180SettingsActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
-   /* private void saveDeviceM180SettingsDataToInternet() {
+    private void saveDeviceM180SettingsDataToInternet() {
         if (NetworkStatusChecker.isNetworkAvailable(this)) {
             Call<UserAccoutActionRes> call = mDataManager.setM180SettingsDevice(
                     new M180SettingsDeviceReq(ConstantManager.JSON_METHODS[ConstantManager.SET_DEVICE_DATA],
                             new M180SettingsDeviceOption(mDataManager.getPreferenceManager().getUserId(), mDataManager.getPreferenceManager().getAuthToken(), mDataManager.getPreferenceManager().getCurrentDeviceId(),
                                     new M180SettingsDeviceData(
-                                            String.valueOf(mDevice.get(42).getLanguageDevice()),
-                                            String.valueOf(mDevice.get(32).getLanguageDevice()),
-                                            String.valueOf(mDevice.get(45).getNameDevice()),
-                                            String.valueOf(mDevice.get(46).getNameDeviceOn()),
-                                            String.valueOf(mDevice.get(29).getGpsUrlDevice()),
-                                            String.valueOf(mDevice.get(28).getGpsDeviceOn()),
-                                            String.valueOf(mDevice.get(82).getUnsleepSmsDevice()),
-                                            String.valueOf(mDevice.get(87).getWorryCallDevice()),
-                                            String.valueOf(mDevice.get(77).getTimeParkDevice()),
-                                            String.valueOf(mDevice.get(86).getUtcDevice()),
-                                            String.valueOf(mDevice.get(36).getLbsDeviceOn()),
-                                            String.valueOf(mDevice.get(20).getBalanceDeviceOn()),
-                                            String.valueOf(mDevice.get(41).getMinBalanceDevice()),
-                                            String.valueOf(mDevice.get(85).getUssdBalanceDevice()),
-                                            String.valueOf(mDevice.get(22).getButtonDeviceOn()),
-                                            String.valueOf(mDevice.get(43).getMoveDevice()),
-                                            String.valueOf(mDevice.get(44).getMoveDeviceOn()),
-                                            String.valueOf(mDevice.get(80).getUnmoveDevice()),
-                                            String.valueOf(mDevice.get(79).getUnmoveDeviceOn()),
-                                            String.valueOf(mDevice.get(68).getSpeedDevice()),
-                                            String.valueOf(mDevice.get(69).getSpeedDeviceOn()),
-                                            String.valueOf(mDevice.get(31).getJackDeviceOn()),
-                                            String.valueOf(mDevice.get(73).getTempDeviceOn()),
-                                            String.valueOf(mDevice.get(75).getTempRelaySmsDevice()),
-                                            String.valueOf(mDevice.get(74).getTempImpDevice()),
-                                            String.valueOf(mDevice.get(30).getInternetDeviceOn()),
-                                            String.valueOf(mDevice.get(78).getTimeSendMessageDevice()),
-                                            String.valueOf(mDevice.get(25).getDateDeviceData()),
-                                            String.valueOf(mDevice.get(38).getLongitubeDeviceGps()),
-                                            String.valueOf(mDevice.get(33).getLatitubeDeviceGps()),
-                                            String.valueOf(mDevice.get(25).getDateDeviceGps()),
-                                            String.valueOf(mDevice.get(23).getCountDeviceGps()),
-                                            String.valueOf(mDevice.get(39).getLongitubeDeviceLbs()),
-                                            String.valueOf(mDevice.get(34).getLatitubeDeviceLbs()),
-                                            String.valueOf(mDevice.get(27).getDateDeviceLbs()),
-                                            String.valueOf(mDevice.get(24).getCountDeviceLbs()),
-                                            String.valueOf(mDevice.get(19).getBalanceDevice()),
-                                            String.valueOf(mDevice.get(40).getLongitubeDevice()),
-                                            String.valueOf(mDevice.get(35).getLatitubeDevice()),
-                                            String.valueOf(mDevice.get(56).getRadiusDevice())))));
+                                            forDeviceSettings.get(0).toString(), //ConstantManager.M180_ADTRACK_DEVICE_ON, //1
+                                            forDeviceSettings.get(1).toString(), //ConstantManager.M180_BALANCE_DEVICE_ON, //2
+                                            forDeviceSettings.get(2).toString(), //ConstantManager.M180_BUTTON_DEVICE_ON, //3
+                                            forDeviceSettings.get(3).toString(), //ConstantManager.M180_GPS_DEVICE_ON, //4
+                                            forDeviceSettings.get(4).toString(), //ConstantManager.M180_INTERNET_DEVICE_ON, //5
+                                            forDeviceSettings.get(5).toString(), //ConstantManager.M180_JACK_DEVICE_ON, //6
+                                            forDeviceSettings.get(6).toString(), //ConstantManager.M180_LANGUAGE_DEVICE, //7
+                                            forDeviceSettings.get(7).toString(), //ConstantManager.M180_LATITUBE_DEVICE, //8
+                                            forDeviceSettings.get(8).toString(), //ConstantManager.M180_LBS_DEVICE_ON,  //9
+                                            forDeviceSettings.get(9).toString(), //ConstantManager.M180_LONGITUBE_DEVICE,//10
+                                            forDeviceSettings.get(10).toString(), //ConstantManager.M180_MIN_BALANCE_DEVICE, //11
+                                            forDeviceSettings.get(11).toString(), //ConstantManager.M180_MODE_DEVICE, //12
+                                            forDeviceSettings.get(12).toString(), //ConstantManager.M180_MOVE_DEVICE,//13
+                                            forDeviceSettings.get(13).toString(), //ConstantManager.M180_MOVE_DEVICE_ON, //14
+                                            forDeviceSettings.get(14).toString(), //ConstantManager.M180_NAME_DEVICE, //15
+                                            forDeviceSettings.get(15).toString(), //ConstantManager.M180_NAME_DEVICE_ON, //16
+                                            forDeviceSettings.get(16).toString(), //ConstantManager.M180_RADUIS_DEVICE, //17
+                                            forDeviceSettings.get(17).toString(), //ConstantManager.M180_SPEED_DEVICE, //18
+                                            forDeviceSettings.get(18).toString(), //ConstantManager.M180_SPEED_DEVICE_ON, //19
+                                            forDeviceSettings.get(19).toString(), //ConstantManager.M180_TEMP_DEVICE_ON, //20
+                                            forDeviceSettings.get(20).toString(), //ConstantManager.M180_TEMP_IMP_DEVICE,  //21
+                                            forDeviceSettings.get(21).toString(), //ConstantManager.M180_TEMP_RELAY_SMS_DEVICE, //22
+                                            forDeviceSettings.get(22).toString(), //ConstantManager.M180_TIME_PARK_DEVICE, //23
+                                            forDeviceSettings.get(23).toString(), //ConstantManager.M180_TIME_SEND_MESSAGE_DEVICE, //24
+                                            forDeviceSettings.get(24).toString(), //ConstantManager.M180_UNMOVE_DEVICE,  //25
+                                            forDeviceSettings.get(25).toString(), //ConstantManager.M180_UNMOVE_DEVICE_ON, //26
+                                            forDeviceSettings.get(26).toString(), //ConstantManager.M180_UNSLEEP_SMS_DEVICE, //27
+                                            forDeviceSettings.get(27).toString(), //ConstantManager.M180_USSD_BALANCE_DEVICE, //28
+                                            forDeviceSettings.get(28).toString(), //ConstantManager.M180_UTC_DEVICE, //29
+                                            forDeviceSettings.get(29).toString())))); //ConstantManager.M180_WORRY_CALL_DEVICE
             call.enqueue(new Callback<UserAccoutActionRes>() {
                 @Override
                 public void onResponse(Call<UserAccoutActionRes> call, Response<UserAccoutActionRes> response) {
@@ -872,5 +862,5 @@ public class M180SettingsActivity extends BaseActivity implements View.OnClickLi
         } else {
             showSnackbar("Сеть на данный момент не доступна, попробуйте позже.");
         }
-    }*/
+    }
 }

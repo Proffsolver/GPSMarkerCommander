@@ -16,6 +16,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -28,13 +30,22 @@ import mobi.gpsmarker.gpsmarkercommander.data.managers.DataManager;
 import mobi.gpsmarker.gpsmarkercommander.data.network.req.CurrentCoordinateData;
 import mobi.gpsmarker.gpsmarkercommander.data.network.req.CurrentCoordinateOption;
 import mobi.gpsmarker.gpsmarkercommander.data.network.req.CurrentCoordinateReq;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.DeviceDeleteOption;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.DeviceDeleteReq;
 import mobi.gpsmarker.gpsmarkercommander.data.network.req.GetDevicesOption;
 import mobi.gpsmarker.gpsmarkercommander.data.network.req.GetDevicesReq;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Req.M180StatusData;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Req.M180StatusOption;
+import mobi.gpsmarker.gpsmarkercommander.data.network.req.M180Req.M180StatusReq;
 import mobi.gpsmarker.gpsmarkercommander.data.network.res.CurrentCoordinateRes;
 import mobi.gpsmarker.gpsmarkercommander.data.network.res.GetDevicesRes;
+import mobi.gpsmarker.gpsmarkercommander.data.network.res.M180Res.M180StatusRes;
+import mobi.gpsmarker.gpsmarkercommander.data.network.res.UserAccoutActionRes;
 import mobi.gpsmarker.gpsmarkercommander.data.storage.models.CoordinateDTO;
 import mobi.gpsmarker.gpsmarkercommander.data.storage.models.DeviceDTO;
+import mobi.gpsmarker.gpsmarkercommander.data.storage.models.DeviceData;
 import mobi.gpsmarker.gpsmarkercommander.ui.adapters.DevicesAdapter;
+import mobi.gpsmarker.gpsmarkercommander.ui.adapters.DevicesExpListAdapter;
 import mobi.gpsmarker.gpsmarkercommander.utils.ConstantManager;
 import mobi.gpsmarker.gpsmarkercommander.utils.ErrorHandler;
 import mobi.gpsmarker.gpsmarkercommander.utils.NetworkStatusChecker;
@@ -60,7 +71,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener  
     private DevicesAdapter mDevicesAdapter;
     private RecyclerView mRecyclerView;
     private CoordinateDTO mCoordinateDTO;
-    private DevicesAdapter.CustomClickListener mCustomClickListener;
+ //   private DevicesAdapter.CustomClickListener mCustomClickListener;
+
+  //  private ExpandableListView listView;
 
 
     @Override
@@ -90,7 +103,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener  
         } else{
 
         }
-
     }
 
     @Override
@@ -139,50 +151,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener  
         return super.onOptionsItemSelected(item);
     }
 
-/*    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(TAG, "OnCreate");
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.d(TAG, "onRestart");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d(TAG, "onStop");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "onDestroy");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause");
-    }*/
-
-    @Override
-    protected void onResume() {
-        mRecyclerView = (RecyclerView) findViewById(R.id.device_list);
-        List<GetDevicesRes.Device> mDevices  = new ArrayList();
-//        loadDeviceDataNetwork();
-        mRecyclerView.setAdapter(new DevicesAdapter(mDevices, mCustomClickListener));
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
-        loadDeviceDataNetwork();
-        loadUserInfo();
-        super.onResume();
-
-    }
-
     private void showSnackbar(String message){
         Snackbar.make(mCoordinatorLayout, message,Snackbar.LENGTH_LONG).show();
     }
@@ -213,14 +181,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener  
             @Override
             public boolean onNavigationItemSelected(MenuItem item){
                 item.setChecked(true);
-/*                if (item.getItemId() == R.id.commands_menu){
-                    mNavigationDrawer.closeDrawer(GravityCompat.START);}*/
-/*                if (item.getItemId() == R.id.events_menu){
-                   // Intent teamIntent = new Intent(MainActivity.this, UserListActivity.class);
-                  //  startActivity(teamIntent);
-                    mNavigationDrawer.closeDrawer(GravityCompat.START);}*/
-/*                if (item.getItemId() == R.id.maps_menu){
-                        mNavigationDrawer.closeDrawer(GravityCompat.START);}*/
                 if (item.getItemId() == R.id.change_pass_menu){
                     Intent userChangePassIntent = new Intent(MainActivity.this, UserChangePasswordActivity.class);
                     mDataManager.getPreferenceManager().saveUserCurrentActionWAccount("3");
@@ -237,7 +197,126 @@ public class MainActivity extends BaseActivity implements View.OnClickListener  
     }
 
 
-    private void loadDeviceDataNetwork(){
+    private void restartAdapter(){
+        loadDeviceDataNetwork((ExpandableListView)findViewById(R.id.exListView));
+    }
+
+    @Override
+    protected void onResume() {
+        loadDeviceDataNetwork((ExpandableListView)findViewById(R.id.exListView));
+        super.onResume();
+    }
+
+    private void loadDeviceDataNetwork(final ExpandableListView listView){
+        if (NetworkStatusChecker.isNetworkAvailable(this)) {
+            Call<GetDevicesRes> call = mDataManager.getDevicesFromNetwork(new GetDevicesReq(ConstantManager.JSON_METHODS[ConstantManager.GET_DEVICES], new GetDevicesOption(mDataManager.getPreferenceManager().getUserId(), mDataManager.getPreferenceManager().getAuthToken())));
+            call.enqueue(new Callback<GetDevicesRes>() {
+                @Override
+                public void onResponse(Call<GetDevicesRes> call, Response<GetDevicesRes> response) {
+                    if (response.code() == 200){
+                        mDevices = response.body().getDevices();
+                        if (response.body().getCode().equals(ConstantManager.NO_ERROR)){
+                            showSnackbar(ErrorHandler.getErrorHandler(response.body().getCode(),ConstantManager.GET_DEVICES));
+                            final ArrayList<DeviceData> deviceData = new ArrayList<DeviceData>();
+                            ArrayList<String> children = new ArrayList<String>();
+                            ArrayList<ArrayList<String>> groups = new ArrayList<ArrayList<String>>();
+                            for (int i = 0 ; i<mDevices.size(); i++){
+                                children.add(mDevices.get(i).getIdDevice());
+                                groups.add(children);
+                                ArrayList forStatus = new ArrayList(loadStatusSyncFromInternet(mDevices.get(i).getIdDevice()));
+                                deviceData.add(0, new DeviceData(mDevices.get(i).getIdDevice(),
+                                        mDevices.get(i).getIdDeviceType(),
+                                        mDevices.get(i).getNameDevice(),
+                                        mDevices.get(i).getImeiDevice(),
+                                        forStatus.get(0).toString(),
+                                        forStatus.get(1).toString(),
+                                        forStatus.get(2).toString(),
+                                        forStatus.get(3).toString(),
+                                        forStatus.get(4).toString(),
+                                        forStatus.get(5).toString()));
+                                children = new ArrayList<String>();
+                            }
+                            final DevicesExpListAdapter adapter = new DevicesExpListAdapter(getApplicationContext(), groups, deviceData);
+                            listView.setAdapter(adapter);
+                            listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                                @Override
+                                public boolean onChildClick(final ExpandableListView parent, View v, final int groupPosition, int childPosition, long id) {
+                                    ImageView mDeviceRefresh = (ImageView) v.findViewById(R.id.device_refresh_list_tv);
+                                    ImageView mDeviceDelete = (ImageView) v.findViewById(R.id.device_delete_list_tv);
+                                    ImageView mDeviceToMap = (ImageView) v.findViewById(R.id.device_map_list_tv);
+                                    ImageView mDeviceChangeSettings = (ImageView) v.findViewById(R.id.device_change_list_tv);
+                                    final TextView mDeviceBalance = (TextView) findViewById(R.id.device_curr_charge_tv);
+                                    final TextView mDeviceBattery = (TextView) findViewById(R.id.device_curr_balance_tv);
+                                    final TextView mDeviceTemp = (TextView) findViewById(R.id.device_curr_temp_tv);
+                                    final TextView mDeviceGSM = (TextView) findViewById(R.id.device_curr_gsm_tv);
+                                    final TextView mDeviceLBS = (TextView) findViewById(R.id.device_curr_lbs_tv);
+                                    final TextView mDeviceRefreshtData = (TextView) findViewById(R.id.device_last_date_transfer_tv);
+                                    final String idDevice = adapter.getGroup(groupPosition).toString().substring(1, adapter.getGroup(groupPosition).toString().length() - 1);
+                                    showSnackbar(idDevice);
+                                    View.OnClickListener click = new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            switch (v.getId()){
+                                                case R.id.device_refresh_list_tv:
+                                                    ArrayList refreshDeviceData = loadStatusSyncFromInternet(idDevice);
+                                                    mDeviceBalance.setText(refreshDeviceData.get(0).toString());
+                                                    mDeviceBattery.setText(refreshDeviceData.get(1).toString());
+                                                    mDeviceTemp.setText(refreshDeviceData.get(5).toString());
+                                                    mDeviceGSM.setText(refreshDeviceData.get(2).toString());
+                                                    mDeviceLBS.setText(refreshDeviceData.get(3).toString());
+                                                    mDeviceRefreshtData.setText("Связь: "+refreshDeviceData.get(4).toString());
+                                                    break;
+                                                case R.id.device_delete_list_tv:
+                                                    if (deleteDevice(idDevice) == true){
+                                                        restartAdapter();
+                                                    }
+                                                    else {showSnackbar("Удалить устройство не удалось, обратитесь к разработчикам!");}
+                                                    break;
+                                                case R.id.device_map_list_tv:
+                                                    loadCurrentCoordinateSyncFromInternet(idDevice);
+                                                    Intent trackIntent = new Intent(MainActivity.this, viewtrack_activity.class);
+                                                    trackIntent.putExtra(ConstantManager.PARCELABLE_KEY, mCoordinateDTO);
+                                                    startActivity(trackIntent);
+                                                    showSnackbar("Есть контакт map");
+                                                    break;
+                                                case R.id.device_change_list_tv:
+                                                    DeviceDTO deviceDTO = new DeviceDTO(deviceData.get(groupPosition).getsDDIdDevice(), deviceData.get(groupPosition).getsDDIdDeviceType(), deviceData.get(groupPosition).getsDDImeiDevice());
+                                                    mDataManager.getPreferenceManager().saveCurrentDeviceIdType(deviceData.get(groupPosition).getsDDIdDeviceType());
+                                                    mDataManager.getPreferenceManager().saveCurrentDeviceId(deviceData.get(groupPosition).getsDDIdDevice());
+                                                    Intent settingsIntent = new Intent(MainActivity.this, M180SettingsActivity.class);
+                                                    settingsIntent.putExtra(ConstantManager.PARCELABLE_KEY, deviceDTO);
+                                                    startActivity(settingsIntent);
+                                                    showSnackbar("Есть контакт change");
+                                                    break;
+                                            }
+                                        }};
+                                    mDeviceRefresh.setOnClickListener(click);
+                                    mDeviceDelete.setOnClickListener(click);
+                                    mDeviceToMap.setOnClickListener(click);
+                                    mDeviceChangeSettings.setOnClickListener(click);
+                                    return false;
+                                }
+                            });
+                        }else{
+                            showSnackbar(ErrorHandler.getErrorHandler(response.body().getCode(),ConstantManager.GET_DEVICES));
+                        }
+                    } else if (response.code() == 404){
+                        showSnackbar("Что-то пошло не так!");
+                    } else {
+                        showSnackbar("Что-то пошло не так!");
+                    }
+                }
+                @Override
+                public void onFailure(Call<GetDevicesRes> call, Throwable t) {
+                }
+            });
+        }else{
+            showSnackbar("Сеть на данный момент не доступна, попробуйте позже.");
+        }
+    }
+
+
+/*    private void loadDeviceDataNetwork(){
         if (NetworkStatusChecker.isNetworkAvailable(this)) {
             Call<GetDevicesRes> call = mDataManager.getDevicesFromNetwork(new GetDevicesReq(ConstantManager.JSON_METHODS[ConstantManager.GET_DEVICES], new GetDevicesOption(mDataManager.getPreferenceManager().getUserId(), mDataManager.getPreferenceManager().getAuthToken())));
             call.enqueue(new Callback<GetDevicesRes>() {
@@ -293,9 +372,50 @@ public class MainActivity extends BaseActivity implements View.OnClickListener  
         }else{
             showSnackbar("Сеть на данный момент не доступна, попробуйте позже.");
         }
+    }*/
+
+
+    private ArrayList loadStatusSyncFromInternet(String currentDeviceID){
+        ArrayList forStatus = new ArrayList();
+        if (NetworkStatusChecker.isNetworkAvailable(this)) {
+            Call<M180StatusRes> call = mDataManager.getM180Status(
+                    new M180StatusReq(ConstantManager.JSON_METHODS[ConstantManager.GET_DEVICES_DATA],
+                            new M180StatusOption(mDataManager.getPreferenceManager().getUserId(), mDataManager.getPreferenceManager().getAuthToken(), currentDeviceID,
+                                    new M180StatusData(ConstantManager.M180_BATTERY_DEVICE,
+                                            ConstantManager.M180_BALANCE_DEVICE,
+                                            ConstantManager.M180_COUNT_DEVICE_GPS,
+                                            ConstantManager.M180_COUNT_DEVICE_LBS,
+                                            ConstantManager.M180_DATE_DEVICE_DATA,
+                                            ConstantManager.M180_TEMP_DEVICE))));
+            try {
+                Response<M180StatusRes> mStatus = call.execute();
+                for (int i=0; i<mStatus.body().getData().size(); i++){forStatus.add(i,"0");}
+                for (int i=0; i<mStatus.body().getData().size(); i++){
+                    if (mStatus.body().getData().get(i).getBalanceDevice()!=null){
+                        forStatus.set(0,mStatus.body().getData().get(i).getBalanceDevice());
+                    }
+                    if (mStatus.body().getData().get(i).getBatteryDevice()!=null){
+                        forStatus.set(1,mStatus.body().getData().get(i).getBatteryDevice());
+                    }
+                    if (mStatus.body().getData().get(i).getCountDeviceGps()!=null){
+                        forStatus.set(2,mStatus.body().getData().get(i).getCountDeviceGps());
+                    }
+                    if (mStatus.body().getData().get(i).getCountDeviceLbs()!=null){
+                        forStatus.set(3,mStatus.body().getData().get(i).getCountDeviceLbs());
+                    }
+                    if (mStatus.body().getData().get(i).getDateDeviceData()!=null){
+                        forStatus.set(4, mStatus.body().getData().get(i).getDateDeviceData());
+                    }
+                    if (mStatus.body().getData().get(i).getTempDevice()!=null){
+                        forStatus.set(5,mStatus.body().getData().get(i).getTempDevice());
+                    }
+                }
+                //   mCoordinateDTO = new CoordinateDTO(forStatus.get(0).toString(),forStatus.get(1).toString(),forStatus.get(2).toString(),forStatus.get(3).toString(),forStatus.get(4).toString(),forStatus.get(5).toString(),));
+            } catch (IOException e) {
+            }
+        }
+        return forStatus;
     }
-
-
     private void loadCurrentCoordinateSyncFromInternet(String currentDeviceID){
         if (NetworkStatusChecker.isNetworkAvailable(this)) {
             Call<CurrentCoordinateRes> call = mDataManager.getCurrentCoordinate(
@@ -319,15 +439,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener  
                         forDTOCurrCoord.set(0,mCurrentCoordinate.body().getData().get(i).getDateDeviceGps());
                     }
                     if (mCurrentCoordinate.body().getData().get(i).getDateDeviceLbs()!=null){
-                    //    mCoordinateDTO.setDTODate_device_lbs(mCurrentCoordinate.body().getData().get(i).getDateDeviceLbs());
+                        //    mCoordinateDTO.setDTODate_device_lbs(mCurrentCoordinate.body().getData().get(i).getDateDeviceLbs());
                         forDTOCurrCoord.set(1,mCurrentCoordinate.body().getData().get(i).getDateDeviceLbs());
                     }
                     if (mCurrentCoordinate.body().getData().get(i).getLatitubeDeviceGps()!=null){
-           //             mCoordinateDTO.setDTOLatitube_device_gps(mCurrentCoordinate.body().getData().get(i).getLatitubeDeviceGps());
+                        //             mCoordinateDTO.setDTOLatitube_device_gps(mCurrentCoordinate.body().getData().get(i).getLatitubeDeviceGps());
                         forDTOCurrCoord.set(2,mCurrentCoordinate.body().getData().get(i).getLatitubeDeviceGps());
                     }
                     if (mCurrentCoordinate.body().getData().get(i).getLatitubeDeviceLbs()!=null){
-            //            mCoordinateDTO.setDTOLatitube_device_lbs(mCurrentCoordinate.body().getData().get(i).getLatitubeDeviceLbs());
+                        //            mCoordinateDTO.setDTOLatitube_device_lbs(mCurrentCoordinate.body().getData().get(i).getLatitubeDeviceLbs());
                         forDTOCurrCoord.set(3,mCurrentCoordinate.body().getData().get(i).getLatitubeDeviceLbs());
                     }
                     if (mCurrentCoordinate.body().getData().get(i).getLongitubeDeviceGps()!=null){
@@ -335,20 +455,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener  
                         forDTOCurrCoord.set(4, mCurrentCoordinate.body().getData().get(i).getLongitubeDeviceGps());
                     }
                     if (mCurrentCoordinate.body().getData().get(i).getLongitubeDeviceLbs()!=null){
-           //             mCoordinateDTO.setDTOLongitube_device_lbs(mCurrentCoordinate.body().getData().get(i).getLongitubeDeviceLbs());
+                        //             mCoordinateDTO.setDTOLongitube_device_lbs(mCurrentCoordinate.body().getData().get(i).getLongitubeDeviceLbs());
                         forDTOCurrCoord.set(5,mCurrentCoordinate.body().getData().get(i).getLongitubeDeviceLbs());
                     }
                     if ((mCurrentCoordinate.body().getData().get(i).getGpsDeviceOn()!=0)&&(Integer.valueOf(forDTOCurrCoord.get(6).toString())==0)){
-             //           mCoordinateDTO.setDTOgps_device_on(mCurrentCoordinate.body().getData().get(i).getGpsDeviceOn());
+                        //           mCoordinateDTO.setDTOgps_device_on(mCurrentCoordinate.body().getData().get(i).getGpsDeviceOn());
                         forDTOCurrCoord.set(6,String.valueOf(mCurrentCoordinate.body().getData().get(i).getGpsDeviceOn()));
                     } else {
                         forDTOCurrCoord.set(6,"0");
                     }
                     if ((mCurrentCoordinate.body().getData().get(i).getLbsDeviceOn()!=0)&&(Integer.valueOf(forDTOCurrCoord.get(7).toString())==0)){
-               //         mCoordinateDTO.setDTOlbs_device_on(mCurrentCoordinate.body().getData().get(i).getLbsDeviceOn());
+                        //         mCoordinateDTO.setDTOlbs_device_on(mCurrentCoordinate.body().getData().get(i).getLbsDeviceOn());
                         forDTOCurrCoord.set(7,String.valueOf(mCurrentCoordinate.body().getData().get(i).getLbsDeviceOn()));}
                     else {
-                 //       mCoordinateDTO.setDTOlbs_device_on(0);
+                        //       mCoordinateDTO.setDTOlbs_device_on(0);
                         forDTOCurrCoord.set(7,"0");
                     }
                 }
@@ -361,5 +481,46 @@ public class MainActivity extends BaseActivity implements View.OnClickListener  
     private void loadUserInfo(){
         mHeaderMobile.setText(mDataManager.getPreferenceManager().getUserMobile());
         mHeaderEmail.setText(mDataManager.getPreferenceManager().getUserEmail());
+    }
+
+    private boolean deleteDevice(String currentDeviceID){
+        boolean acceptDelete = false;
+        if (NetworkStatusChecker.isNetworkAvailable(this)) {
+            Call<UserAccoutActionRes> call = mDataManager.deviceDelete(new DeviceDeleteReq(ConstantManager.JSON_METHODS[ConstantManager.DEVICE_DELETE], new DeviceDeleteOption(mDataManager.getPreferenceManager().getUserId(), mDataManager.getPreferenceManager().getAuthToken(), currentDeviceID)));
+            try {
+                Response<UserAccoutActionRes> mDeviceDelete = call.execute();
+                if (mDeviceDelete.body().getCode().equals(ConstantManager.NO_ERROR)){
+                    acceptDelete = true;
+                    showSnackbar(ErrorHandler.getErrorHandler(mDeviceDelete.body().getCode(),ConstantManager.DEVICE_DELETE));
+                }else{
+                    showSnackbar(ErrorHandler.getErrorHandler(mDeviceDelete.body().getCode(),ConstantManager.DEVICE_DELETE));
+                    acceptDelete = false;
+                }
+            } catch (IOException e) {
+
+            }
+/*            call.enqueue(new Callback<UserAccoutActionRes>() {
+                @Override
+                public void onResponse(Call<UserAccoutActionRes> call, Response<UserAccoutActionRes> response) {
+                    if (response.code() == 200){
+                        if (response.body().getCode().equals(ConstantManager.NO_ERROR)){
+                            showSnackbar(ErrorHandler.getErrorHandler(response.body().getCode(),ConstantManager.DEVICE_DELETE));
+                        }else{
+                            showSnackbar(ErrorHandler.getErrorHandler(response.body().getCode(),ConstantManager.DEVICE_DELETE));
+                        }
+                    } else if (response.code() == 404){
+                        showSnackbar("Неверный логин или пароль!");
+                    } else {
+                        showSnackbar("Что-то пошло не так!");
+                    }
+                }
+                @Override
+                public void onFailure(Call<UserAccoutActionRes> call, Throwable t) {
+                }
+            });*/
+        }else{
+            showSnackbar("Сеть на данный момент не доступна, попробуйте позже.");
+        }
+        return acceptDelete;
     }
 }

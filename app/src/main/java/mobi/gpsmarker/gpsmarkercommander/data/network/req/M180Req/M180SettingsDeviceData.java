@@ -92,10 +92,6 @@ public class M180SettingsDeviceData {
         this.internet_device_on = internet_device_on;
         this.time_send_message_device = time_send_message_device;
         this.adtrack_device_on = adtrack_device_on;
-
-
-
-
         this.longitube_device = longitube_device;
         this.latitube_device = latitube_device;
         this.radius_device = radius_device;

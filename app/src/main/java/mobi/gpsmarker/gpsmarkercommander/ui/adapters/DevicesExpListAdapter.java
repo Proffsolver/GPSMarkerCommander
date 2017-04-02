@@ -1,24 +1,31 @@
 package mobi.gpsmarker.gpsmarkercommander.ui.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import mobi.gpsmarker.gpsmarkercommander.R;
+import mobi.gpsmarker.gpsmarkercommander.data.storage.models.DeviceDTO;
 import mobi.gpsmarker.gpsmarkercommander.data.storage.models.DeviceData;
+import mobi.gpsmarker.gpsmarkercommander.ui.activities.M180SettingsActivity;
+import mobi.gpsmarker.gpsmarkercommander.ui.activities.MainActivity;
+import mobi.gpsmarker.gpsmarkercommander.ui.activities.viewtrack_activity;
 import mobi.gpsmarker.gpsmarkercommander.utils.ConstantManager;
 
 import static mobi.gpsmarker.gpsmarkercommander.utils.ConstantManager.DEVICE_TYPE;
 
 
-public class DevicesExpListAdapter extends BaseExpandableListAdapter {
+public class DevicesExpListAdapter extends BaseExpandableListAdapter implements ExpandableListView.OnChildClickListener {
 
     private ArrayList<DeviceData> mDeviceData;
     private ArrayList<ArrayList<String>> mGroups;
@@ -69,24 +76,24 @@ public class DevicesExpListAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView,
                              ViewGroup parent) {
 
-        DeviceNamneViewHolder holder;
+        DeviceNameViewHolder holderGr;
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.device_list_group_view, null);
-            holder = new DeviceNamneViewHolder();
-            holder.mDeviceName = (TextView) convertView.findViewById(R.id.device_name_list_tv);
-            holder.mDeviceName.setText(mDeviceData.get(0).toString());
-            holder.mDeviceType = (TextView) convertView.findViewById(R.id.device_type_list_tv);
-            if (Integer.valueOf(mDeviceData.get(0).toString())==ConstantManager.M180){
-                holder.mDeviceType.setText("Маркер "+DEVICE_TYPE[Integer.valueOf(mDeviceData.get(0).toString())]);
+            holderGr = new DeviceNameViewHolder();
+            holderGr.mDeviceName = (TextView) convertView.findViewById(R.id.device_name_list_tv);
+            holderGr.mDeviceName.setText(mDeviceData.get(groupPosition).getsDDNameDevice().toString());
+            holderGr.mDeviceType = (TextView) convertView.findViewById(R.id.device_type_list_tv);
+            if (Integer.valueOf(mDeviceData.get(groupPosition).getsDDIdDeviceType().toString())==ConstantManager.M180){
+                holderGr.mDeviceType.setText("Маркер m180");
             }
 
-            convertView.setTag(holder);
+            convertView.setTag(holderGr);
 
         }
         else {
-            holder = (DeviceNamneViewHolder) convertView.getTag();
+            holderGr = (DeviceNameViewHolder) convertView.getTag();
         }
         ImageView imgGroup = (ImageView) convertView.findViewById(R.id.group_view_iv);
         if (isExpanded){
@@ -106,36 +113,39 @@ public class DevicesExpListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
                              View convertView, ViewGroup parent) {
 
+       // KeyItem childItem = (KeyItem) getChild(groupPosition, childPosition);
+        DeviceStatusViewHolder holderCh;
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.device_list_child_view, null);
-        }
+            holderCh = new DeviceStatusViewHolder();
+            holderCh.mDeviceBalance = (TextView) convertView.findViewById(R.id.device_curr_charge_tv);
+            holderCh.mDeviceBattery = (TextView) convertView.findViewById(R.id.device_curr_balance_tv);
+            holderCh.mDeviceTemp = (TextView) convertView.findViewById(R.id.device_curr_temp_tv);
+            holderCh.mDeviceGSM = (TextView) convertView.findViewById(R.id.device_curr_gsm_tv);
+            holderCh.mDeviceLBS = (TextView) convertView.findViewById(R.id.device_curr_lbs_tv);
+            holderCh.mDeviceRefreshtData = (TextView) convertView.findViewById(R.id.device_last_date_transfer_tv);
+            holderCh.mDeviceIMEI = (TextView) convertView.findViewById(R.id.device_imei_list_tv);
+            holderCh.mDeviceChangeSettings = (ImageView) convertView.findViewById(R.id.device_change_list_tv);
+            holderCh.mDeviceToMap = (ImageView) convertView.findViewById(R.id.device_map_list_tv);
+            holderCh.mDeviceDelete = (ImageView) convertView.findViewById(R.id.device_delete_list_tv);
+            holderCh.mDeviceRefresh = (ImageView) convertView.findViewById(R.id.device_refresh_list_tv);
+            holderCh.mDeviceBalance.setText(mDeviceData.get(groupPosition).getsDDBalanceDevice());
+            holderCh.mDeviceBattery.setText(mDeviceData.get(groupPosition).getsDDBatteryDevice());
+            holderCh.mDeviceTemp.setText(mDeviceData.get(groupPosition).getsDDTempDevice());
+            holderCh.mDeviceGSM.setText(mDeviceData.get(groupPosition).getsDDCountDeviceGps());
+            holderCh.mDeviceLBS.setText(mDeviceData.get(groupPosition).getsDDCountDeviceLbs());
+            holderCh.mDeviceRefreshtData.setText("Связь: "+mDeviceData.get(groupPosition).getsDDDateDeviceData());
+            holderCh.mDeviceIMEI.setText("IMEI: "+mDeviceData.get(groupPosition).getsDDImeiDevice());
 
-/*        TextView textChild = (TextView) convertView.findViewById(R.id.textChild);
-        textChild.setText(mGroups.get(groupPosition).get(childPosition));
 
-        Button button = (Button)convertView.findViewById(R.id.buttonChild);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Toast.makeText(mContext,"button is pressed",5000).show();
+       //     holderCh.mDeviceDelete.setOnClickListener(DeviceStatusViewHolder);
+            convertView.setTag(holderCh);
+        } else
+            {
+                holderCh = (DeviceStatusViewHolder) convertView.getTag();
             }
-        });*/
-/*
-        this.mListener = customClickListener;
-        mSettings = (ImageView) itemView.findViewById(R.id.settings_img);
-        // mCommands = (ImageView) itemView.findViewById(R.id.commands_img);
-        mTrack = (ImageView) itemView.findViewById(R.id.track_img);
-        mNameDevice = (TextView) itemView.findViewById(R.id.name_device_txt);
-        mTypeDevice = (TextView) itemView.findViewById(R.id.type_device_txt);
-        mIMEIDevice = (TextView) itemView.findViewById(R.id.imei_device_txt);
-        mUniqDevice = (TextView) itemView.findViewById(R.id.uniq_device_txt);
-        mDateRegDevice = (TextView) itemView.findViewById(R.id.date_reg_device_txt);*//**//*
-
-        mSettings.setOnClickListener(this);
-
-        mTrack.setOnClickListener(this);*/
 
         return convertView;
     }
@@ -145,13 +155,20 @@ public class DevicesExpListAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
-    public final class DeviceNamneViewHolder {
+    public final class DeviceNameViewHolder{
         TextView mDeviceName, mDeviceType;
+
     }
 
-    public final class DeviceStatusViewHolder {
+    public final class DeviceStatusViewHolder{
         TextView mDeviceBattery, mDeviceBalance, mDeviceTemp, mDeviceGSM, mDeviceLBS, mDeviceIMEI, mDeviceRefreshtData;
-        Button mDeviceDelete, mDeviceRefresh, mDeviceChangeSettings, mDeviceToMap;
+        ImageView mDeviceDelete, mDeviceRefresh, mDeviceChangeSettings, mDeviceToMap;
+
+    }
+
+    @Override
+    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+        return false;
     }
 
 }

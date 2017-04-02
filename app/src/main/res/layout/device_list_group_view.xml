@@ -7,6 +7,7 @@
     <ImageView
         android:layout_width="20dp"
         android:layout_height="20dp"
+        android:layout_marginLeft="@dimen/spacing_small_8"
         android:src="@drawable/ic_geopos_25dp"
         android:layout_marginTop="@dimen/spacing_medial_24"/>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

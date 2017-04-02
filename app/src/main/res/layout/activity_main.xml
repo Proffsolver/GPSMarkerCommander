@@ -11,7 +11,7 @@
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/main_ccordinator_container"
         android:layout_width="match_parent"
-        android:background="@color/grey_light_light"
+        android:background="@color/white"
         android:layout_height="wrap_content">
             <android.support.design.widget.AppBarLayout
                 android:id="@+id/appbar_layout"
@@ -29,194 +29,18 @@
                     android:titleTextColor="@color/white"
                     app:layout_collapseMode="pin"/>
             </android.support.design.widget.AppBarLayout>
-<!--        <android.support.v4.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-            <LinearLayout
-            android:layout_marginTop="@dimen/spacing_large_54"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@color/white">
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        style="@style/lrmargin"
-                        android:orientation="vertical">
-                        <TextView
-                            android:id="@+id/main_route_et"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_normal_16"
-                            android:textAlignment="center"
-                            android:textSize="@dimen/font_large_24"
-                            android:text="5"
-                            android:textColor="@color/black"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/spacing_small_8"
-                            android:textSize="@dimen/font_small_12"
-                            android:textAlignment="center"
-                            android:text="@string/status_in_route"
-                            android:textColor="@color/black"/>
-                    </LinearLayout>
-                    <View
-                        android:layout_width="@dimen/line_size"
-                        android:layout_height="match_parent"
-                        android:background="@color/grey_light"/>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/lrmargin"
-                        android:orientation="vertical"
-                        android:layout_weight="1">
-                        <TextView
-                            android:id="@+id/main_stay_et"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_normal_16"
-                            android:textSize="@dimen/font_large_24"
-                            android:textAlignment="center"
-                            android:text="5"
-                            android:textColor="@color/black"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/spacing_small_8"
-                            android:textSize="@dimen/font_small_12"
-                            android:textAlignment="center"
-                            android:text="@string/status_stopped"
-                            android:textColor="@color/black"/>
-                    </LinearLayout>
-                    <View
-                        android:layout_width="@dimen/line_size"
-                        android:layout_height="match_parent"
-                        android:background="@color/grey_light"/>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/lrmargin"
-                        android:orientation="vertical"
-                        android:layout_weight="0.45">
-                        <TextView
-                            android:id="@+id/main_repair_et"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_normal_16"
-                            android:textSize="@dimen/font_large_24"
-                            android:textAlignment="center"
-                            android:text="5"
-                            android:textColor="@color/black"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/spacing_small_8"
-                            android:textSize="@dimen/font_small_12"
-                            android:textAlignment="center"
-                            android:text="@string/status_in_repair"
-                            android:textColor="@color/black"/>
-                </LinearLayout>
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/line_size"
-                    android:background="@color/grey"/>&ndash;&gt;
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/line_size"
-                    android:background="@color/grey"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    style="@style/icon.all"
-                    android:background="@color/white">
-                    <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:background="@color/white">
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/textView"
-                                style="@style/icon.all_wo_bot"
-                                android:text="Газель о 192 оо 55"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/font_medium_20"/>
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                style="@style/icon.all_wo_bot"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/font_small_12"
-                                android:text="Статус"/>
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/spacing_small_8"
-                                android:layout_marginBottom="@dimen/spacing_small_8"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/font_medium_20"
-                                android:text="В пути"/>
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:layout_weight="2"
-                        android:layout_gravity="center_vertical"
-                        android:background="@color/white">
-                        <ImageView
-                            android:id="@+id/settings_img"
-                            android:src="@drawable/ic_build_black_24dp"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_marginTop="20dp"/>
-                        <ImageView
-                            android:id="@+id/commands_img"
-                            android:src="@drawable/ic_play_circle_filled_black_24dp"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_marginLeft="@dimen/spacing_small_8"
-                            android:layout_marginTop="20dp"/>
-                        <ImageView
-                            android:id="@+id/track_img"
-                            android:src="@drawable/ic_layers_black_24dp"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_marginLeft="@dimen/spacing_small_8"
-                            android:layout_marginTop="20dp"/>
-                    </LinearLayout>
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/line_size"
-                    android:id="@+id/outside"
-                    android:background="@color/grey"/>
-                </LinearLayout>
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Заггрузить данные"
-                    android:id="@+id/load_data"/>
-            </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>-->
-        <include layout="@layout/device_list_content"/>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                      android:orientation="vertical"
+                      android:layout_marginTop="@dimen/size_medium_56"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:padding="@dimen/spacing_normal_16">
+            <ExpandableListView
+                android:id="@+id/exListView"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                />
+        </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_size"

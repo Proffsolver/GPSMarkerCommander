@@ -6,7 +6,7 @@
     android:id="@+id/test_ccordinator_container"
     android:layout_width="match_parent"
     android:background="@color/white"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar_layout"
         android:theme="@style/AppTheme.AppBarOverlay"

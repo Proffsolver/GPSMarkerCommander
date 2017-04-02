@@ -56,7 +56,6 @@ public class DataManager {
         this.mPreferenceManager = new PreferenceManager();
         this.mContext = GPSMarkerCommanderApp.getContext();
         this.mRestService = ServiceGenerator.createService(RestService.class);
-    //    this.mDaoSession = GPSMarkerCommanderApp.getDaoSession();
     }
 
 

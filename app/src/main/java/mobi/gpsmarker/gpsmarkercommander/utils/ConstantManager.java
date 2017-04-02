@@ -16,7 +16,7 @@ public interface ConstantManager {
 
     // Типа устройств
     String[] DEVICE_TYPE = {"m130"};
-    int M180 = 0;
+    int M180 = 1;
 
     int NEED_RELOAD_ADAPTERS = 1;
 
